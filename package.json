@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/reedling78/Thirty-One",
   "devDependencies": {
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-nodemon": "^2.1.0",
     "node-redis": "^0.1.7"

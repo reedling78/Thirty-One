@@ -3,9 +3,8 @@
 
 
 var gulp = require('gulp'),
-    nodemon = require('gulp-nodemon');
-
-    
+    nodemon = require('gulp-nodemon'),
+    child_process = require('child_process');
 
 
 gulp.task('start', function () {
@@ -19,4 +18,14 @@ gulp.task('start', function () {
         }
     });
 
+});
+
+
+gulp.task('redis-start', function() {
+  child_process.exec('redis-server', function(err, stdout, stderr) {
+    console.log(stdout);
+    if (err !== null) {
+      console.log('exec error: ' + err);
+    }
+  });
 });
