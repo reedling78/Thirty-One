@@ -4,7 +4,8 @@
 
 var gulp = require('gulp'),
     nodemon = require('gulp-nodemon'),
-    child_process = require('child_process');
+    child_process = require('child_process'),
+    bower = require('gulp-bower');
 
 
 gulp.task('start', function () {
@@ -17,7 +18,10 @@ gulp.task('start', function () {
             'NODE_ENV': 'development'
         }
     });
+});
 
+gulp.task('bower', function() {
+  return bower();
 });
 
 
