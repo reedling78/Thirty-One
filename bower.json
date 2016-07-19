@@ -1,0 +1,24 @@
+{
+  "name": "thirty-one",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "Reed Rizzo <reedling78@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/reedling78/Thirty-One",
+  "moduleType": [
+    "amd"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "bootstrap": "~3.3.6",
+    "requirejs": "~2.2.0"
+  }
+}

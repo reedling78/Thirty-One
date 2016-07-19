@@ -1,0 +1,1789 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"hbs",
+				"hbsLanguagesPill〔argument〕"
+			],
+			[
+				"margin",
+				"margin-top"
+			],
+			[
+				"border-",
+				"border-right"
+			],
+			[
+				"fru",
+				"frutiger-bold"
+			],
+			[
+				"family",
+				"familyId"
+			],
+			[
+				"cre",
+				"createNew"
+			],
+			[
+				"text-",
+				"text-transform"
+			],
+			[
+				"is",
+				"isAuthenticated"
+			],
+			[
+				"user",
+				"userInfo"
+			],
+			[
+				"in",
+				"initial"
+			],
+			[
+				"pre",
+				"previewtext"
+			],
+			[
+				"mar",
+				"margin-left"
+			],
+			[
+				"client",
+				"clientData"
+			],
+			[
+				"u",
+				"uppercase"
+			],
+			[
+				"text",
+				"text-transform"
+			],
+			[
+				"tr",
+				"transparent"
+			],
+			[
+				"set",
+				"setTimeout〔function〕"
+			],
+			[
+				"ser",
+				"serialize	.serialize()"
+			],
+			[
+				"mode",
+				"modules"
+			],
+			[
+				"marg",
+				"margin-right"
+			],
+			[
+				"margin-",
+				"margin-left"
+			],
+			[
+				"se",
+				"serialize〔function〕"
+			],
+			[
+				"background",
+				"background-color"
+			],
+			[
+				"i",
+				"inherit"
+			],
+			[
+				"prep",
+				"prepclose"
+			],
+			[
+				"ex",
+				"expect"
+			],
+			[
+				"cl",
+				"cl	consolelog"
+			],
+			[
+				"cli",
+				"clickGo"
+			],
+			[
+				"proto",
+				"prototype"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"max-",
+				"max-width"
+			],
+			[
+				"v",
+				"value"
+			],
+			[
+				"w",
+				"waitTime"
+			],
+			[
+				"wait",
+				"waitForVisible"
+			],
+			[
+				"wai",
+				"waitForVisible"
+			],
+			[
+				"backg",
+				"background-color"
+			],
+			[
+				"line",
+				"line-height"
+			],
+			[
+				"und",
+				"undefined〔keyword〕"
+			],
+			[
+				"cu",
+				"cursor"
+			],
+			[
+				"hide",
+				"hideSearch〔function〕"
+			],
+			[
+				"no",
+				"normal"
+			],
+			[
+				"col",
+				"columns"
+			],
+			[
+				"for",
+				"for	for (…) {…}"
+			],
+			[
+				"toggle",
+				"toggleClass"
+			],
+			[
+				"res",
+				"resolve"
+			],
+			[
+				"ren",
+				"renderList"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"hero",
+				"hero-images"
+			],
+			[
+				"data",
+				"dataLayer"
+			],
+			[
+				"back",
+				"background-color"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "gulpfile.js",
+			"settings":
+			{
+				"buffer_size": 618,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app.js",
+			"settings":
+			{
+				"buffer_size": 703,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "bower.json",
+			"settings":
+			{
+				"buffer_size": 420,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": ".bowerrc",
+			"settings":
+			{
+				"buffer_size": 44,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "views/home.handlebars",
+			"settings":
+			{
+				"buffer_size": 17,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "views/layouts/main.handlebars",
+			"settings":
+			{
+				"buffer_size": 246,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "/*jslint nomen: true*/\n/*globals window, document, define, $, _, console, alert*/\n\ndefine([], function () {\n    'use strict';\n    console.log('whatever');\n});",
+			"file": "scripts/main.js",
+			"file_size": 158,
+			"file_write_time": 131134415390000000,
+			"settings":
+			{
+				"buffer_size": 158,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 609,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 247.0,
+		"last_filter": "json",
+		"selected_items":
+		[
+			[
+				"json",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"gist",
+				"Gist: Insert Gist"
+			],
+			[
+				"mer",
+				"Emmet: Merge Lines"
+			],
+			[
+				"javasc",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"java",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"xml",
+				"Indent XML"
+			],
+			[
+				"merge",
+				"Emmet: Merge Lines"
+			],
+			[
+				"merg",
+				"Emmet: Merge Lines"
+			],
+			[
+				"m",
+				"Emmet: Merge Lines"
+			],
+			[
+				"html",
+				"HTMLBeautify"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"jas",
+				"Pretty JSON: Format (Pretty Print) JSON"
+			],
+			[
+				"javascript",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"jira",
+				"SublimeJira: Get issue"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"form",
+				"Format: Javascript"
+			],
+			[
+				"format",
+				"Format: Javascript"
+			],
+			[
+				"handl",
+				"Set Syntax: Handlebars"
+			],
+			[
+				"ja",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"for",
+				"Format: Javascript"
+			],
+			[
+				"grunt",
+				"Grunt"
+			],
+			[
+				"pack",
+				"Package Control: Remove Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"css",
+				"Set Syntax: CSS"
+			],
+			[
+				"omni",
+				"OmniSharpSublime: ReBuild"
+			],
+			[
+				"omn",
+				"OmniSharpSublime: ReBuild"
+			],
+			[
+				"sass",
+				"SassBeautify"
+			],
+			[
+				"jav",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"indent",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"tidy",
+				"Tidy CSS"
+			],
+			[
+				"enco",
+				"HTML: Encode Special Characters"
+			],
+			[
+				"h",
+				"HTMLBeautify"
+			],
+			[
+				"form	",
+				"Format: Javascript"
+			],
+			[
+				"htm",
+				"HTMLBeautify"
+			],
+			[
+				"SassBeautify",
+				"SassBeautify: Convert from CSS to current type"
+			],
+			[
+				"prefix",
+				"Preferences: Prefixr Key Bindings – Default"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"snip",
+				"Snippet: html"
+			]
+		],
+		"width": 593.0
+	},
+	"console":
+	{
+		"height": 125.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '7183a2d3e96f11eeadd761d777e62404' + 'e330c659d4bb41d3bdf022e94cab3cd0'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/rizzor/Documents/Sites/Thirty-One"
+	],
+	"file_history":
+	[
+		"/Users/rizzor/Documents/VWO Scripts/MLS 1.0/mls.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/views/mls.marketing.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/freewebfonts.tab.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/resultrow.row.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modals/quickview.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/views/fontfamily.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/data.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modals/skyfonts.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/global/_font-grid.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modals/authenticate.js",
+		"/Users/rizzor/Documents/VWO Scripts/MLS 1.0/family.js",
+		"/Users/rizzor/Documents/VWO Scripts/MLS 1.0/product.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/plans.desktopsection.js",
+		"/Users/rizzor/Documents/VWO Scripts/MLS 1.0/cart.js",
+		"/Users/rizzor/Documents/VWO Scripts/MLS 1.0/quickview.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/header.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/header.search.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Services/OrderService.cs",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/config.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/main.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/templates/browse.languagespill.hbs",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/views/_browse.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/models/pagemodel.browsefilter.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/views/browse.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/plugins/jquery.autocomplete.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/models/pagemodel.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/models/pagemodel.searchfilter.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/views/product.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/resultrow.list.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/global/_site-structure.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Config/appSettings.Live.config",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Config/appSettings.config",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Config/appSettings.Staging.config",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/untitled.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/views/general.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/global/_variables.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/views/_site-footer.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/models/pagemodel.fontformat.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/global/_page-header.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/bower_components/foundation/scss/foundation/components/_top-bar.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/views/_navigation.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modals/webproject.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/views/search.wishlists.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/resultrow.options.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/Product/ResultItem.cshtml",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modals/edittext.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/resultrow.modal.webfont.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/global/_type.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/views/_web-fonts.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Config/serviceModelClient.config",
+		"/Users/rizzor/Documents/Sites/testcruise-fdc/features/account.nosubscription.feature",
+		"/Users/rizzor/Documents/Sites/testcruise-fdc/custom-commands/login.js",
+		"/Users/rizzor/Documents/Sites/testcruise-fdc/features/step-definitions/results.js",
+		"/Users/rizzor/Documents/Sites/testcruise-fdc/features/account.feature",
+		"/Users/rizzor/Documents/Sites/testcruise-fdc/features/step-definitions/shared/inputdata.js",
+		"/Users/rizzor/Documents/Sites/testcruise-fdc/features/step-definitions/account.js",
+		"/Users/rizzor/Documents/Sites/testcruise-fdc/features/step-definitions/account.nosubscription.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/views/browsefont.desktopinventory.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/templates/modals/edittext.hbs",
+		"/Users/rizzor/Documents/Sites/testcruise-fdc/features/results.feature",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/templates/modals/webproject.select.hbs",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/templates/modals/wishlist.select.hbs",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/views/browsefont.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/BrowseFont/FoundryDetails.cshtml",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/BrowseFont/DesktopInventory.cshtml",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/BrowseFont/DesignerDetails.cshtml",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/BrowseFont/ClassificationDetails.cshtml",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/BrowseFont/BestSellers.cshtml",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/Search/SearchResult.cshtml",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/searchfilter.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/views/_search-filter.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/Product/Partial/LibraryDetailsPartialView.cshtml",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/Product/ResultOptions.cshtml",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/views/_cart-dropdown.scss",
+		"/Users/rizzor/Documents/Sites/testcruise-fdc/runner-configs.json",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/_app.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/views/_edit-text-modal.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Controllers/WishListController.cs",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/global/_notification-bar.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/views/_skyfonts-modal.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/templates/modals/skyfonts.chooseinstalltype.hbs",
+		"/Users/rizzor/Documents/Sites/testcruise-fdc/features/seeplan.feature",
+		"/Users/rizzor/Documents/Sites/testcruise-fdc/package.json",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/views/_wishlist-webproject-modal.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/stickynote.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modals/wishlist.js",
+		"/Users/rizzor/Documents/Sites/Selenium-FDC/spec.config.js",
+		"/Users/rizzor/Documents/Sites/Selenium-FDC/specs/account.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/templates/modals/wishlist.create.hbs",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/templates/modals/webproject.create.hbs",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/templates/modals/skyfonts.authenticate.hbs",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/FontFamily/Index.cshtml",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/Product/Index.cshtml",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/BrowseFont/NewBestSellers.cshtml",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/common.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/views/_quick-view-modal.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modals/base.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/global/_modal.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/templates/modals/quickview.hbs",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/templates/modals/modal.base.hbs",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modals/modal.projects.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/resultrow.modal.webfont.addnew.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modals/form.project.select.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/global/_custom-buttons.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/Product/ResultsListTemplates.cshtml",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/resultrow.modal.favorite.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/resultrow.modal.favorite.addnew.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/views/resetpassword.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/templates/modals/skyfonts.generic.hbs",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/global/_sort-bar.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/views/_license-bar.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts/fonts.ui.webFonts.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts/fonts.fontFace.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts/fonts.ui.fontPreview.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts/fonts.ui.products.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/product.tab.tryit.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/Cart/Partial/PaymentInformation.cshtml",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/Cart/CartPage.cshtml",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Controllers/CartController.cs",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Models/Cart/CartViewModel.cs",
+		"/Users/rizzor/Documents/Sites/testcruise/features/step-definitions/account.js",
+		"/Users/rizzor/Documents/Sites/testcruise/features/step-definitions/shared/elementtags.js",
+		"/Users/rizzor/Documents/Sites/testcruise/features/account.feature",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/global/_accordion.scss",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/libs/require-handlebars-plugin/hbs.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/plugins/fonts.cartbutton.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/views/login.js",
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/views/signup.js"
+	],
+	"find":
+	{
+		"height": 29.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Config",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Users/rizzor/Documents/Sites/testcruise-fdc",
+			"/Users/rizzor/Documents/Sites/testcruise-fdc/features/step-definitions/shared",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/BrowseFont",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Controllers",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Models",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Controllers",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Controllers",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/views",
+			"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C 1/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C 1/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C 1/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Models",
+			"/Volumes/C 1/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Controllers",
+			"/Volumes/C 1/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C 1/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C 1/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom",
+			"/Users/rizzor/Documents/Sites/testcruise",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Controllers",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom",
+			"/Users/rizzor/Documents/Sites/Selenium-FDC",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views",
+			"/Volumes/C/Sites/fonts.com/DEV/Monotype.FontsCom/Monotype.FontsCom.Web"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"'",
+			"VariationId",
+			"getcartdetails",
+			"cart-update",
+			"quickview",
+			"cartrButton",
+			"magic",
+			"FamilyInstall",
+			"family-skyfonts-install",
+			"cart-actions",
+			"SubscribeToNewsletter",
+			"webRequest",
+			"exacttargetapis",
+			"hbsWebfontsThankYou",
+			"autocomplete",
+			"'",
+			"this",
+			"172.19.0.55",
+			"reddis",
+			"redis",
+			"api.fonts.com/skyfonts",
+			"http://api.fonts.com/skyfonts/api",
+			"page-footer",
+			"scroll",
+			"AddWebFontToProject\naddwebfonttoproject",
+			"AddWebFontToProject\nAddWebFontToProject\nAddWebFontToProject",
+			"removeitem",
+			"updateGridPreview",
+			"data-action=\"edit\"",
+			"edittext",
+			"adjustForground",
+			"RendererUrl",
+			"viewTogglev",
+			"viewToggle",
+			"updatePreview",
+			"\"]'));\n",
+			"updatePreview",
+			"preview-text",
+			"viewToggle",
+			"view-toggle",
+			"viewToggle",
+			"line",
+			"resultrow.row.js:304 ",
+			"svc-test",
+			"CustomText",
+			"nosubscription",
+			"svc-pp",
+			"svc-test",
+			"preview-text",
+			"maximizeWindow",
+			"ContextName = \"products\"",
+			"'[data-context=\"products\"]'",
+			"ContextName = \"products\"",
+			"svc-test",
+			"stickyNavTop",
+			"temp-no-results",
+			"tempNoResults",
+			"loadaction",
+			"show-more",
+			"tempNoResults",
+			"tempInlineModal",
+			"library-controls",
+			"width: 160px",
+			"Model.hideHoverLabels",
+			"()",
+			"sort-bar",
+			"Text Size:",
+			"install-type",
+			"ss-star",
+			"sticky-note",
+			"px",
+			"TextSize",
+			"console.log",
+			"{\n",
+			"devrender",
+			"addtowishlist",
+			"wishlist-webproject-modal",
+			"<style>",
+			"FCMVC.Product.Views.ResultsListTemplates",
+			"ResultsListTemp",
+			"adjustForground",
+			"edit-mode",
+			"wishlist-webproject-modal",
+			"pt",
+			"text-size",
+			"replace",
+			"updatePreview",
+			"change:preview",
+			"CustomText",
+			"imagetype",
+			"WebprojectModal",
+			"QuickViewModal",
+			"self",
+			"resultrow.modal.styles",
+			"form.project.select",
+			"form.project.create",
+			"LoginForm",
+			"form.login",
+			"    '",
+			"slides",
+			"slide",
+			"WebfontModal",
+			"LoginModal",
+			"login",
+			"LoginModal",
+			"ss-delete",
+			"tempInlineModal",
+			"Fonts.common.addWebfontCss",
+			"self",
+			"type-actions",
+			"name-container",
+			"alt",
+			"variationhtml",
+			"variation-select",
+			"renderList",
+			"alt",
+			"dream",
+			"skyfonts-modal",
+			"font",
+			"skyfonts-modal",
+			"submitFreeWebSubscription",
+			"freewebfonts.tab",
+			"switch",
+			"Webproject",
+			"WishlistModal",
+			"dl.customer.createaccoun",
+			"newresetpassword",
+			"FreeWebfontThankYou"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"https://fonts.googleapis.com",
+			"gp1.wac",
+			"<script src=\"//code.jquery.com/jquery-1.8.3.min.js\"></script>",
+			"search-info",
+			"full-width-info",
+			"Links.Content.js.config_js",
+			"$button-font-family",
+			"$body-font-family",
+			"$h1-font-family",
+			"",
+			"$body-copy",
+			"$secondary",
+			"$secondary-hover",
+			"$neutral",
+			"$neutral-light",
+			"$neutral",
+			"$secondary",
+			"$piper-grey",
+			"$white",
+			"$light-blue",
+			"$almost-black-two",
+			"$almost-black",
+			"$more-grey",
+			"$yet-another-grey",
+			"$darkest-grey",
+			"$another-grey",
+			"$off-black",
+			"$white",
+			"$link-blue",
+			"$lighter-grey",
+			"$blue",
+			"$off-white",
+			"$light-grey",
+			"$off-white",
+			"$darker-grey",
+			"$dark-grey",
+			"$sub-heading-color"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 7,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "gulpfile.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 618,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								477,
+								465
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 703,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								348,
+								348
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "bower.json",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 420,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": ".bowerrc",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 44,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								44,
+								44
+							]
+						],
+						"settings":
+						{
+							"auto_complete": true,
+							"open_with_edit": true,
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "views/home.handlebars",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 17,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Handlebars/grammars/Handlebars.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "views/layouts/main.handlebars",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 246,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								219,
+								219
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"syntax": "Packages/Handlebars/grammars/Handlebars.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "scripts/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 158,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								158,
+								158
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"auto_indent": true,
+							"open_with_edit": true,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 609,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								23,
+								13
+							]
+						],
+						"settings":
+						{
+							"auto_complete": true,
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 29.0
+	},
+	"input":
+	{
+		"height": 38.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.csslint_result_view":
+	{
+		"height": 402.0
+	},
+	"output.exec":
+	{
+		"height": 410.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 124.0
+	},
+	"output.variable_get":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "thirty-one.sublime-project",
+	"replace":
+	{
+		"height": 54.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"data",
+				"Monotype.FontsCom.Web/Content/js/modules/data.js"
+			],
+			[
+				"_font",
+				"Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/global/_font-grid.scss"
+			],
+			[
+				"_var",
+				"Monotype.FontsCom.Web/Content/css/sass/global/_variables.scss"
+			],
+			[
+				"_browse",
+				"Monotype.FontsCom.Web/Content/css/sass/views/_browse.scss"
+			],
+			[
+				"_page",
+				"Monotype.FontsCom.Web/Content/css/sass/global/_page-header.scss"
+			],
+			[
+				"_top",
+				"Monotype.FontsCom.Web/Content/bower_components/foundation/scss/foundation/components/_top-bar.scss"
+			],
+			[
+				"data.js",
+				"Monotype.FontsCom.Web/Content/js/modules/data.js"
+			],
+			[
+				"_web",
+				"Monotype.FontsCom.Web/Content/css/sass/views/_web-fonts.scss"
+			],
+			[
+				"_type",
+				"Monotype.FontsCom.Web/Content/css/sass/global/_type.scss"
+			],
+			[
+				"_",
+				"Monotype.FontsCom.Web/Content/css/sass/global/_variables.scss"
+			],
+			[
+				"_wish",
+				"Monotype.FontsCom.Web/Content/css/sass/views/_wishlist-webproject-modal.scss"
+			],
+			[
+				"_quick",
+				"Monotype.FontsCom.Web/Content/css/sass/views/_quick-view-modal.scss"
+			],
+			[
+				"font-grid",
+				"Monotype.FontsCom.Web/Content/css/sass/global/_font-grid.scss"
+			],
+			[
+				"wishlist-",
+				"Monotype.FontsCom.Web/Content/css/sass/views/_wishlist-webproject-modal.scss"
+			],
+			[
+				"auth",
+				"Monotype.FontsCom.Web/Content/js/modals/authenticate.js"
+			],
+			[
+				"authen",
+				"Monotype.FontsCom.Web/Content/js/modals/authenticate.js"
+			],
+			[
+				"fluffy",
+				"Monotype.FontsCom.Web/Content/js/modules/navigation.fluffytabs.js"
+			],
+			[
+				"_home",
+				"Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/views/_homepage-search.scss"
+			],
+			[
+				"comm",
+				"Monotype.FontsCom/Monotype.FontsCom.Web/Scripts/common.js"
+			],
+			[
+				"_cart",
+				"Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/views/_cart-dropdown.scss"
+			],
+			[
+				"_account",
+				"Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/views/_account.scss"
+			],
+			[
+				"resultrow",
+				"Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/resultrow.row.js"
+			],
+			[
+				"cartbut",
+				"Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/plugins/fonts.cartbutton.js"
+			],
+			[
+				"grunt",
+				"Content/gruntfile.js"
+			],
+			[
+				"page",
+				"Content/js/models/pagemodel.cart.js"
+			],
+			[
+				"_navi",
+				"Content/css/sass/views/_navigation.scss"
+			],
+			[
+				"_tye",
+				"Content/css/sass/global/_type.scss"
+			],
+			[
+				"main",
+				"Content/js/main.js"
+			],
+			[
+				"_search",
+				"Content/css/sass/views/_search-filter.scss"
+			],
+			[
+				"_nav",
+				"Content/css/sass/views/_navigation.scss"
+			],
+			[
+				"_footer",
+				"Content/css/sass/views/_site-footer.scss"
+			],
+			[
+				"_site",
+				"Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/legacy/_site.home.scss"
+			],
+			[
+				"_select",
+				"Content/css/sass/global/_selectbox.scss"
+			],
+			[
+				"main.js",
+				"Content/js/main.js"
+			],
+			[
+				"build.",
+				"Content/build.json"
+			],
+			[
+				"sticky",
+				"Content/js/modules/stickynote.js"
+			],
+			[
+				"home.js",
+				"Content/js/views/home.js"
+			],
+			[
+				"_not",
+				"Content/css/sass/global/_notification-bar.scss"
+			],
+			[
+				"stick",
+				"Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/stickynote.js"
+			],
+			[
+				"cartbutt",
+				"Content/js/plugins/fonts.cartbutton.js"
+			],
+			[
+				"_form",
+				"Content/css/sass/global/_forms.scss"
+			],
+			[
+				"_val",
+				"Content/css/sass/global/_variables.scss"
+			],
+			[
+				"_login",
+				"Content/css/sass/fixtures/_loginsignup.scss"
+			],
+			[
+				"cartbutton",
+				"Content/js/plugins/fonts.cartbutton.js"
+			],
+			[
+				"hom",
+				"Content/js/views/home.js"
+			],
+			[
+				"_homepage",
+				"Content/css/sass/views/_homepage-search.scss"
+			],
+			[
+				"data.ja",
+				"Monotype.FontsCom/Monotype.FontsCom.DataBase/obj/Debug/Monotype.FontsCom.DataBase.csproj.FileListAbsolute.txt"
+			],
+			[
+				"header",
+				"Content/js/modules/header.js"
+			],
+			[
+				"_product",
+				"Content/css/sass/views/_product.scss"
+			],
+			[
+				"_noti",
+				"Content/css/sass/global/_notification-bar.scss"
+			],
+			[
+				"_forms",
+				"Content/css/sass/global/_forms.scss"
+			],
+			[
+				"genr",
+				"Content/js/views/general.js"
+			],
+			[
+				"var",
+				"Content/css/sass/global/_variables.scss"
+			],
+			[
+				"_alert",
+				"Content/bower_components/foundation/scss/foundation/components/_alert-boxes.scss"
+			],
+			[
+				"loading",
+				"Content/js/plugins/jquery.showloading.js"
+			],
+			[
+				"dat",
+				"Content/js/modules/data.js"
+			],
+			[
+				"_lo",
+				"Content/css/sass/fixtures/_loginsignup.scss"
+			],
+			[
+				"_sit",
+				"Content/css/sass/views/_site-footer.scss"
+			],
+			[
+				"fonts.initializesitefunctions",
+				"Monotype.FontsCom/Monotype.FontsCom.Web/Scripts/fonts.initializeSiteFunctions.js"
+			],
+			[
+				"build",
+				"Content/build.json"
+			],
+			[
+				"header.js",
+				"Selenium-FDC/specs/header.js"
+			],
+			[
+				"_navig",
+				"Content/css/sass/views/_navigation.scss"
+			],
+			[
+				"_featured-fonts.scss",
+				"Content/css/sass/views/_featured-fonts.scss"
+			],
+			[
+				"modern",
+				"Content/css/sass/modern.scss"
+			],
+			[
+				"_license-bar.scss",
+				"Content/css/sass/views/_license-bar.scss"
+			],
+			[
+				"_cart-dropdown.scss",
+				"Content/css/sass/views/_cart-dropdown.scss"
+			],
+			[
+				"_modal-inline.scss",
+				"Content/css/sass/global/_modal-inline.scss"
+			],
+			[
+				"mixi",
+				"Content/css/sass/global/_mixins.scss"
+			],
+			[
+				"_font-grid.scss",
+				"Content/css/sass/global/_font-grid.scss"
+			],
+			[
+				"_custom-buttons.scss",
+				"Content/css/sass/global/_custom-buttons.scss"
+			],
+			[
+				"_li",
+				"Content/css/sass/views/_license-bar.scss"
+			],
+			[
+				"_pro",
+				"Content/css/sass/views/_product.scss"
+			],
+			[
+				"_family",
+				"Content/css/sass/views/_family.scss"
+			],
+			[
+				"_site.global",
+				"Content/css/sass/legacy/_site.global.scss"
+			],
+			[
+				"_moda",
+				"Content/css/sass/global/_modal.scss"
+			],
+			[
+				"_cust",
+				"Content/css/sass/global/_custom-buttons.scss"
+			],
+			[
+				"famil",
+				"Selenium-FDC/specs/family.js"
+			],
+			[
+				"home",
+				"Content/js/views/home.js"
+			],
+			[
+				"site.global",
+				"Content/css/backup/site.global.css"
+			],
+			[
+				"productlistitempartialview.cshtml",
+				"Monotype.FontsCom/Monotype.FontsCom.Web/Views/Product/ProductListItemPartialView.cshtml"
+			],
+			[
+				"familyhelper.cs",
+				"Monotype.FontsCom/Monotype.FontsCom.Web/Common/Helpers/FamilyHelper.cs"
+			],
+			[
+				"result",
+				"Content/js/modules/resultrow.row.js"
+			],
+			[
+				"_web-fonts",
+				"Content/css/sass/views/_web-fonts.scss"
+			],
+			[
+				"nav",
+				"Content/js/modules/navigation.topbar.js"
+			],
+			[
+				"top-",
+				"Content/css/sass/views/_top-nav.scss"
+			],
+			[
+				"search-b",
+				"Content/css/sass/global/_search-bar.scss"
+			],
+			[
+				"bread",
+				"Content/css/sass/views/_breadcrumb.scss"
+			],
+			[
+				"_gen",
+				"Content/css/sass/global/_general-selectors.scss"
+			],
+			[
+				"account",
+				"Content/min/account.js"
+			],
+			[
+				"resultrow.sc",
+				"Content/css/sass/views/_result-row.scss"
+			],
+			[
+				"_block",
+				"Content/bower_components/foundation/scss/foundation/components/_block-grid.scss"
+			],
+			[
+				"_site.home",
+				"Content/css/sass/legacy/_site.home.scss"
+			],
+			[
+				"_color",
+				"Content/css/sass/plugins/colorpicker/_colorpicker.scss"
+			],
+			[
+				"_scr",
+				"Content/css/sass/legacy/_screen.global.scss"
+			],
+			[
+				"bill",
+				"Monotype.FontsCom/Monotype.FontsCom.Web/Views/Shared/EditorTemplates/BillingInformationViewModel.cshtml"
+			],
+			[
+				"billingin",
+				"Monotype.FontsCom/Monotype.FontsCom.Web/Models/BillingInformation/BillingInformationViewModel.cs"
+			],
+			[
+				".cspro",
+				"Monotype.FontsCom/Monotype.FontsCom.Web/Monotype.FontsCom.Web.csproj"
+			],
+			[
+				"_re",
+				"Content/css/sass/views/_result-row.scss"
+			],
+			[
+				"_plan",
+				"Monotype.FontsCom.Web/Content/css/sass/views/_pricing-plan-table.scss"
+			],
+			[
+				"browseitemssearchcomponentpartialview",
+				"Monotype.FontsCom.Web/Views/Search/Partial/BrowseItemsSearchComponentPartialView.cshtml"
+			],
+			[
+				"monotypedevelopment",
+				"Monotype.FontsCom.Web/Config/skyFontsService.MonotypeDevelopment.config"
+			],
+			[
+				"_price",
+				"Content/css/sass/views/_pricing-plan-table.scss"
+			],
+			[
+				"_lic",
+				"Content/css/sass/views/_license-bar.scss"
+			],
+			[
+				"_site.glo",
+				"Content/css/sass/legacy/_site.global.scss"
+			],
+			[
+				"_screen",
+				"Monotype.FontsCom.Web/Content/css/sass/legacy/_screen.global.scss"
+			],
+			[
+				"_soc",
+				"Monotype.FontsCom.Web/Content/css/sass/views/_social-icons.scss"
+			],
+			[
+				"_tabs",
+				"Monotype.FontsCom.Web/Content/css/sass/views/_tabs.scss"
+			],
+			[
+				"_feat",
+				"Monotype.FontsCom.Web/Content/css/sass/views/_featured-fonts.scss"
+			],
+			[
+				"_new",
+				"Monotype.FontsCom.Web/Content/css/sass/views/_newsletter-form.scss"
+			],
+			[
+				"_but",
+				"Monotype.FontsCom.Web/Content/css/sass/views/_buttons.scss"
+			],
+			[
+				"_app",
+				"Monotype.FontsCom.Web/Content/css/sass/_app.scss"
+			],
+			[
+				"searchfil",
+				"Monotype.FontsCom.Web/Content/css/sass/views/_search-filter.scss"
+			],
+			[
+				"_sett",
+				"Monotype.FontsCom.Web/Content/libs/foundation/scss/foundation/_settings.scss"
+			],
+			[
+				"_va",
+				"Monotype.FontsCom.Web/Content/css/sass/global/_variables.scss"
+			],
+			[
+				"fix",
+				"Monotype.FontsCom.Web/Views/StyleGuide/Partial/Fixtures.cshtml"
+			],
+			[
+				"_foun",
+				"Monotype.FontsCom.Web/Content/libs/foundation/scss/_foundation.scss"
+			],
+			[
+				"mix",
+				"Monotype.FontsCom.Web/Content/css/sass/global/_mixins.scss"
+			],
+			[
+				"editfonts",
+				"Monotype.FontsCom.Web/Views/WebFontsProjectManagement/Partial/EditFonts.cshtml"
+			],
+			[
+				"_en",
+				"Monotype.FontsCom.Web/Content/css/sass/legacy/_enhanced.scss"
+			],
+			[
+				"_site.glob",
+				"Monotype.FontsCom.Web/Content/css/sass/legacy/_site.global.scss"
+			],
+			[
+				"_project",
+				"Monotype.FontsCom.Web/Content/css/sass/views/_projects.scss"
+			],
+			[
+				"rou",
+				"Font-Preview/js/router.js"
+			],
+			[
+				"mixins",
+				"Monotype.FontsCom.Web/Content/css/sass/global/_mixins.scss"
+			],
+			[
+				"function.js",
+				"Monotype.FontsCom.Web/Content/node_modules/grunt/node_modules/js-yaml/lib/js-yaml/type/js/function.js"
+			],
+			[
+				"skyfonts.j",
+				"Monotype.FontsCom.Web/Scripts/skyfontsclient.js"
+			],
+			[
+				"home.cs",
+				"Monotype.FontsCom.Web/Content/css/home.css"
+			],
+			[
+				"hom.css",
+				"Monotype.FontsCom.Web/Content/css/home.css"
+			],
+			[
+				"sharedassembly.cs",
+				"Shared/SharedAssemblyInfo.cs"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Documents/Sublime Projects/websockets.sublime-project"
+			],
+			[
+				"blog",
+				"/Volumes/C/Sites/fonts.com/Blog/MAIN/Blog.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 214.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
