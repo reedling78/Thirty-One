@@ -29,7 +29,7 @@ build/Release
 # Dependency directories
 node_modules
 jspm_packages
-/public/bower_componets/*
+/public/bower_components
 
 # Optional npm cache directory
 .npm
