@@ -19,6 +19,7 @@
   ],
   "devDependencies": {
     "bootstrap": "~3.3.6",
-    "requirejs": "~2.2.0"
+    "requirejs": "~2.2.0",
+    "socket.io-client": "~1.4.8"
   }
 }
