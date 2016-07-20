@@ -1,16 +1,23 @@
 /*jslint nomen: true*/
 /*globals window, document, define, $, _, console, alert*/
 
-define(['jquery', 'socket.io'], function ($, io) {
+define(['socket.io', 'bootstrap'], function (io) {
     'use strict';
 
-    var socket = io.connect('http://localhost:3000');
+    window.app = {
+    	socket: io.connect('http://localhost:3000')
+    };
 
-	socket.on('news', function (data) {
+	app.socket.on('started', function (data) {
 		console.log(data);
-		socket.emit('my other event', { my: 'data' });
+		switch (location.pathname) {
+	    case '/':
+	        require(['views/signin']);
+	        break;
+	    default:
+	    	require(['views/signin']);
+	    	break;
+		}
 	});
-
-	$('body').css('background-color', 'green');
 
 });

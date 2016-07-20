@@ -3,8 +3,8 @@
 
 var express = require('express'),
     exphbs  = require('express-handlebars'),
-    redis = require('node-redis'),
-    client = redis.createClient(6379, '127.0.0.1'),
+    redisapp = require('node-redis'),
+    redis = redisapp.createClient(6379, '127.0.0.1'),
     app = require('express')(),
     server = require('http').Server(app),
     io = require('socket.io')(server);
@@ -17,7 +17,7 @@ app.use(express.static('public'));
 
 app.set('view engine', 'handlebars');
 
-client.on("error", function (err) {
+redis.on("error", function (err) {
     'use strict';
     console.log("Error " + err);
 });
@@ -25,7 +25,7 @@ client.on("error", function (err) {
 app.get('/', function (req, res) {
     'use strict';
 
-    client.get('name', function (e, r) {
+    redis.get('name', function (e, r) {
         res.render('home', {
             name: r
         });
@@ -34,13 +34,11 @@ app.get('/', function (req, res) {
 });
 
 io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
+    socket.emit('started');
+    socket.on('signin', function (data) {
+        console.log(data);
+        redis.set('name', data.screenname);
+    });
 });
 
-
-
 server.listen(3000);
-//app.listen(3000);
