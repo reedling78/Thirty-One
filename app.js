@@ -9,13 +9,14 @@ var express = require('express'),
     server = require('http').Server(app),
     io = require('socket.io')(server);
 
-app.engine('handlebars', exphbs({
-    defaultLayout: 'main'
+app.engine('.hbs', exphbs({
+    defaultLayout: 'main',
+    extname: '.hbs'
 }));
 
 app.use(express.static('public'));
 
-app.set('view engine', 'handlebars');
+app.set('view engine', '.hbs');
 
 redis.on("error", function (err) {
     'use strict';
@@ -25,15 +26,16 @@ redis.on("error", function (err) {
 app.get('/', function (req, res) {
     'use strict';
 
-    redis.get('name', function (e, r) {
-        res.render('home', {
-            name: r
-        });
-    });
+    res.render('home', {});
+
+    // redis.get('name', function (e, r) {
+        
+    // });
 
 });
 
 io.on('connection', function (socket) {
+    'use strict';
     socket.emit('started');
     socket.on('signin', function (data) {
         console.log(data);

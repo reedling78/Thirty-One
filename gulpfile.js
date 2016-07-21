@@ -20,16 +20,18 @@ gulp.task('start', function () {
     });
 });
 
-gulp.task('bower', function() {
-  return bower();
+gulp.task('bower', function () {
+    'use strict';
+    return bower();
 });
 
 
-gulp.task('redis-start', function() {
-  child_process.exec('redis-server', function(err, stdout, stderr) {
-    console.log(stdout);
-    if (err !== null) {
-      console.log('exec error: ' + err);
-    }
-  });
+gulp.task('redis-start', function () {
+    'use strict';
+    child_process.exec('redis-server', function (err, stdout, stderr) {
+        console.log(stdout);
+        if (err !== null) {
+            console.log('exec error: ' + err);
+        }
+    });
 });
