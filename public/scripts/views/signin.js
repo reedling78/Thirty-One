@@ -1,8 +1,10 @@
 /*jslint nomen: true*/
 /*globals window, document, define, $, _, console, alert, app*/
 
-define([], function () {
+define(['hbs!templates/signin'], function (hbsSignin) {
     'use strict';
+
+    app.$content.html(hbsSignin({}));
 
     $('form').on('submit', function (e) {
         console.log('started');

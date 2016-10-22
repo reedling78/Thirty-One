@@ -5,14 +5,15 @@ define(['socket.io', 'bootstrap'], function (io) {
     'use strict';
 
     window.app = {
-        socket: io.connect('http://localhost:3000')
+        socket: io.connect('http://localhost:3000'),
+        $content: $('[data-context="content"]')
     };
 
     app.socket.on('started', function (data) {
         if (localStorage.getItem('ThirtyOne')) {
-            console.log('has user');
+            require(['views/gameslist']);
         } else {
-            console.log('no user');
+            require(['views/signin']);
         }
     });
 

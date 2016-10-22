@@ -8,6 +8,7 @@ require.config({
         'jquery': '../bower_components/jquery/dist/jquery.min',
         'socket.io': '../bower_components/socket.io-client/socket.io',
         'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap.min',
+        'hbs': '../bower_components/require-handlebars-plugin/hbs',
     },
 
     shim: {

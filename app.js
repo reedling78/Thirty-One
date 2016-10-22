@@ -36,7 +36,9 @@ app.get('/', function (req, res) {
 
 io.on('connection', function (socket) {
     'use strict';
-    socket.emit('started');
+    socket.emit('started', {
+        
+    });
     socket.on('signin', function (data) {
         console.log(data);
         redis.set('name', data.screenname);

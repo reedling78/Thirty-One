@@ -208,58 +208,18 @@
 	"buffers":
 	[
 		{
-			"file": "app.js",
+			"file": ".bowerrc",
 			"settings":
 			{
-				"buffer_size": 995,
+				"buffer_size": 44,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "views/home.handlebars",
+			"file": ".gitignore",
 			"settings":
 			{
-				"buffer_size": 432,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/styles/style.css",
-			"settings":
-			{
-				"buffer_size": 27,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "views/layouts/main.handlebars",
-			"settings":
-			{
-				"buffer_size": 1261,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/config.js",
-			"settings":
-			{
-				"buffer_size": 503,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/scripts/main.js",
-			"settings":
-			{
-				"buffer_size": 465,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/scripts/views/signin.js",
-			"settings":
-			{
-				"buffer_size": 327,
+				"buffer_size": 610,
 				"line_ending": "Unix"
 			}
 		}
@@ -271,10 +231,14 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 347.0,
-		"last_filter": "",
+		"height": 392.0,
+		"last_filter": "gist",
 		"selected_items":
 		[
+			[
+				"gist",
+				"Gist: Insert Gist"
+			],
 			[
 				"html",
 				"HTMLBeautify"
@@ -282,10 +246,6 @@
 			[
 				"json",
 				"Pretty JSON: Format (Pretty Print) JSON"
-			],
-			[
-				"gist",
-				"Gist: Insert Gist"
 			],
 			[
 				"mer",
@@ -432,7 +392,7 @@
 				"Snippet: html"
 			]
 		],
-		"width": 468.0
+		"width": 593.0
 	},
 	"console":
 	{
@@ -453,13 +413,23 @@
 	},
 	"expanded_folders":
 	[
-		"/Users/rizzor/Documents/Sites/Thirty-One",
-		"/Users/rizzor/Documents/Sites/Thirty-One/public",
-		"/Users/rizzor/Documents/Sites/Thirty-One/public/scripts"
+		"/Users/rizzor/Documents/Sites/Thirty-One"
 	],
 	"file_history":
 	[
+		"/Users/rizzor/Documents/Sites/Thirty-One/README.md",
+		"/Users/rizzor/Documents/Sites/Thirty-One/app.js",
 		"/Users/rizzor/Documents/Sites/Thirty-One/gulpfile.js",
+		"/Users/rizzor/Documents/Sites/Thirty-One/public/scripts/templates/signin.hbs",
+		"/Users/rizzor/Documents/Sites/Thirty-One/public/scripts/views/signin.js",
+		"/Users/rizzor/Documents/Sites/Thirty-One/public/scripts/models/user.js",
+		"/Users/rizzor/Documents/Sites/Thirty-One/public/scripts/templates/gameslist.hbs",
+		"/Users/rizzor/Documents/Sites/Thirty-One/public/scripts/views/gameslist.js",
+		"/Users/rizzor/Documents/Sites/Thirty-One/public/scripts/main.js",
+		"/Users/rizzor/Documents/Sites/Thirty-One/public/config.js",
+		"/Users/rizzor/Documents/Sites/Thirty-One/views/layouts/main.hbs",
+		"/Users/rizzor/Documents/Sites/Thirty-One/public/styles/style.css",
+		"/Users/rizzor/Documents/Sites/Thirty-One/views/home.hbs",
 		"/Users/rizzor/Documents/Sites/Thirty-One/package.json",
 		"/Users/rizzor/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
 		"/Users/rizzor/Documents/Sites/Thirty-One/.gitignore",
@@ -574,19 +544,7 @@
 		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/resultrow.modal.favorite.js",
 		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/resultrow.modal.favorite.addnew.js",
 		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/views/resetpassword.js",
-		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/templates/modals/skyfonts.generic.hbs",
-		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/global/_sort-bar.scss",
-		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/css/sass/views/_license-bar.scss",
-		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts/fonts.ui.webFonts.js",
-		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts/fonts.fontFace.js",
-		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts/fonts.ui.fontPreview.js",
-		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Scripts/fonts.ui.products.js",
-		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/modules/product.tab.tryit.js",
-		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/Cart/Partial/PaymentInformation.cshtml",
-		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Views/Cart/CartPage.cshtml",
-		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Controllers/CartController.cs",
-		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Models/Cart/CartViewModel.cs",
-		"/Users/rizzor/Documents/Sites/testcruise/features/step-definitions/account.js"
+		"/Volumes/C/Code/DEV/Monotype.FontsCom/Monotype.FontsCom.Web/Content/js/templates/modals/skyfonts.generic.hbs"
 	],
 	"find":
 	{
@@ -914,61 +872,29 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app.js",
+					"file": ".bowerrc",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 995,
+						"buffer_size": 44,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								481,
-								481
+								44,
+								0
 							]
 						],
 						"settings":
 						{
-							"auto_complete": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 130.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "views/home.handlebars",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 432,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								432,
-								432
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"syntax": "Packages/Handlebars/grammars/Handlebars.tmLanguage"
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -978,158 +904,31 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "public/styles/style.css",
-					"semi_transient": false,
+					"buffer": 1,
+					"file": ".gitignore",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 27,
+						"buffer_size": 610,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								27,
-								27
+								521,
+								497
 							]
 						],
 						"settings":
 						{
-							"open_with_edit": true,
-							"syntax": "Packages/CSS/CSS.sublime-syntax"
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 400.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "views/layouts/main.handlebars",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1261,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1047,
-								1047
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"syntax": "Packages/HTML/HTML.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 228.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "public/config.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 503,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								360,
-								360
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"open_with_edit": true,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "public/scripts/main.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 465,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								164,
-								164
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 6,
-					"file": "public/scripts/views/signin.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 327,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								219,
-								225
-							]
-						],
-						"settings":
-						{
-							"auto_complete": false,
-							"open_with_edit": true,
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -1152,18 +951,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.5,
 			1.0
 		],
 		"rows":
