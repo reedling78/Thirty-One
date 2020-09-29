@@ -2,27 +2,18 @@
   "name": "thirty-one",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/reedling78/Thirty-One.git"
+    "url": "git+https://github.com/reedling78/Thirty-One.git"
   },
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/reedling78/Thirty-One/issues"
   },
-  "homepage": "https://github.com/reedling78/Thirty-One",
-  "devDependencies": {
-    "express": "^4.14.0",
-    "express-handlebars": "^3.0.0",
-    "gulp": "^3.9.1",
-    "gulp-bower": "0.0.13",
-    "gulp-nodemon": "^2.1.0",
-    "node-redis": "^0.1.7",
-    "socket.io": "^1.4.8"
-  }
+  "homepage": "https://github.com/reedling78/Thirty-One#readme"
 }
