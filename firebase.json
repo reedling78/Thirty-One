@@ -12,6 +12,7 @@
       "port": 5001
     },
     "hosting": {
+      "site": "thirty-one-9b21f",
       "port": 5000
     },
     "ui": {
