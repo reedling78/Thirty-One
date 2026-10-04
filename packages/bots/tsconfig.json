@@ -1,0 +1,4 @@
+{
+  "extends": "@thirtyone/tsconfig/base.json",
+  "include": ["src", "test"]
+}

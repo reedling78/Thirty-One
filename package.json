@@ -1,0 +1,20 @@
+{
+  "name": "thirtyone",
+  "private": true,
+  "packageManager": "pnpm@12.9.1",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "typecheck": "pnpm -r --if-present typecheck",
+    "lint": "pnpm -r --if-present lint",
+    "test": "pnpm -r --if-present test",
+    "purity": "node scripts/check-rules-purity.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm purity && pnpm format:check"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.9"
+  }
+}

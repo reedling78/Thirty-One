@@ -1,0 +1,28 @@
+{
+  "name": "@thirtyone/rules",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Thirty-One game engine. Pure functions over a state object; no transport, no runtime deps.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.0",
+    "@thirtyone/tsconfig": "workspace:*",
+    "eslint": "^9.39.0",
+    "fast-check": "^4.10.2",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.46.0",
+    "vitest": "^5.0.3"
+  }
+}
