@@ -1,3 +1,3 @@
 /// <reference types="expo/types" />
 
-// Expo generates this file on `expo start`. It is committed so `tsc --noEmit` works in CI.
+// NOTE: This file should not be edited and should be in your git ignore
