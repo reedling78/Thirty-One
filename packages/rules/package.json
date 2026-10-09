@@ -14,11 +14,13 @@
     "typecheck": "tsc -p tsconfig.json",
     "lint": "eslint .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage --coverage.include=src --coverage.reporter=text"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.0",
     "@thirtyone/tsconfig": "workspace:*",
+    "@vitest/coverage-v8": "^5.0.3",
     "eslint": "^9.39.0",
     "fast-check": "^4.10.2",
     "typescript": "~6.0.3",

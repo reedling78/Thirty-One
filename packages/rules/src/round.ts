@@ -1,7 +1,6 @@
 import {
   FOLDS_TO_BUS,
   activeSeatIndices,
-  endRound,
   nextActiveSeat,
   type GameEvent,
   type GameState,
@@ -122,11 +121,7 @@ export function forfeit(state: GameState, seat: number): Transition {
     return { state: r.state, events: r.events };
   }
 
-  // Not their turn, but their pending post-knock turn may have been the last one.
-  if (next.pendingAfterKnock !== null && next.pendingAfterKnock.length === 0) {
-    const ended = endRound(next, 'knock');
-    events.push(ended.event);
-    return { state: ended.state, events };
-  }
+  // Not their turn. After a knock the seat on turn is always first in the pending
+  // list, so dropping a later seat can never empty it; nothing more to do.
   return { state: next, events };
 }

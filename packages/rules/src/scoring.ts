@@ -97,3 +97,18 @@ export function findThirtyOne(cards: readonly Card[]): Hand | null {
 export function hasThirtyOne(cards: readonly Card[]): boolean {
   return findThirtyOne(cards) !== null;
 }
+
+/**
+ * Best score available from any three of these cards. For a three-card hand
+ * this is `scoreHand`; for the four cards held between a draw and a discard it
+ * is what the hand is worth if the player keeps the best three — which is what
+ * the table shows as the hand value.
+ */
+export function bestScore(cards: readonly Card[]): HandScore | null {
+  let best: HandScore | null = null;
+  for (const hand of threeCardCombinations(cards)) {
+    const s = scoreHand(hand);
+    if (!best || s.total > best.total) best = s;
+  }
+  return best;
+}

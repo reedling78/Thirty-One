@@ -1,15 +1,20 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import {
+  activeSeatCount,
   activeSeatIndices,
   allCards,
   apply,
+  asHand,
   cardId,
   createGame,
+  forfeit,
   legalActions,
   nextActiveSeat,
   nextInt,
   parseCard,
+  parseCards,
+  seatIndexOf,
   startRound,
   type GameState,
 } from '../src/index';
@@ -101,6 +106,17 @@ describe('startRound', () => {
 });
 
 describe('seat helpers', () => {
+  it('seatIndexOf, activeSeatCount, asHand', () => {
+    const g = createGame(seats(3), 1);
+    expect(seatIndexOf(g, 'p2')).toBe(2);
+    expect(() => seatIndexOf(g, 'nobody')).toThrow();
+    expect(activeSeatCount(g)).toBe(3);
+    expect(() => asHand(parseCards('Kh Qh'))).toThrow();
+    expect(asHand(parseCards('Kh Qh 2c'))).toHaveLength(3);
+    const allOut: GameState = { ...g, seats: g.seats.map((s) => ({ ...s, out: true })) };
+    expect(() => nextActiveSeat(allOut, 0)).toThrow();
+  });
+
   it('nextActiveSeat wraps and skips eliminated seats', () => {
     const g = createGame(seats(4), 1);
     const withOut: GameState = {
@@ -190,19 +206,17 @@ describe('apply — turn order and legality', () => {
     // The card taken from the discard may be thrown on a later turn.
   });
 
-  it('drawing from an empty discard pile is refused', () => {
+  it('drawing from an empty discard pile is a typed error', () => {
     const g = playing(3, 1, 0);
     const s = must(apply(g, 1, { type: 'draw', source: 'discard' }));
-    const other = s.seats[1]!.hand[0]!;
-    const t = must(
-      apply(s, 1, {
-        type: 'discard',
-        card: cardId(other) === cardId(g.discardPile[0]!) ? s.seats[1]!.hand[1]! : other,
-      }),
-    );
-    // Discard pile has exactly the one card seat 1 threw; take it, then the pile is empty.
-    const u = must(apply(t, 2, { type: 'draw', source: 'discard' }));
-    expect(u.discardPile).toHaveLength(0);
+    // Seat 1 holds the only discard; if they forfeit now the pile is empty for seat 2.
+    const t = forfeit(s, 1).state;
+    expect(t.discardPile).toHaveLength(0);
+    expect(t.turn).toBe(2);
+    expect(apply(t, 2, { type: 'draw', source: 'discard' })).toMatchObject({
+      ok: false,
+      error: { code: 'noCardsToDraw' },
+    });
   });
 });
 

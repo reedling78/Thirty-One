@@ -278,7 +278,8 @@ export function endRound(
 export type GameEvent =
   | { type: 'roundStarted'; round: number; dealer: number; firstTurn: number; discardTop: Card }
   | { type: 'turnChanged'; seat: number }
-  | { type: 'drew'; seat: number; source: DrawSource; card: Card }
+  /** `card` is present for the drawer and for discard-pile draws; redacted otherwise. */
+  | { type: 'drew'; seat: number; source: DrawSource; card?: Card }
   | { type: 'reshuffled'; cards: number }
   | { type: 'discarded'; seat: number; card: Card }
   | { type: 'knocked'; seat: number }
