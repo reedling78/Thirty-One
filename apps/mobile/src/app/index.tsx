@@ -14,8 +14,8 @@ export default function HomeScreen() {
           Build the best three-card hand. Knock when you dare. Don’t end up on the bus.
         </Text>
         <Link href="/practice" asChild>
-          <Pressable accessibilityRole="button" style={[styles.button, styles.primary]}>
-            <Text style={[styles.buttonText, styles.primaryText]}>Play practice</Text>
+          <Pressable accessibilityRole="button" style={styles.primaryButton}>
+            <Text style={styles.primaryButtonText}>Play practice</Text>
           </Pressable>
         </Link>
         <Link href="/rules" asChild>
