@@ -20,7 +20,11 @@ export interface Seat {
   readonly out: boolean;
 }
 
-export type Phase = 'lobby' | 'playing' | 'roundOver' | 'gameOver';
+/**
+ * lobby → playing → roundOver (hands revealed, folds not yet applied) →
+ * betweenRounds (folds applied, waiting for the next deal) → playing … → gameOver.
+ */
+export type Phase = 'lobby' | 'playing' | 'roundOver' | 'betweenRounds' | 'gameOver';
 
 export type RoundEndReason = 'knock' | 'thirtyOne';
 
@@ -50,13 +54,16 @@ export interface GameState {
   readonly phase: Phase;
   /** 1-based; 0 before the first deal. */
   readonly round: number;
+  /** Seat that knocked this round. Stays set even if that seat forfeits afterwards. */
   readonly knocker: number | null;
-  /** After a knock: turns the other players still get before the reveal. */
-  readonly turnsUntilReveal: number | null;
+  /** After a knock: the seats still owed their one more turn, in order. Reveal when empty. */
+  readonly pendingAfterKnock: readonly number[] | null;
   /** The card the current player took from the discard pile this turn, if any. It cannot be thrown straight back. */
   readonly tookFromDiscard: Card | null;
   readonly rng: RngState;
   readonly roundResult: RoundResult | null;
+  /** Set when the game is over: the winning seat, or null if it ended with no winner. */
+  readonly winner: number | null;
 }
 
 export interface CreateGameOptions {
@@ -96,10 +103,11 @@ export function createGame(
     phase: 'lobby',
     round: 0,
     knocker: null,
-    turnsUntilReveal: null,
+    pendingAfterKnock: null,
     tookFromDiscard: null,
     rng,
     roundResult: null,
+    winner: null,
   };
 }
 
@@ -178,7 +186,7 @@ export interface RoundStart {
  * ends the round on the spot.
  */
 export function startRound(state: GameState, options: StartRoundOptions = {}): RoundStart {
-  if (state.phase !== 'lobby' && state.phase !== 'roundOver') {
+  if (state.phase !== 'lobby' && state.phase !== 'betweenRounds') {
     throw new Error(`Cannot start a round in phase "${state.phase}"`);
   }
   const active = activeSeatIndices(state);
@@ -195,8 +203,7 @@ export function startRound(state: GameState, options: StartRoundOptions = {}): R
     rng = shuffled.state;
   }
 
-  // The dealer for round 1 is whoever createGame chose; after that, the caller
-  // (2c) moves it before starting the next round.
+  // The dealer for round 1 is whoever createGame chose; resolveRound moves it after that.
   const hands = new Map<number, Card[]>();
   for (const i of active) hands.set(i, []);
   for (let n = 0; n < HAND_SIZE; n++) {
@@ -217,7 +224,7 @@ export function startRound(state: GameState, options: StartRoundOptions = {}): R
     phase: 'playing',
     round,
     knocker: null,
-    turnsUntilReveal: null,
+    pendingAfterKnock: null,
     tookFromDiscard: null,
     rng,
     roundResult: null,
@@ -276,7 +283,14 @@ export type GameEvent =
   | { type: 'discarded'; seat: number; card: Card }
   | { type: 'knocked'; seat: number }
   | { type: 'thirtyOne'; seat: number; hand: Hand }
-  | RoundOverEvent;
+  | RoundOverEvent
+  | { type: 'folded'; seat: number; corners: number; folds: number; onBus: boolean }
+  | { type: 'eliminated'; seat: number }
+  | { type: 'roundReplayed' }
+  | { type: 'dealerMoved'; seat: number }
+  | { type: 'forfeited'; seat: number }
+  | { type: 'gameWon'; seat: number }
+  | { type: 'gameAbandoned' };
 
 export type RoundOverEvent = { type: 'roundOver' } & RoundResult;
 

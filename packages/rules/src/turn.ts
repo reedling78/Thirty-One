@@ -3,7 +3,6 @@ import { shuffle } from './rng';
 import { findThirtyOne } from './scoring';
 import {
   HAND_SIZE,
-  activeSeatCount,
   endRound,
   handContains,
   nextActiveSeat,
@@ -155,28 +154,36 @@ function knock(state: GameState, seat: number): ApplyResult {
   if (state.knocker !== null)
     return fail('someoneAlreadyKnocked', `Seat ${state.knocker} already knocked`);
 
-  const next: GameState = {
-    ...state,
-    knocker: seat,
-    // Every other player gets exactly one more turn.
-    turnsUntilReveal: activeSeatCount(state) - 1,
-  };
+  // Every other player gets exactly one more turn, in table order from the knocker.
+  const pending: number[] = [];
+  let i = nextActiveSeat(state, seat);
+  while (i !== seat) {
+    pending.push(i);
+    i = nextActiveSeat(state, i);
+  }
+  const next: GameState = { ...state, knocker: seat, pendingAfterKnock: pending };
   return advanceTurn(next, [{ type: 'knocked', seat }]);
 }
 
-/** A turn is complete: hand it on, or reveal if the knocker's round has come back around. */
-function advanceTurn(state: GameState, events: GameEvent[]): ApplyResult {
+/** A turn is complete: hand it on, or reveal once everyone owed a turn after the knock has had it. */
+export function advanceTurn(state: GameState, events: GameEvent[]): ApplyResult {
   let next = state;
-  if (next.knocker !== null && next.turnsUntilReveal !== null) {
-    // The knock itself does not consume one of the "one more turn" allowances.
+  if (next.pendingAfterKnock !== null) {
+    // The knock itself is not one of the owed turns; a completed turn by anyone else is.
     const justKnocked = events.some((e) => e.type === 'knocked');
-    const remaining = justKnocked ? next.turnsUntilReveal : next.turnsUntilReveal - 1;
-    next = { ...next, turnsUntilReveal: remaining };
-    if (remaining <= 0) {
+    const pending = justKnocked
+      ? next.pendingAfterKnock
+      : next.pendingAfterKnock.filter((s) => s !== next.turn);
+    next = { ...next, pendingAfterKnock: pending };
+    if (pending.length === 0) {
       const ended = endRound(next, 'knock');
       events.push(ended.event);
       return { ok: true, state: ended.state, events };
     }
+    const turn = pending[0]!;
+    next = { ...next, turn };
+    events.push({ type: 'turnChanged', seat: turn });
+    return { ok: true, state: next, events };
   }
   const turn = nextActiveSeat(next, next.turn);
   next = { ...next, turn };

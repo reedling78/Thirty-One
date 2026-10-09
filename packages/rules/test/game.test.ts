@@ -238,7 +238,7 @@ describe('apply — knocking', () => {
     let s = must(r);
     expect(s.knocker).toBe(1);
     expect(s.turn).toBe(2);
-    expect(s.turnsUntilReveal).toBe(2);
+    expect(s.pendingAfterKnock).toEqual([2, 0]);
     if (r.ok) expect(r.events.map((e) => e.type)).toEqual(['knocked', 'turnChanged']);
 
     expect(apply(s, 2, { type: 'knock' })).toMatchObject({
@@ -251,7 +251,7 @@ describe('apply — knocking', () => {
     s = must(apply(s, 2, { type: 'discard', card: s.seats[2]!.hand[3]! }));
     expect(s.phase).toBe('playing');
     expect(s.turn).toBe(0);
-    expect(s.turnsUntilReveal).toBe(1);
+    expect(s.pendingAfterKnock).toEqual([0]);
 
     s = must(apply(s, 0, { type: 'draw', source: 'deck' }));
     const last = apply(s, 0, { type: 'discard', card: s.seats[0]!.hand[3]! });
