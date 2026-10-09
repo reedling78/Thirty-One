@@ -54,6 +54,8 @@ export interface GameState {
   readonly phase: Phase;
   /** 1-based; 0 before the first deal. */
   readonly round: number;
+  /** Completed turns (draw+discard, or a knock) since the deal. */
+  readonly turnsThisRound: number;
   /** Seat that knocked this round. Stays set even if that seat forfeits afterwards. */
   readonly knocker: number | null;
   /** After a knock: the seats still owed their one more turn, in order. Reveal when empty. */
@@ -102,6 +104,7 @@ export function createGame(
     turn: dealer,
     phase: 'lobby',
     round: 0,
+    turnsThisRound: 0,
     knocker: null,
     pendingAfterKnock: null,
     tookFromDiscard: null,
@@ -223,6 +226,7 @@ export function startRound(state: GameState, options: StartRoundOptions = {}): R
     turn: firstTurn,
     phase: 'playing',
     round,
+    turnsThisRound: 0,
     knocker: null,
     pendingAfterKnock: null,
     tookFromDiscard: null,

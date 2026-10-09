@@ -27,6 +27,7 @@ export interface PlayerView {
   readonly seat: number;
   readonly phase: Phase;
   readonly round: number;
+  readonly turnsThisRound: number;
   readonly dealer: number;
   readonly turn: number;
   readonly knocker: number | null;
@@ -56,6 +57,7 @@ export function viewFor(state: GameState, seat: number): PlayerView {
     seat,
     phase: state.phase,
     round: state.round,
+    turnsThisRound: state.turnsThisRound,
     dealer: state.dealer,
     turn: state.turn,
     knocker: state.knocker,

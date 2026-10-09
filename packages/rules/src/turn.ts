@@ -167,7 +167,7 @@ function knock(state: GameState, seat: number): ApplyResult {
 
 /** A turn is complete: hand it on, or reveal once everyone owed a turn after the knock has had it. */
 export function advanceTurn(state: GameState, events: GameEvent[]): ApplyResult {
-  let next = state;
+  let next: GameState = { ...state, turnsThisRound: state.turnsThisRound + 1 };
   if (next.pendingAfterKnock !== null) {
     // The knock itself is not one of the owed turns; a completed turn by anyone else is.
     const justKnocked = events.some((e) => e.type === 'knocked');
