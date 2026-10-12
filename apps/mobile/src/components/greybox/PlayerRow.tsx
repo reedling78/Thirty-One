@@ -1,14 +1,14 @@
 import type { Card } from '@thirtyone/rules';
 import { StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeInUp } from 'react-native-reanimated';
+import { DealerButton, Pill, PlayingMark } from '@/components/ui/Marks';
 import { useSettings } from '@/settings/Settings';
-import { CardText } from './CardText';
-import { DealerButton, Pill } from '@/components/ui/Marks';
-import { ChipBadge } from './ChipBadge';
-import { CardView } from './CardView';
-import { PANEL } from '@/theme/components';
-import { Txt } from '@/theme/text';
+import { CHIP, OUT_OPACITY, PANEL } from '@/theme/components';
+import { Txt, useFontScale } from '@/theme/text';
 import { color, layout } from '@/theme/tokens';
+import { CardText } from './CardText';
+import { CardView } from './CardView';
+import { ChipBadge } from './ChipBadge';
 
 interface Props {
   name: string;
@@ -31,9 +31,19 @@ interface Props {
   delay?: number;
 }
 
+/** Each state is a bar, a fill and a word; the word is the tag, these are the other two. */
+export const ROW_STATE = {
+  none: { fill: color.paper, bar: null },
+  turn: { fill: color.turnFill, bar: color.turnBar },
+  knocker: { fill: color.knockTint, bar: color.knockBar },
+  loser: { fill: color.loserFill, bar: color.loserBar },
+} as const;
+
 /**
  * One player as a row: who, what state, their cards, one figure. Used for
  * opponents on the table and for every seat at the reveal, so the two read alike.
+ * The name block always reserves a name line and two status lines, so a row
+ * never changes height as its status changes.
  */
 export function PlayerRow({
   name,
@@ -49,26 +59,27 @@ export function PlayerRow({
   delay = 0,
 }: Props) {
   const { motionReduced } = useSettings();
+  const scale = useFontScale();
+  const state = ROW_STATE[emphasis];
   const figureLabel =
     figure.kind === 'score'
       ? `score ${figure.total}`
-      : `${Math.max(0, 4 - figure.folds)} of 4 corners left`;
-  const label = `${name}${dealer ? ', dealer' : ''}${badge ? `, ${badge.toLowerCase()}` : ''}: ${tag}. ${figureLabel}`;
+      : figure.out
+        ? 'out of the game'
+        : figure.folds >= 4
+          ? 'on the bus'
+          : `${4 - figure.folds} of 4 corners left`;
+  const label = `${name}${isMe ? ' (you)' : ''}${dealer ? ', dealer' : ''}${badge ? `, ${badge.toLowerCase()}` : ''}: ${tag}. ${figureLabel}`;
+  // The active line and verdicts read in bold ink; a last move in secondary ink.
+  const strong = emphasis === 'turn' || figure.kind === 'score';
   return (
     <View
       accessible
       accessibilityLabel={label}
-      style={[
-        styles.row,
-        emphasis === 'turn' && styles.turn,
-        emphasis === 'knocker' && styles.knocker,
-        emphasis === 'loser' && styles.loser,
-        isMe && styles.me,
-        dimmed && styles.dimmed,
-      ]}
+      style={[styles.row, { backgroundColor: state.fill }, dimmed && styles.dimmed]}
     >
-      {emphasis !== 'none' ? <View style={[styles.bar, BARS[emphasis]]} /> : null}
-      <View style={styles.who}>
+      {state.bar ? <View style={[styles.bar, { backgroundColor: state.bar }]} /> : null}
+      <View style={[styles.who, { minHeight: layout.rowMinHeight * scale }]}>
         <View style={styles.nameRow}>
           <Txt variant="label" color={color.ink}>
             {name}
@@ -76,12 +87,14 @@ export function PlayerRow({
           {dealer ? <DealerButton /> : null}
           {badge ? <Pill>{badge}</Pill> : null}
         </View>
-        <CardText
-          color={emphasis === 'none' ? color.inkSecondary : color.ink}
-          bold={emphasis === 'turn' || emphasis === 'loser'}
-        >
-          {tag}
-        </CardText>
+        <View style={styles.status}>
+          {emphasis === 'turn' ? <PlayingMark /> : null}
+          <View style={styles.statusText}>
+            <CardText color={strong ? color.ink : color.inkSecondary} bold={strong}>
+              {tag}
+            </CardText>
+          </View>
+        </View>
       </View>
       <View style={styles.cards}>
         {typeof cards === 'number'
@@ -103,22 +116,18 @@ export function PlayerRow({
               </Animated.View>
             ))}
       </View>
-      {figure.kind === 'score' ? (
-        <Txt variant="score" color={color.ink} style={styles.figure}>
-          {String(figure.total)}
-        </Txt>
-      ) : (
-        <ChipBadge folds={figure.folds} out={figure.out} size={32} />
-      )}
+      <View style={styles.figure}>
+        {figure.kind === 'score' ? (
+          <Txt variant="score" color={color.ink}>
+            {String(figure.total)}
+          </Txt>
+        ) : (
+          <ChipBadge folds={figure.folds} out={figure.out} size={CHIP.size.row} />
+        )}
+      </View>
     </View>
   );
 }
-
-const BARS = StyleSheet.create({
-  turn: { backgroundColor: color.turnBar },
-  knocker: { backgroundColor: color.knockBar },
-  loser: { backgroundColor: color.loserBar },
-});
 
 const styles = StyleSheet.create({
   row: {
@@ -130,17 +139,14 @@ const styles = StyleSheet.create({
     paddingBottom: PANEL.rowPad.bottom,
     paddingLeft: PANEL.rowPad.left,
     borderRadius: PANEL.rowRadius,
-    backgroundColor: color.paper,
     overflow: 'hidden',
   },
-  turn: { backgroundColor: color.turnFill },
   bar: { position: 'absolute', left: 0, top: 0, bottom: 0, width: layout.stateBarWidth },
-  nameRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  knocker: { backgroundColor: color.knockTint },
-  loser: { backgroundColor: color.loserFill },
-  me: {},
-  dimmed: { opacity: 0.6 },
-  who: { flex: 1, gap: 2 },
+  who: { flex: 1, minWidth: 0, gap: 2 },
+  nameRow: { flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' },
+  status: { flexDirection: 'row', alignItems: 'center' },
+  statusText: { flex: 1 },
   cards: { flexDirection: 'row', gap: PANEL.smallCardGap },
-  figure: { minWidth: PANEL.figureWidth, textAlign: 'right' },
+  figure: { width: PANEL.figureWidth, alignItems: 'flex-end', justifyContent: 'center' },
+  dimmed: { opacity: OUT_OPACITY },
 });

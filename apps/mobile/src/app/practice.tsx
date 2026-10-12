@@ -24,9 +24,15 @@ import { color } from '@/theme/tokens';
 
 export default function PracticeScreen() {
   const router = useRouter();
-  const { guided: guidedParam } = useLocalSearchParams<{ guided?: string }>();
+  const { guided: guidedParam, seats: seatsParam } = useLocalSearchParams<{
+    guided?: string;
+    seats?: string;
+  }>();
   const guided = guidedParam === '1';
-  const { seats } = useDevSettings();
+  const { seats: devSeats } = useDevSettings();
+  // Dev builds also take ?seats=N, so the 2–10 seat layouts can be opened directly.
+  const seats =
+    __DEV__ && seatsParam ? Math.min(10, Math.max(2, Number(seatsParam) || devSeats)) : devSeats;
   const { update } = useSettings();
   const [gameNumber, setGameNumber] = useState(0);
   const [dismissed, setDismissed] = useState<ReadonlySet<GuideStepId>>(() => new Set());

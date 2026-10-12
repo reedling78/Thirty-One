@@ -118,3 +118,12 @@ export const BACK_SWATCH = {
   ring: 2,
   spacing: 18,
 } as const;
+
+/** The player's panel. */
+export const YOUR_PANEL = {
+  /** tokens.type.score is 24; the canvas sets your own score at 26 (see the token's comment). */
+  scoreSize: 26,
+} as const;
+
+/** The ad slot's placeholder captions sit on a fixed-size slot and don't scale. */
+export const AD_CAPTION = 12;
