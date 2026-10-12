@@ -14,7 +14,9 @@ const SOUNDS = {
 
 /**
  * Sounds and haptics for table events, gated by the player's settings.
- * Sound: deal, draw, knock, fold. Haptics: your turn, a knock, a 31.
+ * Sound: deal, draw, knock, fold. Haptics: your turn, a knock, a fold, a 31.
+ * The knock and fold fire with their row callouts: a knock when it happens, a
+ * fold at the reveal, when the penalties are known.
  */
 export function useFeedback(snapshot: TableSnapshot | null) {
   const { settings } = useSettings();
@@ -59,8 +61,11 @@ export function useFeedback(snapshot: TableSnapshot | null) {
         case 'thirtyOne':
           buzz(() => Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success));
           break;
-        case 'folded':
-          play(fold);
+        case 'roundOver':
+          if (e.penalties.length > 0) {
+            play(fold);
+            buzz(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy));
+          }
           break;
         case 'turnChanged':
           if (e.seat === me) buzz(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light));

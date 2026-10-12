@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { AccessibilityInfo, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 import type { TableClient } from '@/game/TableClient';
+import type { Callout } from '@/game/useRowCallouts';
 import { DealerButton, Pill } from '@/components/ui/Marks';
 import { useSettings } from '@/settings/Settings';
 import { SIZE } from '@/theme/cardArt';
@@ -23,6 +24,8 @@ interface Props {
   log: readonly string[];
   /** Each seat's last move this round, from useTable. */
   lastActions: Readonly<Record<number, string>>;
+  /** Stamps over opponents' rows, from useRowCallouts. */
+  callouts?: Readonly<Record<number, Callout>>;
 }
 
 /**
@@ -31,7 +34,7 @@ interface Props {
  * (and scrolls when it must); everything below it has a fixed height, so the
  * piles and your hand sit at the same place in every state and at every seat count.
  */
-export function GreyboxTable({ client, view, lastActions }: Props) {
+export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
   const [error, setError] = useState<string | null>(null);
   const { motionReduced } = useSettings();
   const scale = useFontScale();
@@ -89,6 +92,7 @@ export function GreyboxTable({ client, view, lastActions }: Props) {
             round={view.round}
             order={i}
             lastAction={lastActions[s.index] ?? null}
+            callout={callouts?.[s.index]}
           />
         ))}
       </ScrollView>

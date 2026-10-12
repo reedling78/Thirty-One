@@ -9,6 +9,8 @@ import { color, layout } from '@/theme/tokens';
 import { CardText } from './CardText';
 import { CardView } from './CardView';
 import { ChipBadge } from './ChipBadge';
+import { RowCallout } from './RowCallout';
+import type { Callout } from '@/game/useRowCallouts';
 
 interface Props {
   name: string;
@@ -29,6 +31,8 @@ interface Props {
   dealKey?: string | number;
   /** Stagger offset for this row's cards, in ms. */
   delay?: number;
+  /** A KNOCKED! / FOLDS! / DOUBLE FOLDS! stamp over the name block. */
+  callout?: Callout;
 }
 
 /** Each state is a bar, a fill and a word; the word is the tag, these are the other two. */
@@ -57,6 +61,7 @@ export function PlayerRow({
   dealer,
   dealKey = 0,
   delay = 0,
+  callout,
 }: Props) {
   const { motionReduced } = useSettings();
   const scale = useFontScale();
@@ -80,6 +85,9 @@ export function PlayerRow({
     >
       {state.bar ? <View style={[styles.bar, { backgroundColor: state.bar }]} /> : null}
       <View style={[styles.who, { minHeight: layout.rowMinHeight * scale }]}>
+        {callout ? (
+          <RowCallout key={callout.id} kind={callout.kind} fill={state.fill} bar={state.bar} />
+        ) : null}
         <View style={styles.nameRow}>
           <Txt variant="label" color={color.ink}>
             {name}

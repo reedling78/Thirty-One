@@ -1,4 +1,5 @@
 import type { RoundResult, SeatView as SeatInfo } from '@thirtyone/rules';
+import type { Callout } from '@/game/useRowCallouts';
 import { PlayerRow } from './PlayerRow';
 
 interface Props {
@@ -10,6 +11,8 @@ interface Props {
   order: number;
   /** Their last completed move this round, in words. */
   lastAction: string | null;
+  /** A stamp over the row, when they have just knocked or folded. */
+  callout?: Callout;
 }
 
 /** Every verdict the reveal can give, for a seat and for your own panel. */
@@ -47,7 +50,7 @@ export function revealTag(
 }
 
 /** An opponent on the table: face-down cards and corners during play; cards and score at the reveal. */
-export function SeatView({ seat, result, round, order, lastAction }: Props) {
+export function SeatView({ seat, result, round, order, lastAction, callout }: Props) {
   if (result && seat.revealed) {
     const { tag, loser } = revealTag(seat, result);
     return (
@@ -60,6 +63,7 @@ export function SeatView({ seat, result, round, order, lastAction }: Props) {
         badge={seat.index === result.knocker ? 'KNOCKED' : undefined}
         dealer={seat.isDealer}
         dimmed={seat.out}
+        callout={callout}
       />
     );
   }
@@ -80,6 +84,7 @@ export function SeatView({ seat, result, round, order, lastAction }: Props) {
       badge={seat.isKnocker ? 'KNOCKED' : undefined}
       dealer={seat.isDealer}
       dimmed={seat.out}
+      callout={callout}
       dealKey={round}
       delay={400 + order * 180}
     />

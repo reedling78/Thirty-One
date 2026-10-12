@@ -16,6 +16,7 @@ import {
 } from '@/game/guide';
 import { LocalTableClient } from '@/game/LocalTableClient';
 import { useFeedback } from '@/game/useFeedback';
+import { useRowCallouts } from '@/game/useRowCallouts';
 import { useTable } from '@/game/useTable';
 import { useDevSettings } from '@/settings/DevSettings';
 import { useSettings } from '@/settings/Settings';
@@ -54,6 +55,7 @@ export default function PracticeScreen() {
   );
   const { snapshot, log, eliminated, lastActions } = useTable(client, 7);
   useFeedback(snapshot);
+  const callouts = useRowCallouts(snapshot);
 
   if (!snapshot) {
     return (
@@ -93,7 +95,13 @@ export default function PracticeScreen() {
     <Felt>
       <SafeAreaView style={styles.safe} edges={['bottom']}>
         <Stack.Screen options={{ title }} />
-        <GreyboxTable client={client} view={snapshot.view} log={log} lastActions={lastActions} />
+        <GreyboxTable
+          client={client}
+          view={snapshot.view}
+          log={log}
+          lastActions={lastActions}
+          callouts={callouts}
+        />
         {visibleStep ? (
           <GuideOverlay
             step={visibleStep}
