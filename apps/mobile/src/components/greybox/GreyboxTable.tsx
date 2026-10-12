@@ -134,8 +134,6 @@ export function GreyboxTable({ client, view, log, lastActions }: Props) {
         </View>
         <View style={styles.hand}>
           {view.hand.map((c, i) => {
-            const untouchable =
-              !!view.tookFromDiscard && cardId(view.tookFromDiscard) === cardId(c);
             // At the reveal, only the cards that count stay bright — a 31 drawn into a
             // four-card hand leaves one card out.
             const counted = me.revealed?.hand;
@@ -151,9 +149,9 @@ export function GreyboxTable({ client, view, log, lastActions }: Props) {
               >
                 <CardView
                   card={c}
-                  onPress={canDiscard && !untouchable ? () => discard(c) : undefined}
+                  onPress={canDiscard ? () => discard(c) : undefined}
                   dimmed={notCounted}
-                  label={`${cardName(c)}${notCounted ? ', not part of the hand' : ''}${canDiscard ? (untouchable ? ', just taken, cannot discard' : '. Tap to discard') : ''}`}
+                  label={`${cardName(c)}${notCounted ? ', not part of the hand' : ''}${canDiscard ? '. Tap to discard' : ''}`}
                 />
               </Animated.View>
             );

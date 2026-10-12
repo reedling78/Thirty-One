@@ -68,8 +68,6 @@ export interface GameState {
   readonly knocker: number | null;
   /** After a knock: the seats still owed their one more turn, in order. Reveal when empty. */
   readonly pendingAfterKnock: readonly number[] | null;
-  /** The card the current player took from the discard pile this turn, if any. It cannot be thrown straight back. */
-  readonly tookFromDiscard: Card | null;
   readonly rng: RngState;
   readonly roundResult: RoundResult | null;
   /** Set when the game is over: the winning seat, or null if it ended with no winner. */
@@ -115,7 +113,6 @@ export function createGame(
     turnsThisRound: 0,
     knocker: null,
     pendingAfterKnock: null,
-    tookFromDiscard: null,
     rng,
     roundResult: null,
     winner: null,
@@ -259,7 +256,6 @@ export function startRound(state: GameState, options: StartRoundOptions = {}): R
     turnsThisRound: 0,
     knocker: null,
     pendingAfterKnock: null,
-    tookFromDiscard: null,
     rng,
     roundResult: null,
   };

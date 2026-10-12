@@ -191,20 +191,15 @@ describe('apply — turn order and legality', () => {
     if (r.ok) expect(r.events.map((e) => e.type)).toEqual(['discarded', 'turnChanged']);
   });
 
-  it('taking the discard and throwing the same card straight back is not allowed', () => {
+  it('any of the four cards may be discarded, including the one just taken from the discard pile', () => {
     const g = playing(3, 1, 0);
     const top = g.discardPile[0]!;
     const s = must(apply(g, 1, { type: 'draw', source: 'discard' }));
     expect(s.discardPile).toHaveLength(0);
-    expect(s.tookFromDiscard).toEqual(top);
-    expect(apply(s, 1, { type: 'discard', card: top })).toMatchObject({
-      ok: false,
-      error: { code: 'cannotThrowBackDrawnDiscard' },
-    });
-    const other = s.seats[1]!.hand.find((c) => cardId(c) !== cardId(top))!;
-    const t = must(apply(s, 1, { type: 'discard', card: other }));
-    expect(t.tookFromDiscard).toBeNull();
-    // The card taken from the discard may be thrown on a later turn.
+    const t = must(apply(s, 1, { type: 'discard', card: top }));
+    expect(cardId(t.discardPile.at(-1)!)).toBe(cardId(top));
+    expect(t.seats[1]!.hand).toHaveLength(3);
+    expect(t.turn).toBe(2);
   });
 
   it('drawing from an empty discard pile is a typed error', () => {
@@ -386,7 +381,7 @@ describe('apply — properties under random legal play', () => {
             if (legal.includes('discard')) {
               r = apply(g, seat, {
                 type: 'discard',
-                card: pickDiscard(g.seats[seat]!.hand, g.tookFromDiscard),
+                card: pickDiscard(g.seats[seat]!.hand),
               });
             } else if (legal.includes('knock') && pick < knockChance) {
               r = apply(g, seat, { type: 'knock' });

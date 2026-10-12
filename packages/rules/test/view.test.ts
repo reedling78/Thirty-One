@@ -57,17 +57,14 @@ describe('viewFor', () => {
     expect(viewFor(g, 0).legalActions).toEqual(['draw', 'knock']);
   });
 
-  it('a four-card hand shows the best-three value and the untouchable discard', () => {
-    const top = g.discardPile[0]!;
+  it('a four-card hand shows the best-three value', () => {
     const s = must(apply(g, 0, { type: 'draw', source: 'discard' }));
     const mine = viewFor(s, 0);
     expect(mine.hand).toHaveLength(4);
     expect(mine.handScore?.total).toBe(29);
-    expect(mine.tookFromDiscard).toEqual(top);
     expect(mine.legalActions).toEqual(['discard']);
     const theirs = viewFor(s, 1);
     expect(theirs.seats[0]!.cardCount).toBe(4);
-    expect(theirs.tookFromDiscard).toBeNull();
     expect(theirs.discardTop).toBeNull();
   });
 
@@ -152,7 +149,7 @@ describe('hidden hands — properties', () => {
           if (legal.includes('discard')) {
             r = apply(g, seat, {
               type: 'discard',
-              card: pickDiscard(g.seats[seat]!.hand, g.tookFromDiscard),
+              card: pickDiscard(g.seats[seat]!.hand),
             });
           } else if (legal.includes('knock') && step.value < 5) {
             r = apply(g, seat, { type: 'knock' });

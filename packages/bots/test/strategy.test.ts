@@ -42,16 +42,11 @@ function viewWith(hand: string, overrides: Partial<PlayerView> = {}): PlayerView
 }
 
 describe('bestDiscard', () => {
-  it('throws the card whose loss costs least', () => {
-    expect(cardId(bestDiscard(parseCards('Kh Qh 2c 9h'), null))).toBe('2c');
-    expect(cardId(bestDiscard(parseCards('Kh Qh 2c 3c'), null))).toMatch(/^[23]c$/);
-  });
-
-  it('never throws back the card just taken from the discard pile, even when it is the worst', () => {
-    const took = parseCard('2c');
-    const choice = bestDiscard(parseCards('Kh Qh 9h 2c'), took);
-    expect(cardId(choice)).not.toBe('2c');
-    expect(cardId(choice)).toBe('9h');
+  it('throws the card whose loss costs least, whichever pile it came from', () => {
+    expect(cardId(bestDiscard(parseCards('Kh Qh 2c 9h')))).toBe('2c');
+    expect(cardId(bestDiscard(parseCards('Kh Qh 2c 3c')))).toMatch(/^[23]c$/);
+    // A card just taken from the discard pile goes straight back if it turned out useless.
+    expect(cardId(bestDiscard(parseCards('Kh Qh 9h 2c')))).toBe('2c');
   });
 });
 

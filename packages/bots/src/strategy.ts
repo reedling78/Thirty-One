@@ -71,11 +71,10 @@ export function knockThreshold(p: Personality, playersIn: number, turnsThisRound
   return Math.min(p.maxThreshold, Math.max(0, t));
 }
 
-/** The discard that leaves the best three-card hand. Never the card just taken from the discard pile. */
-export function bestDiscard(hand: readonly Card[], untouchable: Card | null): Card {
+/** The discard that leaves the best three-card hand. */
+export function bestDiscard(hand: readonly Card[]): Card {
   let best: { card: Card; total: number } | null = null;
   for (const candidate of hand) {
-    if (untouchable && cardId(candidate) === cardId(untouchable)) continue;
     const rest = hand.filter((c) => cardId(c) !== cardId(candidate));
     const total =
       rest.length === 3 ? scoreHand(rest as unknown as Hand).total : (bestScore(rest)?.total ?? 0);
@@ -114,7 +113,7 @@ export function makeBot(p: Personality): Bot {
 
       if (legal.includes('discard')) {
         return {
-          action: { type: 'discard', card: bestDiscard(view.hand, view.tookFromDiscard) },
+          action: { type: 'discard', card: bestDiscard(view.hand) },
           rng: r,
         };
       }
@@ -136,10 +135,7 @@ function randomAction(view: PlayerView, rng: RngState): Action {
   const legal = view.legalActions;
   const pick = nextRandom(rng).value;
   if (legal.includes('discard')) {
-    const options = view.hand.filter(
-      (c) => !view.tookFromDiscard || cardId(c) !== cardId(view.tookFromDiscard),
-    );
-    return { type: 'discard', card: options[Math.floor(pick * options.length)]! };
+    return { type: 'discard', card: view.hand[Math.floor(pick * view.hand.length)]! };
   }
   const choices: Action[] = [{ type: 'draw', source: 'deck' }];
   if (view.discardTop) choices.push({ type: 'draw', source: 'discard' });

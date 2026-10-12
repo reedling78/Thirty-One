@@ -1,4 +1,4 @@
-import { sameCard, type Card } from './cards';
+import type { Card } from './cards';
 import { shuffle } from './rng';
 import { findThirtyOne, isCompleteHand } from './scoring';
 import {
@@ -22,7 +22,6 @@ export type ActionErrorCode =
   | 'mustDrawFirst'
   | 'mustDiscardFirst'
   | 'cardNotInHand'
-  | 'cannotThrowBackDrawnDiscard'
   | 'knockNotAllowedAfterDraw'
   | 'knockNeedsCompleteHand'
   | 'someoneAlreadyKnocked'
@@ -81,13 +80,11 @@ function draw(state: GameState, seat: number, source: DrawSource): ApplyResult {
   let rng = state.rng;
   const events: GameEvent[] = [];
   let card: Card;
-  let tookFromDiscard: Card | null = null;
 
   if (source === 'discard') {
     const top = discardPile[discardPile.length - 1];
     if (!top) return fail('noCardsToDraw', 'The discard pile is empty');
     card = top;
-    tookFromDiscard = top;
     discardPile = discardPile.slice(0, -1);
   } else {
     if (drawPile.length === 0) {
@@ -107,7 +104,7 @@ function draw(state: GameState, seat: number, source: DrawSource): ApplyResult {
 
   const hand = [...player.hand, card];
   const seats = state.seats.map((s, i) => (i === seat ? { ...s, hand } : s));
-  let next: GameState = { ...state, seats, drawPile, discardPile, rng, tookFromDiscard };
+  let next: GameState = { ...state, seats, drawPile, discardPile, rng };
   events.push({ type: 'drew', seat, source, card });
 
   // 31 counts the moment any three cards in hand make it, four-card hand included.
@@ -128,12 +125,6 @@ function discard(state: GameState, seat: number, card: Card): ApplyResult {
     return fail('mustDrawFirst', 'Draw a card before discarding');
   if (!handContains(player.hand, card))
     return fail('cardNotInHand', 'That card is not in your hand');
-  if (state.tookFromDiscard && sameCard(state.tookFromDiscard, card)) {
-    return fail(
-      'cannotThrowBackDrawnDiscard',
-      'You cannot discard the card you just took from the discard pile',
-    );
-  }
 
   const seats = state.seats.map((s, i) =>
     i === seat ? { ...s, hand: removeCard(s.hand, card) } : s,
@@ -143,7 +134,6 @@ function discard(state: GameState, seat: number, card: Card): ApplyResult {
     ...state,
     seats,
     discardPile: [...state.discardPile, card],
-    tookFromDiscard: null,
   };
 
   return advanceTurn(next, events);

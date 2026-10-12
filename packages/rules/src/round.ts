@@ -90,7 +90,6 @@ export function forfeit(state: GameState, seat: number): Transition {
     seats,
     drawPile: [...player.hand, ...state.drawPile],
     pendingAfterKnock: state.pendingAfterKnock?.filter((s) => s !== seat) ?? null,
-    tookFromDiscard: state.turn === seat ? null : state.tookFromDiscard,
   };
 
   const remaining = activeSeatIndices(next);

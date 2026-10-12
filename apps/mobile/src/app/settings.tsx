@@ -1,4 +1,7 @@
+import { setAudioModeAsync, useAudioPlayer } from 'expo-audio';
+import * as Haptics from 'expo-haptics';
 import { Link } from 'expo-router';
+import { useEffect } from 'react';
 import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 import { PRACTICE_SEATS, useDevSettings } from '@/settings/DevSettings';
 import { useSettings } from '@/settings/Settings';
@@ -6,6 +9,19 @@ import { useSettings } from '@/settings/Settings';
 export default function SettingsScreen() {
   const { settings, update, motionReduced } = useSettings();
   const { seats, setSeats } = useDevSettings();
+  const knock = useAudioPlayer(require('../../assets/sounds/knock.wav'));
+  useEffect(() => {
+    setAudioModeAsync({ playsInSilentMode: true }).catch(() => {});
+  }, []);
+  const test = () => {
+    try {
+      knock.seekTo(0);
+      knock.play();
+    } catch {
+      // not loaded yet
+    }
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning).catch(() => {});
+  };
 
   return (
     <View style={styles.root}>
@@ -31,6 +47,14 @@ export default function SettingsScreen() {
         value={settings.reduceMotion}
         onChange={(reduceMotion) => update({ reduceMotion })}
       />
+
+      <Pressable accessibilityRole="button" onPress={test} style={styles.button}>
+        <Text style={styles.buttonText}>Test sound and haptics</Text>
+      </Pressable>
+      <Text style={styles.hint}>
+        Sound plays through the silent switch. Haptics need “System Haptics” on in your phone’s
+        Sounds & Haptics settings.
+      </Text>
 
       <View style={styles.section}>
         <Text style={styles.h}>Learning</Text>

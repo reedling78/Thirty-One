@@ -1,5 +1,5 @@
 import type { GameEvent } from '@thirtyone/rules';
-import { useAudioPlayer } from 'expo-audio';
+import { setAudioModeAsync, useAudioPlayer, type AudioPlayer } from 'expo-audio';
 import * as Haptics from 'expo-haptics';
 import { useEffect } from 'react';
 import { useSettings } from '@/settings/Settings';
@@ -18,6 +18,12 @@ const SOUNDS = {
  */
 export function useFeedback(snapshot: TableSnapshot | null) {
   const { settings } = useSettings();
+
+  // Games play through the silent switch; without this, iOS mutes every effect when the ringer is off.
+  useEffect(() => {
+    setAudioModeAsync({ playsInSilentMode: true }).catch(() => {});
+  }, []);
+
   const deal = useAudioPlayer(SOUNDS.deal);
   const draw = useAudioPlayer(SOUNDS.draw);
   const knock = useAudioPlayer(SOUNDS.knock);
@@ -26,10 +32,14 @@ export function useFeedback(snapshot: TableSnapshot | null) {
   useEffect(() => {
     if (!snapshot || snapshot.events.length === 0) return;
     const me = snapshot.view.seat;
-    const play = (p: typeof deal) => {
+    const play = (p: AudioPlayer) => {
       if (!settings.sound) return;
-      p.seekTo(0);
-      p.play();
+      try {
+        p.seekTo(0);
+        p.play();
+      } catch {
+        // A player that has not finished loading throws; the next event will play.
+      }
     };
     const buzz = (fn: () => Promise<void>) => {
       if (settings.haptics) fn().catch(() => {});

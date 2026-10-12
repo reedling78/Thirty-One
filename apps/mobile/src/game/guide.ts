@@ -55,7 +55,7 @@ export function guideStepFor(view: PlayerView): GuideStep | null {
       };
     }
     if (mine && view.hand.length === 4) {
-      const throwAway = bestDiscard(view.hand, view.tookFromDiscard);
+      const throwAway = bestDiscard(view.hand);
       return {
         id: 'discard',
         title: 'Four cards — throw one',

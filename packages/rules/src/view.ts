@@ -36,8 +36,6 @@ export interface PlayerView {
   readonly hand: readonly Card[];
   /** What the hand is worth now: best three of whatever is held. Null before the deal. */
   readonly handScore: HandScore | null;
-  /** The card taken from the discard this turn, which cannot be thrown straight back. */
-  readonly tookFromDiscard: Card | null;
   readonly discardTop: Card | null;
   readonly drawPileCount: number;
   readonly discardPileCount: number;
@@ -64,7 +62,6 @@ export function viewFor(state: GameState, seat: number): PlayerView {
     pendingAfterKnock: state.pendingAfterKnock,
     hand: me.hand,
     handScore: me.hand.length >= 3 ? bestScore(me.hand) : null,
-    tookFromDiscard: state.turn === seat ? state.tookFromDiscard : null,
     discardTop: state.discardPile[state.discardPile.length - 1] ?? null,
     drawPileCount: state.drawPile.length,
     discardPileCount: state.discardPile.length,

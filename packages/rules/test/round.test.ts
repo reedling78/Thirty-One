@@ -196,7 +196,6 @@ describe('forfeit', () => {
     const s = must(apply(g, 0, { type: 'draw', source: 'discard' }));
     const { state } = forfeit(s, 0);
     expect(state.turn).toBe(1);
-    expect(state.tookFromDiscard).toBeNull();
     expect(state.discardPile).toHaveLength(0);
     expect(allCards(state)).toHaveLength(52);
   });
@@ -301,7 +300,7 @@ describe('whole games under random legal play', () => {
             if (legal.includes('discard')) {
               r = apply(g, seat, {
                 type: 'discard',
-                card: pickDiscard(g.seats[seat]!.hand, g.tookFromDiscard),
+                card: pickDiscard(g.seats[seat]!.hand),
               });
             } else if (legal.includes('knock') && pick < knockChance) {
               r = apply(g, seat, { type: 'knock' });
@@ -345,7 +344,7 @@ describe('whole games under random legal play', () => {
         const r = legal.includes('discard')
           ? apply(g, seat, {
               type: 'discard',
-              card: pickDiscard(g.seats[seat]!.hand, g.tookFromDiscard),
+              card: pickDiscard(g.seats[seat]!.hand),
             })
           : step.value < 10 && legal.includes('knock')
             ? apply(g, seat, { type: 'knock' })

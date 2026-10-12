@@ -55,9 +55,8 @@ export default function RulesScreen() {
 
       <Section title="Your turn">
         Draw one card — the face-down top of the deck, or the face-up top of the discard pile — then
-        discard one face up. You can’t throw back the card you just took from the discard pile.
-        Everything on the table is information: what someone throws, and whether they take from the
-        discard, tells you what they’re chasing.
+        discard one face up. Everything on the table is information: what someone throws, and
+        whether they take from the discard, tells you what they’re chasing.
       </Section>
 
       <Section title="Knocking">
