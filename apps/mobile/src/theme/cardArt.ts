@@ -4,8 +4,8 @@
  *
  * Three sizes:
  *   small  34×48  — opponent rows, rules examples (index + one centre pip)
- *   normal 64×92  — your hand                    (full pip layout / court figure)
- *   large  88×126 — the piles                    (full pip layout / court figure)
+ *   normal 64×92  — your hand                    (full pip layout; A/J/Q/K one big pip)
+ *   large  88×126 — the piles                    (full pip layout; A/J/Q/K one big pip)
  */
 
 import { color } from './tokens';
@@ -65,13 +65,12 @@ export const SIZE = {
     h: 92,
     radius: 6,
     border: '#2A271F',
-    index: { font: 13, pip: 9, inset: 5 },
-    pip: 11,
-    cols: { L: 22, C: 32, R: 42 },
-    y0: 20,
-    y1: 72,
-    ace: { size: 30, x: 17, y: 31 },
-    court: { x: 17, y: 17, w: 30, h: 58, stroke: 1.2, cornerPip: 7 },
+    index: { font: 14, pip: 11, inset: 4 },
+    pip: 14,
+    cols: { L: 23, C: 32, R: 41 },
+    y0: 18,
+    y1: 74,
+    bigPip: { size: 38, x: 12, y: 26 }, // A, J, Q, K
   },
   large: {
     w: 88,
@@ -83,8 +82,7 @@ export const SIZE = {
     cols: { L: 31, C: 44, R: 57 },
     y0: 26,
     y1: 100,
-    ace: { size: 44, x: 22, y: 41 },
-    court: { x: 24, y: 24, w: 40, h: 78, stroke: 1, cornerPip: 9 },
+    bigPip: { size: 44, x: 22, y: 41 }, // A, J, Q, K
   },
 } as const;
 
@@ -176,60 +174,6 @@ export function pipPositions(rank: Rank, size: 'normal' | 'large') {
     y: s.y0 + f * (s.y1 - s.y0) - s.pip / 2,
     rotate: flip ? 180 : 0,
   }));
-}
-
-/**
- * Court figures: a bust drawn in a 40×40 box, rendered twice inside a 40×80 frame —
- * once as-is, once rotated 180° about (20,40) — with a hairline across y=40.
- * Each element: { d, fill, stroke }. Stroke width 1 (large) / 1.2 (normal), round joins.
- */
-export function courtFigure(rank: 'J' | 'Q' | 'K', suitColor: string) {
-  const INK = color.ink,
-    GOLD = color.gold,
-    CREAM = color.cardFace;
-  const robe = { d: 'M6 40 L10 28 Q20 23 30 28 L34 40 Z', fill: suitColor, stroke: INK };
-  const collar = {
-    d: 'M14 29 Q20 33 26 29 L24.5 32.5 Q20 35.5 15.5 32.5 Z',
-    fill: CREAM,
-    stroke: INK,
-  };
-  const head = {
-    d: 'M13.5 19 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0 Z',
-    fill: CREAM,
-    stroke: INK,
-  };
-  if (rank === 'K')
-    return [
-      robe,
-      collar,
-      head,
-      { d: 'M14 21 Q20 31 26 21 Q20 25.5 14 21 Z', fill: INK, stroke: INK }, // beard
-      { d: 'M12 13 L13 5 L17 10 L20 3 L23 10 L27 5 L28 13 Z', fill: GOLD, stroke: INK },
-    ]; // crown
-  if (rank === 'Q')
-    return [
-      robe,
-      collar,
-      head,
-      {
-        d: 'M13 19 Q12.5 9 20 9 Q27.5 9 27 19 Q25 13 20 13 Q15 13 13 19 Z',
-        fill: INK,
-        stroke: INK,
-      }, // hair
-      { d: 'M14 11 L17 6 L20 8.5 L23 6 L26 11 Z', fill: GOLD, stroke: INK }, // tiara
-      {
-        d: 'M19 7.5 a1.2 1.2 0 1 0 2.4 0 a1.2 1.2 0 1 0 -2.4 0 Z',
-        fill: suitColor,
-        stroke: suitColor,
-      },
-    ]; // jewel
-  return [
-    robe,
-    collar,
-    head,
-    { d: 'M12 14 Q20 5 28 14 Z', fill: suitColor, stroke: INK }, // cap
-    { d: 'M26 11 Q31 2 36 5 Q31 7 28 13 Z', fill: GOLD, stroke: INK },
-  ]; // feather
 }
 
 /**

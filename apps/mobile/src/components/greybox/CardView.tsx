@@ -1,14 +1,13 @@
 import type { Card } from '@thirtyone/rules';
 import { createContext, memo, useContext } from 'react';
 import { ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native';
-import Svg, { G, Path } from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
 import { useSettings } from '@/settings/Settings';
 import {
   BACK,
   SIZE,
   SUIT,
   cardLabel,
-  courtFigure,
   pipPositions,
   type CardSize,
   type Rank,
@@ -71,8 +70,9 @@ interface Props {
 
 /**
  * A playing card at one of three fixed sizes (cards never text-scale). Face:
- * mirrored indices, traditional pip layouts, one big ace pip, or a double-headed
- * court figure; the small size is a flat icon card. Back: white stock and a
+ * mirrored indices and traditional pip layouts for 2–10, one big centre pip for
+ * A, J, Q and K (the index letter tells them apart); the small size is a flat
+ * icon card. Back: white stock and a
  * lattice panel in the player's colourway.
  */
 export function CardView({
@@ -220,7 +220,7 @@ const Face = memo(function Face({
   }
 
   const s = SIZE[size];
-  const court = rank === 'J' || rank === 'Q' || rank === 'K';
+  const bigPip = rank === 'A' || rank === 'J' || rank === 'Q' || rank === 'K';
   const index = (
     <View style={[styles.index, { gap: CARD.indexGap[size] }]}>
       <Text
@@ -239,19 +239,15 @@ const Face = memo(function Face({
 
   return (
     <View style={[styles.stock, { borderRadius: s.radius, borderColor: s.border }]}>
-      {!court ? (
-        <Svg width={inner.w} height={inner.h} style={styles.art}>
-          {rank === 'A' ? (
-            <Pip d={pip} fill={ink} x={s.ace.x} y={s.ace.y} px={s.ace.size} />
-          ) : (
-            pipPositions(rank, size).map((p, i) => (
-              <Pip key={i} d={pip} fill={ink} x={p.x} y={p.y} px={s.pip} flip={p.rotate === 180} />
-            ))
-          )}
-        </Svg>
-      ) : (
-        <Court rank={rank} pip={pip} ink={ink} size={size} tone={tone} />
-      )}
+      <Svg width={inner.w} height={inner.h} style={styles.art}>
+        {bigPip ? (
+          <Pip d={pip} fill={ink} x={s.bigPip.x} y={s.bigPip.y} px={s.bigPip.size} />
+        ) : (
+          pipPositions(rank, size).map((p, i) => (
+            <Pip key={i} d={pip} fill={ink} x={p.x} y={p.y} px={s.pip} flip={p.rotate === 180} />
+          ))
+        )}
+      </Svg>
       <View style={[styles.corner, { top: s.index.inset, left: s.index.inset }]}>{index}</View>
       <View style={[styles.corner, styles.flip, { bottom: s.index.inset, right: s.index.inset }]}>
         {index}
@@ -259,80 +255,6 @@ const Face = memo(function Face({
     </View>
   );
 });
-
-function Court({
-  rank,
-  pip,
-  ink,
-  size,
-  tone,
-}: {
-  rank: 'J' | 'Q' | 'K';
-  pip: string;
-  ink: string;
-  size: 'normal' | 'large';
-  tone: (hex: string) => string;
-}) {
-  const c = SIZE[size].court;
-  const out = CARD.courtOutline[size];
-  const inset = CARD.courtPipInset[size];
-  // courtFigure takes the suit colour; tone() maps every fill for the greyscale sheet.
-  const parts = courtFigure(rank, ink).map((e) => ({
-    d: e.d,
-    fill: tone(e.fill),
-    stroke: tone(e.stroke),
-  }));
-  const figure = parts.map((e, i) => (
-    <Path
-      key={i}
-      d={e.d}
-      fill={e.fill}
-      stroke={e.stroke}
-      strokeWidth={c.stroke}
-      strokeLinejoin="round"
-    />
-  ));
-  return (
-    <>
-      <View
-        style={[
-          styles.frame,
-          {
-            left: c.x - out - 1,
-            top: c.y - out - 1,
-            width: c.w + 2 * (out + 1),
-            height: c.h + 2 * (out + 1),
-            borderColor: ink,
-          },
-        ]}
-      />
-      <View
-        style={[
-          styles.frame,
-          styles.frameInner,
-          { left: c.x, top: c.y, width: c.w, height: c.h, borderColor: ink },
-        ]}
-      >
-        <Svg width={c.w - 2} height={c.h - 2} viewBox="0 0 40 80">
-          <G>{figure}</G>
-          <G transform="rotate(180 20 40)">{figure}</G>
-          <Path d="M3 40 H37" stroke={ink} strokeWidth={CARD.courtHairline[size]} />
-        </Svg>
-        <Svg width={c.w - 2} height={c.h - 2} style={StyleSheet.absoluteFill}>
-          <Pip d={pip} fill={ink} x={inset} y={inset} px={c.cornerPip} />
-          <Pip
-            d={pip}
-            fill={ink}
-            x={c.w - 2 - inset - c.cornerPip}
-            y={c.h - 2 - inset - c.cornerPip}
-            px={c.cornerPip}
-            flip
-          />
-        </Svg>
-      </View>
-    </>
-  );
-}
 
 const styles = StyleSheet.create({
   card: { backgroundColor: color.cardFace },
@@ -356,8 +278,6 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   flip: { transform: [{ rotate: '180deg' }] },
-  frame: { position: 'absolute', borderWidth: 1 },
-  frameInner: { alignItems: 'center', justifyContent: 'center' },
   disabled: { opacity: 0.4 },
   pressed: { opacity: 0.7 },
 });

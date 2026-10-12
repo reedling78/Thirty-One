@@ -100,12 +100,6 @@ export const OUT_OPACITY = 0.6;
 export const CARD = {
   /** Gap between the index rank and its pip. */
   indexGap: { normal: 1, large: 2 },
-  /** The court frame's outer rule sits this far outside the inner one. */
-  courtOutline: { normal: 1.5, large: 2 },
-  /** Corner pips inside the court frame. */
-  courtPipInset: { normal: 2, large: 3 },
-  /** Hairline across the middle of a court figure. */
-  courtHairline: { normal: 1, large: 0.8 },
   smallRankLetterSpacing: -0.33,
 } as const;
 
