@@ -35,16 +35,14 @@ export function SeatView({ seat, result, round, order, lastAction }: Props) {
         cards={seat.revealed.hand}
         figure={{ kind: 'score', total: seat.revealed.score.total }}
         emphasis={loser ? 'loser' : seat.index === result.knocker ? 'knocker' : 'none'}
+        badge={seat.index === result.knocker ? 'KNOCKED' : undefined}
+        dealer={seat.isDealer}
         dimmed={seat.out}
       />
     );
   }
 
-  const tag = seat.out
-    ? 'out'
-    : seat.isTurn
-      ? 'playing now'
-      : (lastAction ?? (seat.isDealer ? 'dealer · waiting' : 'waiting'));
+  const tag = seat.out ? 'out' : seat.isTurn ? '▶ Playing now' : (lastAction ?? 'waiting');
   return (
     <PlayerRow
       name={seat.id}
@@ -52,6 +50,8 @@ export function SeatView({ seat, result, round, order, lastAction }: Props) {
       cards={seat.cardCount}
       figure={{ kind: 'chip', folds: seat.folds, out: seat.out }}
       emphasis={seat.isTurn ? 'turn' : seat.isKnocker ? 'knocker' : 'none'}
+      badge={seat.isKnocker ? 'KNOCKED' : undefined}
+      dealer={seat.isDealer}
       dimmed={seat.out}
       dealKey={round}
       delay={400 + order * 180}

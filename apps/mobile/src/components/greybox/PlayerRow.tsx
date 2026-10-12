@@ -17,6 +17,10 @@ interface Props {
   emphasis?: 'none' | 'turn' | 'knocker' | 'loser';
   isMe?: boolean;
   dimmed?: boolean;
+  /** A pill after the name, e.g. KNOCKED. */
+  badge?: string;
+  /** Show the dealer button. */
+  dealer?: boolean;
   /** Changes on every deal, so the cards animate in again. */
   dealKey?: string | number;
   /** Stagger offset for this row's cards, in ms. */
@@ -35,6 +39,8 @@ export function PlayerRow({
   emphasis = 'none',
   isMe,
   dimmed,
+  badge,
+  dealer,
   dealKey = 0,
   delay = 0,
 }: Props) {
@@ -43,7 +49,7 @@ export function PlayerRow({
     figure.kind === 'score'
       ? `score ${figure.total}`
       : `${Math.max(0, 4 - figure.folds)} of 4 corners left`;
-  const label = `${name}: ${tag}. ${figureLabel}`;
+  const label = `${name}${dealer ? ', dealer' : ''}${badge ? `, ${badge.toLowerCase()}` : ''}: ${tag}. ${figureLabel}`;
   return (
     <View
       accessible
@@ -57,9 +63,22 @@ export function PlayerRow({
         dimmed && styles.dimmed,
       ]}
     >
+      {emphasis === 'turn' ? <View style={styles.turnBar} /> : null}
       <View style={styles.who}>
-        <Text style={styles.name}>{name}</Text>
-        <CardText style={styles.tag}>{tag}</CardText>
+        <View style={styles.nameRow}>
+          <Text style={styles.name}>{name}</Text>
+          {dealer ? (
+            <View style={styles.dealerButton} accessibilityLabel="Dealer">
+              <Text style={styles.dealerText}>D</Text>
+            </View>
+          ) : null}
+          {badge ? (
+            <View style={styles.badge}>
+              <Text style={styles.badgeText}>{badge}</Text>
+            </View>
+          ) : null}
+        </View>
+        <CardText style={[styles.tag, emphasis === 'turn' && styles.tagTurn]}>{tag}</CardText>
       </View>
       <View style={styles.cards}>
         {typeof cards === 'number'
@@ -101,7 +120,29 @@ const styles = StyleSheet.create({
     borderColor: '#bbb',
     borderRadius: 8,
   },
-  turn: { borderColor: '#000' },
+  turn: { borderColor: '#000', backgroundColor: '#eef2ff' },
+  turnBar: {
+    width: 6,
+    alignSelf: 'stretch',
+    backgroundColor: '#000',
+    borderRadius: 3,
+    marginLeft: -4,
+  },
+  nameRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  dealerButton: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#111',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dealerText: { fontSize: 11, fontWeight: '900', color: '#111' },
+  badge: { backgroundColor: '#000', borderRadius: 4, paddingHorizontal: 6, paddingVertical: 2 },
+  badgeText: { color: '#fff', fontWeight: '900', fontSize: 11, letterSpacing: 1 },
+  tagTurn: { fontWeight: '700', color: '#000' },
   knocker: { backgroundColor: '#fff3c4' },
   loser: { borderColor: '#b00020', backgroundColor: '#fde8e8' },
   me: { borderStyle: 'dashed' },

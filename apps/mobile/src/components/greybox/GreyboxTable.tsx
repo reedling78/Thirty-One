@@ -110,7 +110,18 @@ export function GreyboxTable({ client, view, log, lastActions }: Props) {
       >
         <View style={styles.meHeader}>
           <View style={styles.meTitle}>
-            <Text style={styles.name}>You{me.isKnocker ? ' · knocked' : ''}</Text>
+            {me.isTurn ? <View style={styles.meTurnBar} /> : null}
+            <Text style={styles.name}>You</Text>
+            {me.isDealer ? (
+              <View style={styles.dealerButton} accessibilityLabel="Dealer">
+                <Text style={styles.dealerText}>D</Text>
+              </View>
+            ) : null}
+            {me.isKnocker ? (
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>KNOCKED</Text>
+              </View>
+            ) : null}
             {myVerdict ? (
               <Text style={[styles.verdict, myVerdict.loser && styles.verdictLoser]}>
                 {myVerdict.tag}
@@ -194,14 +205,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   me: { borderWidth: 2, borderColor: '#bbb', borderRadius: 8, padding: 10, gap: 8 },
-  meTurn: { borderColor: '#000' },
+  meTurn: { borderColor: '#000', backgroundColor: '#eef2ff' },
+  meTurnBar: { width: 6, height: 22, backgroundColor: '#000', borderRadius: 3 },
+  badge: { backgroundColor: '#000', borderRadius: 4, paddingHorizontal: 6, paddingVertical: 2 },
+  dealerButton: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#111',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dealerText: { fontSize: 11, fontWeight: '900', color: '#111' },
+  badgeText: { color: '#fff', fontWeight: '900', fontSize: 11, letterSpacing: 1 },
   meKnocker: { backgroundColor: '#fff3c4' },
   meLoser: { borderColor: '#b00020', backgroundColor: '#fde8e8' },
   myScore: { fontSize: 24, fontWeight: '800', minWidth: 40, textAlign: 'right' },
   verdict: { fontSize: 14, color: '#333' },
   verdictLoser: { fontWeight: '800', color: '#b00020' },
   meHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  meTitle: { flexDirection: 'row', alignItems: 'baseline', gap: 10, flex: 1, flexWrap: 'wrap' },
+  meTitle: { flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1, flexWrap: 'wrap' },
   name: { fontWeight: '700', fontSize: 16 },
   hand: { flexDirection: 'row', gap: 10, flexWrap: 'wrap' },
   value: { fontSize: 16 },
