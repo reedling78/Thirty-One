@@ -4,3 +4,4 @@ coverage
 dist
 .expo
 apps/mobile/assets
+apps/mobile/expo-env.d.ts

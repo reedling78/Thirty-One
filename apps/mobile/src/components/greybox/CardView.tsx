@@ -1,5 +1,7 @@
 import { cardLabel, type Card } from '@thirtyone/rules';
 import { Pressable, StyleSheet, Text } from 'react-native';
+import { SIZE } from '@/theme/cardArt';
+import { color, radius, type as typeTokens } from '@/theme/tokens';
 
 const RANK_NAMES: Record<Card['rank'], string> = {
   A: 'Ace',
@@ -71,8 +73,7 @@ export function CardView({
     >
       <Text
         style={[styles.text, TEXT_SIZES[size], !faceDown && card && isRed(card.suit) && styles.red]}
-        allowFontScaling
-        maxFontSizeMultiplier={2}
+        allowFontScaling={false}
       >
         {text}
       </Text>
@@ -80,31 +81,37 @@ export function CardView({
   );
 }
 
+// Cards never text-scale.
 const SIZES = StyleSheet.create({
-  small: { minWidth: 28, minHeight: 40, borderWidth: 1, borderRadius: 4 },
-  normal: { minWidth: 48, minHeight: 68 },
-  large: { minWidth: 88, minHeight: 126, borderRadius: 10 },
+  small: {
+    width: SIZE.small.w,
+    height: SIZE.small.h,
+    borderRadius: SIZE.small.radius,
+    borderColor: SIZE.small.border,
+  },
+  normal: { width: SIZE.normal.w, height: SIZE.normal.h, borderRadius: SIZE.normal.radius },
+  large: { width: SIZE.large.w, height: SIZE.large.h, borderRadius: SIZE.large.radius },
 });
 const TEXT_SIZES = StyleSheet.create({
-  small: { fontSize: 12 },
-  normal: { fontSize: 18 },
-  large: { fontSize: 32 },
+  small: { fontSize: SIZE.small.index.font },
+  normal: { fontSize: SIZE.normal.index.font },
+  large: { fontSize: SIZE.large.index.font },
 });
 
 const styles = StyleSheet.create({
   card: {
-    paddingHorizontal: 6,
-    borderWidth: 2,
-    borderColor: '#333',
-    borderRadius: 6,
-    backgroundColor: '#fff',
+    paddingHorizontal: 2,
+    borderWidth: 1,
+    borderColor: SIZE.normal.border,
+    borderRadius: radius.md,
+    backgroundColor: color.cardFace,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  faceDown: { backgroundColor: '#999' },
-  selected: { borderColor: '#000' },
+  faceDown: { backgroundColor: color.back.blue },
+  selected: { borderColor: color.ink },
   disabled: { opacity: 0.4 },
   pressed: { opacity: 0.7 },
-  text: { fontWeight: '600', color: '#111' },
-  red: { color: '#c0392b' },
+  text: { fontFamily: typeTokens.title.family, color: color.suitBlack },
+  red: { color: color.suitRed },
 });

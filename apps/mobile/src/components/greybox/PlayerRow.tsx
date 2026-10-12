@@ -5,6 +5,9 @@ import { useSettings } from '@/settings/Settings';
 import { CardText } from './CardText';
 import { ChipBadge } from './ChipBadge';
 import { CardView } from './CardView';
+import { DEALER, PANEL, PILL } from '@/theme/components';
+import { Txt } from '@/theme/text';
+import { color, layout, radius, type as typeTokens } from '@/theme/tokens';
 
 interface Props {
   name: string;
@@ -63,22 +66,33 @@ export function PlayerRow({
         dimmed && styles.dimmed,
       ]}
     >
-      {emphasis === 'turn' ? <View style={styles.turnBar} /> : null}
+      {emphasis !== 'none' ? <View style={[styles.bar, BARS[emphasis]]} /> : null}
       <View style={styles.who}>
         <View style={styles.nameRow}>
-          <Text style={styles.name}>{name}</Text>
+          <Txt variant="label" color={color.ink}>
+            {name}
+          </Txt>
           {dealer ? (
             <View style={styles.dealerButton} accessibilityLabel="Dealer">
-              <Text style={styles.dealerText}>D</Text>
+              <Text allowFontScaling={false} style={styles.dealerText}>
+                D
+              </Text>
             </View>
           ) : null}
           {badge ? (
             <View style={styles.badge}>
-              <Text style={styles.badgeText}>{badge}</Text>
+              <Txt variant="pill" color={color.paper}>
+                {badge}
+              </Txt>
             </View>
           ) : null}
         </View>
-        <CardText style={[styles.tag, emphasis === 'turn' && styles.tagTurn]}>{tag}</CardText>
+        <CardText
+          color={emphasis === 'none' ? color.inkSecondary : color.ink}
+          bold={emphasis === 'turn' || emphasis === 'loser'}
+        >
+          {tag}
+        </CardText>
       </View>
       <View style={styles.cards}>
         {typeof cards === 'number'
@@ -101,7 +115,9 @@ export function PlayerRow({
             ))}
       </View>
       {figure.kind === 'score' ? (
-        <Text style={styles.figure}>{figure.total}</Text>
+        <Txt variant="score" color={color.ink} style={styles.figure}>
+          {String(figure.total)}
+        </Txt>
       ) : (
         <ChipBadge folds={figure.folds} out={figure.out} size={32} />
       )}
@@ -109,47 +125,52 @@ export function PlayerRow({
   );
 }
 
+const BARS = StyleSheet.create({
+  turn: { backgroundColor: color.turnBar },
+  knocker: { backgroundColor: color.knockBar },
+  loser: { backgroundColor: color.loserBar },
+});
+
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-    borderWidth: 2,
-    borderColor: '#bbb',
-    borderRadius: 8,
+    gap: PANEL.rowGap,
+    paddingTop: PANEL.rowPad.top,
+    paddingRight: PANEL.rowPad.right,
+    paddingBottom: PANEL.rowPad.bottom,
+    paddingLeft: PANEL.rowPad.left,
+    borderRadius: PANEL.rowRadius,
+    backgroundColor: color.paper,
+    overflow: 'hidden',
   },
-  turn: { borderColor: '#000', backgroundColor: '#eef2ff' },
-  turnBar: {
-    width: 6,
-    alignSelf: 'stretch',
-    backgroundColor: '#000',
-    borderRadius: 3,
-    marginLeft: -4,
-  },
-  nameRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  turn: { backgroundColor: color.turnFill },
+  bar: { position: 'absolute', left: 0, top: 0, bottom: 0, width: layout.stateBarWidth },
+  nameRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   dealerButton: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#111',
-    backgroundColor: '#fff',
+    width: DEALER.size,
+    height: DEALER.size,
+    borderRadius: DEALER.size / 2,
+    borderWidth: 1,
+    borderColor: DEALER.border,
+    backgroundColor: DEALER.face,
     alignItems: 'center',
     justifyContent: 'center',
+    ...DEALER.shadow,
   },
-  dealerText: { fontSize: 11, fontWeight: '900', color: '#111' },
-  badge: { backgroundColor: '#000', borderRadius: 4, paddingHorizontal: 6, paddingVertical: 2 },
-  badgeText: { color: '#fff', fontWeight: '900', fontSize: 11, letterSpacing: 1 },
-  tagTurn: { fontWeight: '700', color: '#000' },
-  knocker: { backgroundColor: '#fff3c4' },
-  loser: { borderColor: '#b00020', backgroundColor: '#fde8e8' },
-  me: { borderStyle: 'dashed' },
-  dimmed: { opacity: 0.4 },
+  dealerText: { fontSize: DEALER.font, fontFamily: typeTokens.score.family, color: color.ink },
+  badge: {
+    minHeight: PILL.height,
+    justifyContent: 'center',
+    backgroundColor: color.ink,
+    borderRadius: radius.pill,
+    paddingHorizontal: PILL.padH,
+  },
+  knocker: { backgroundColor: color.knockTint },
+  loser: { backgroundColor: color.loserFill },
+  me: {},
+  dimmed: { opacity: 0.6 },
   who: { flex: 1, gap: 2 },
-  name: { fontWeight: '700', fontSize: 16 },
-  tag: { fontSize: 12, color: '#333' },
-  cards: { flexDirection: 'row', gap: 3 },
-  figure: { fontSize: 22, fontWeight: '800', minWidth: 40, textAlign: 'right' },
+  cards: { flexDirection: 'row', gap: PANEL.smallCardGap },
+  figure: { minWidth: PANEL.figureWidth, textAlign: 'right' },
 });

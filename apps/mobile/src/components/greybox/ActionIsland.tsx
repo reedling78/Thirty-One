@@ -1,5 +1,7 @@
 import type { PlayerView } from '@thirtyone/rules';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { Txt } from '@/theme/text';
+import { color, radius, space } from '@/theme/tokens';
 
 interface Props {
   view: PlayerView;
@@ -23,14 +25,18 @@ export function ActionIsland({ view, onKnock, onContinue }: Props) {
   const c = content(view, onKnock, onContinue);
   return (
     <View
-      style={[styles.island, TONES[c.tone]]}
+      style={[styles.island, { backgroundColor: TONES[c.tone].bg }]}
       accessibilityLiveRegion="polite"
       accessible={!c.button}
       accessibilityLabel={c.button ? undefined : `${c.title}. ${c.detail}`}
     >
       <View style={styles.text}>
-        <Text style={[styles.title, c.tone === 'knock' && styles.titleKnock]}>{c.title}</Text>
-        <Text style={styles.detail}>{c.detail}</Text>
+        <Txt variant="title" color={TONES[c.tone].fg}>
+          {c.title}
+        </Txt>
+        <Txt variant="status" color={TONES[c.tone].fg}>
+          {c.detail}
+        </Txt>
       </View>
       {c.button ? (
         <Pressable
@@ -39,7 +45,9 @@ export function ActionIsland({ view, onKnock, onContinue }: Props) {
           onPress={c.button.onPress}
           style={({ pressed }) => [styles.button, pressed && styles.pressed]}
         >
-          <Text style={styles.buttonText}>{c.button.label}</Text>
+          <Txt variant="button" color={color.island.reveal.fg}>
+            {c.button.label}
+          </Txt>
         </Pressable>
       ) : null}
     </View>
@@ -127,35 +135,30 @@ function content(view: PlayerView, onKnock: () => void, onContinue: () => void):
   return { title: 'Your turn', detail: 'Draw from the deck or the discard.', tone: 'mine' };
 }
 
-const TONES = StyleSheet.create({
-  neutral: { borderColor: '#bbb' },
-  mine: { borderColor: '#000' },
-  knock: { borderColor: '#000', backgroundColor: '#fff3c4' },
-  reveal: { borderColor: '#000', backgroundColor: '#eee' },
-});
+const TONES = {
+  neutral: color.island.neutral,
+  mine: color.island.yourTurn,
+  knock: color.island.knock,
+  reveal: color.island.reveal,
+} as const;
 
 const styles = StyleSheet.create({
   island: {
     minHeight: 72,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
-    padding: 10,
-    borderWidth: 3,
-    borderRadius: 10,
+    gap: space.md,
+    padding: space.md,
+    borderRadius: radius.panel,
   },
   text: { flex: 1, gap: 2 },
-  title: { fontWeight: '800', fontSize: 16 },
-  titleKnock: { letterSpacing: 0.5 },
-  detail: { fontSize: 13, color: '#222' },
   button: {
     minWidth: 96,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    backgroundColor: '#000',
+    paddingVertical: space.md,
+    paddingHorizontal: space.lg,
+    borderRadius: radius.card,
+    backgroundColor: color.ink,
     alignItems: 'center',
   },
   pressed: { opacity: 0.7 },
-  buttonText: { color: '#fff', fontWeight: '800', fontSize: 16, letterSpacing: 1 },
 });

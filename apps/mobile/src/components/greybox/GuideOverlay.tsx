@@ -1,5 +1,8 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import type { GuideStep } from '@/game/guide';
+import { SCRIM } from '@/theme/components';
+import { Txt } from '@/theme/text';
+import { color, radius, shadow, space } from '@/theme/tokens';
 import { CardText } from './CardText';
 
 interface Props {
@@ -13,14 +16,22 @@ export function GuideOverlay({ step, onDismiss, onSkip }: Props) {
   return (
     <View style={styles.backdrop} accessibilityViewIsModal>
       <View style={styles.card} accessibilityRole="alert">
-        <Text style={styles.title}>{step.title}</Text>
-        <CardText style={styles.body}>{step.body}</CardText>
+        <Txt variant="title" color={color.ink}>
+          {step.title}
+        </Txt>
+        <CardText variant="body" color={color.ink}>
+          {step.body}
+        </CardText>
         <View style={styles.actions}>
           <Pressable accessibilityRole="button" onPress={onSkip} style={styles.skip}>
-            <Text style={styles.skipText}>Skip the guide</Text>
+            <Txt variant="body" color={color.inkSecondary} style={styles.skipText}>
+              Skip the guide
+            </Txt>
           </Pressable>
           <Pressable accessibilityRole="button" onPress={onDismiss} style={styles.ok}>
-            <Text style={styles.okText}>Got it</Text>
+            <Txt variant="button" color={color.paper}>
+              Got it
+            </Txt>
           </Pressable>
         </View>
       </View>
@@ -30,33 +41,30 @@ export function GuideOverlay({ step, onDismiss, onSkip }: Props) {
 
 const styles = StyleSheet.create({
   backdrop: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    backgroundColor: 'rgba(0,0,0,0.35)',
+    ...StyleSheet.absoluteFill,
+    backgroundColor: SCRIM,
     justifyContent: 'center',
-    padding: 20,
+    padding: space.xl,
   },
   card: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    borderWidth: 3,
-    borderColor: '#000',
-    padding: 18,
-    gap: 12,
+    backgroundColor: color.paper,
+    borderRadius: radius.panel,
+    padding: space.xl,
+    gap: space.md,
+    ...shadow.lifted,
   },
-  title: { fontSize: 20, fontWeight: '800' },
-  body: { fontSize: 16, lineHeight: 22 },
   actions: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 4,
+    marginTop: space.xs,
   },
-  skip: { paddingVertical: 10, paddingHorizontal: 6 },
-  skipText: { fontSize: 14, color: '#555', textDecorationLine: 'underline' },
-  ok: { paddingVertical: 12, paddingHorizontal: 22, borderRadius: 8, backgroundColor: '#000' },
-  okText: { color: '#fff', fontWeight: '800', fontSize: 16 },
+  skip: { paddingVertical: space.md },
+  skipText: { textDecorationLine: 'underline' },
+  ok: {
+    paddingVertical: space.md,
+    paddingHorizontal: space.xl,
+    borderRadius: radius.card,
+    backgroundColor: color.ink,
+  },
 });

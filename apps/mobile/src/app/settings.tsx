@@ -2,7 +2,11 @@ import { setAudioModeAsync, useAudioPlayer } from 'expo-audio';
 import * as Haptics from 'expo-haptics';
 import { Link } from 'expo-router';
 import { useEffect } from 'react';
-import { Pressable, StyleSheet, Switch, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
+import { Felt } from '@/components/ui/Felt';
+import { BUTTON, PANEL } from '@/theme/components';
+import { Txt } from '@/theme/text';
+import { color, radius, space } from '@/theme/tokens';
 import { PRACTICE_SEATS, useDevSettings } from '@/settings/DevSettings';
 import { useSettings } from '@/settings/Settings';
 
@@ -24,93 +28,111 @@ export default function SettingsScreen() {
   };
 
   return (
-    <View style={styles.root}>
-      <Row
-        label="Sound"
-        detail="Deal, draw, knock and fold"
-        value={settings.sound}
-        onChange={(sound) => update({ sound })}
-      />
-      <Row
-        label="Haptics"
-        detail="A tap when it's your turn and when someone knocks"
-        value={settings.haptics}
-        onChange={(haptics) => update({ haptics })}
-      />
-      <Row
-        label="Reduce motion"
-        detail={
-          motionReduced && !settings.reduceMotion
-            ? 'On, from your phone’s accessibility settings'
-            : 'Skip the deal and reveal animations'
-        }
-        value={settings.reduceMotion}
-        onChange={(reduceMotion) => update({ reduceMotion })}
-      />
+    <Felt pool={false}>
+      <ScrollView style={styles.sheet} contentContainerStyle={styles.root}>
+        <Row
+          label="Sound"
+          detail="Deal, draw, knock and fold"
+          value={settings.sound}
+          onChange={(sound) => update({ sound })}
+        />
+        <Row
+          label="Haptics"
+          detail="A tap when it's your turn and when someone knocks"
+          value={settings.haptics}
+          onChange={(haptics) => update({ haptics })}
+        />
+        <Row
+          label="Reduce motion"
+          detail={
+            motionReduced && !settings.reduceMotion
+              ? 'On, from your phone’s accessibility settings'
+              : 'Skip the deal and reveal animations'
+          }
+          value={settings.reduceMotion}
+          onChange={(reduceMotion) => update({ reduceMotion })}
+        />
 
-      <Pressable accessibilityRole="button" onPress={test} style={styles.button}>
-        <Text style={styles.buttonText}>Test sound and haptics</Text>
-      </Pressable>
-      <Text style={styles.hint}>
-        Sound plays through the silent switch. Haptics need “System Haptics” on in your phone’s
-        Sounds & Haptics settings.
-      </Text>
+        <Pressable accessibilityRole="button" onPress={test} style={styles.button}>
+          <Txt variant="button" color={color.ink}>
+            Test sound and haptics
+          </Txt>
+        </Pressable>
+        <Txt variant="status" color={color.inkSecondary}>
+          Sound plays through the silent switch. Haptics need “System Haptics” on in your phone’s
+          Sounds & Haptics settings.
+        </Txt>
 
-      <View style={styles.section}>
-        <Text style={styles.h}>Learning</Text>
-        <Link href="/practice?guided=1" asChild>
-          <Pressable accessibilityRole="button" style={styles.button}>
-            <Text style={styles.buttonText}>
-              {settings.guidedDone ? 'Replay the guided first game' : 'Play the guided first game'}
-            </Text>
-          </Pressable>
-        </Link>
-      </View>
-
-      {__DEV__ && (
-        <View style={styles.dev}>
-          <Text style={styles.h}>Developer</Text>
-          <Text style={styles.p}>
-            Practice table seats: {seats} {seats === PRACTICE_SEATS ? '(default)' : ''}
-          </Text>
-          <View style={styles.row}>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="Fewer seats"
-              onPress={() => setSeats(seats - 1)}
-              style={styles.small}
-            >
-              <Text style={styles.buttonText}>−</Text>
+        <View style={styles.section}>
+          <Txt variant="title" color={color.ink}>
+            Learning
+          </Txt>
+          <Link href="/practice?guided=1" asChild>
+            <Pressable accessibilityRole="button" style={styles.button}>
+              <Txt variant="button" color={color.ink}>
+                {settings.guidedDone
+                  ? 'Replay the guided first game'
+                  : 'Play the guided first game'}
+              </Txt>
             </Pressable>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel="More seats"
-              onPress={() => setSeats(seats + 1)}
-              style={styles.small}
-            >
-              <Text style={styles.buttonText}>+</Text>
-            </Pressable>
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => setSeats(PRACTICE_SEATS)}
-              style={styles.small}
-            >
-              <Text style={styles.buttonText}>Reset</Text>
-            </Pressable>
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => update({ guidedDone: false })}
-              style={styles.small}
-            >
-              <Text style={styles.buttonText}>Reset guide</Text>
-            </Pressable>
-          </View>
-          <Text style={styles.hint}>
-            Dev-only. Lets the 2–10 seat layouts be checked on a real phone.
-          </Text>
+          </Link>
         </View>
-      )}
-    </View>
+
+        {__DEV__ && (
+          <View style={styles.dev}>
+            <Txt variant="title" color={color.ink}>
+              Developer
+            </Txt>
+            <Txt variant="body" color={color.ink}>
+              Practice table seats: {seats} {seats === PRACTICE_SEATS ? '(default)' : ''}
+            </Txt>
+            <View style={styles.row}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Fewer seats"
+                onPress={() => setSeats(seats - 1)}
+                style={styles.small}
+              >
+                <Txt variant="button" color={color.ink}>
+                  −
+                </Txt>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="More seats"
+                onPress={() => setSeats(seats + 1)}
+                style={styles.small}
+              >
+                <Txt variant="button" color={color.ink}>
+                  +
+                </Txt>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => setSeats(PRACTICE_SEATS)}
+                style={styles.small}
+              >
+                <Txt variant="button" color={color.ink}>
+                  Reset
+                </Txt>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => update({ guidedDone: false })}
+                style={styles.small}
+              >
+                <Txt variant="button" color={color.ink}>
+                  Reset guide
+                </Txt>
+              </Pressable>
+            </View>
+            <Txt variant="status" color={color.inkSecondary}>
+              Dev-only. Lets the 2–10 seat layouts be checked on a real phone.
+            </Txt>
+          </View>
+        )}
+      </ScrollView>
+    </Felt>
   );
 }
 
@@ -134,39 +156,65 @@ function Row({
       accessibilityLabel={`${label}. ${detail}`}
     >
       <View style={styles.settingText}>
-        <Text style={styles.label}>{label}</Text>
-        <Text style={styles.detail}>{detail}</Text>
+        <Txt variant="label" color={color.ink}>
+          {label}
+        </Txt>
+        <Txt variant="status" color={color.inkSecondary}>
+          {detail}
+        </Txt>
       </View>
-      <Switch value={value} onValueChange={onChange} />
+      <Switch
+        value={value}
+        onValueChange={onChange}
+        trackColor={{ true: color.ink, false: color.rule }}
+        thumbColor={color.cardFace}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { padding: 20, gap: 14 },
-  setting: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  settingText: { flex: 1, gap: 2 },
-  label: { fontSize: 16, fontWeight: '600' },
-  detail: { fontSize: 13, color: '#555' },
-  section: { gap: 8, marginTop: 8 },
-  h: { fontWeight: '700', fontSize: 16 },
-  p: { fontSize: 16 },
-  hint: { fontSize: 12, color: '#555' },
+  sheet: {
+    flex: 1,
+    marginTop: space.sm,
+    marginHorizontal: PANEL.gutter,
+    backgroundColor: color.paper,
+    borderTopLeftRadius: radius.panel,
+    borderTopRightRadius: radius.panel,
+  },
+  root: { padding: space.lg, gap: space.md, paddingBottom: space.xxxl },
+  setting: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.lg,
+    paddingVertical: space.lg,
+    borderBottomWidth: 1,
+    borderColor: color.rule,
+  },
+  settingText: { flex: 1, gap: 3 },
+  section: { gap: space.sm, marginTop: space.sm },
   button: {
-    paddingVertical: 12,
-    borderWidth: 2,
-    borderColor: '#000',
-    borderRadius: 8,
+    minHeight: BUTTON.height.sheet,
+    justifyContent: 'center',
+    borderWidth: BUTTON.border,
+    borderColor: color.ink,
+    borderRadius: radius.panel,
     alignItems: 'center',
   },
-  buttonText: { fontWeight: '700', fontSize: 15 },
-  dev: { borderWidth: 1, borderColor: '#999', borderRadius: 8, padding: 12, gap: 8, marginTop: 16 },
-  row: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
+  dev: {
+    borderWidth: 1,
+    borderColor: color.rule,
+    borderRadius: radius.card,
+    padding: space.md,
+    gap: space.sm,
+    marginTop: space.lg,
+  },
+  row: { flexDirection: 'row', gap: space.sm, flexWrap: 'wrap' },
   small: {
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderWidth: 2,
-    borderColor: '#000',
-    borderRadius: 6,
+    paddingVertical: space.sm,
+    paddingHorizontal: space.md,
+    borderWidth: BUTTON.border,
+    borderColor: color.ink,
+    borderRadius: radius.md,
   },
 });

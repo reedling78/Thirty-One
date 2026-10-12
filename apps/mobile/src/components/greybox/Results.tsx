@@ -1,5 +1,7 @@
 import type { PlayerView } from '@thirtyone/rules';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { Txt } from '@/theme/text';
+import { color, radius, space } from '@/theme/tokens';
 
 interface Props {
   view: PlayerView;
@@ -16,26 +18,34 @@ export function Results({ view, eliminationOrder, onPlayAgain, onHome }: Props) 
   const winner = view.winner;
   return (
     <View style={styles.root} accessibilityRole="summary">
-      <Text style={styles.title}>
+      <Txt variant="display" color={color.onBaize} style={styles.center}>
         {winner === null ? 'No winner' : winner === view.seat ? 'You win!' : `${name(winner)} wins`}
-      </Text>
+      </Txt>
       {winner !== null && (
         <View style={styles.list}>
-          <Text style={styles.heading}>Finishing order</Text>
-          <Text>1. {name(winner)}</Text>
+          <Txt variant="label" color={color.onBaize}>
+            Finishing order
+          </Txt>
+          <Txt variant="body" color={color.onBaize}>
+            1. {name(winner)}
+          </Txt>
           {[...eliminationOrder].reverse().map((seat, i) => (
-            <Text key={seat}>
+            <Txt key={seat} variant="body" color={color.onBaize}>
               {i + 2}. {name(seat)}
-            </Text>
+            </Txt>
           ))}
         </View>
       )}
       <View style={styles.actions}>
         <Pressable accessibilityRole="button" onPress={onPlayAgain} style={styles.button}>
-          <Text style={styles.buttonText}>Play again</Text>
+          <Txt variant="button" color={color.onBaize}>
+            Play again
+          </Txt>
         </Pressable>
         <Pressable accessibilityRole="button" onPress={onHome} style={styles.button}>
-          <Text style={styles.buttonText}>Home</Text>
+          <Txt variant="button" color={color.onBaize}>
+            Home
+          </Txt>
         </Pressable>
       </View>
     </View>
@@ -43,17 +53,15 @@ export function Results({ view, eliminationOrder, onPlayAgain, onHome }: Props) 
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, padding: 24, gap: 20, justifyContent: 'center' },
-  title: { fontSize: 28, fontWeight: '800', textAlign: 'center' },
-  list: { gap: 4 },
-  heading: { fontWeight: '700' },
-  actions: { flexDirection: 'row', gap: 12, justifyContent: 'center' },
+  root: { flex: 1, padding: space.xxl, gap: space.xl, justifyContent: 'center' },
+  center: { textAlign: 'center' },
+  list: { gap: space.xs },
+  actions: { flexDirection: 'row', gap: space.md, justifyContent: 'center' },
   button: {
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderWidth: 2,
-    borderColor: '#000',
-    borderRadius: 6,
+    paddingVertical: space.md,
+    paddingHorizontal: space.xl,
+    borderWidth: 1.5,
+    borderColor: color.onBaize,
+    borderRadius: radius.md,
   },
-  buttonText: { fontWeight: '700', fontSize: 16 },
 });

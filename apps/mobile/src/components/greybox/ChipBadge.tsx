@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { color, type as typeTokens } from '@/theme/tokens';
 
 interface Props {
   /** Corners folded so far, 0–4. */
@@ -21,6 +22,7 @@ export function ChipBadge({ folds, out, size = 44 }: Props) {
       ? 'On the bus: one more loss and out'
       : `${left} of 4 corners left`;
   const ring = size * 0.78;
+  const tone = out ? OUT : onBus ? BUS : PLAIN;
   return (
     <View
       accessible
@@ -28,33 +30,34 @@ export function ChipBadge({ folds, out, size = 44 }: Props) {
       style={[
         styles.chip,
         { width: size, height: size, borderRadius: size / 2 },
-        onBus && styles.bus,
-        out && styles.out,
+        { backgroundColor: tone.face, borderColor: tone.ring },
       ]}
     >
-      <View style={[styles.ring, { width: ring, height: ring, borderRadius: ring / 2 }]} />
-      <Text style={[styles.text, { fontSize: text.length > 1 ? size * 0.28 : size * 0.45 }]}>
+      <View
+        style={[
+          styles.ring,
+          { width: ring, height: ring, borderRadius: ring / 2, borderColor: tone.ring },
+        ]}
+      />
+      <Text
+        allowFontScaling={false}
+        style={[
+          styles.text,
+          { color: tone.text, fontSize: text.length > 1 ? size * 0.28 : size * 0.45 },
+        ]}
+      >
         {text}
       </Text>
     </View>
   );
 }
 
+const PLAIN = { face: color.chip.face, ring: color.chip.ring, text: color.chip.ring };
+const BUS = { face: color.chip.busFace, ring: color.chip.busRing, text: color.chip.busRing };
+const OUT = { face: color.chip.outFace, ring: color.chip.outRing, text: color.chip.outText };
+
 const styles = StyleSheet.create({
-  chip: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 3,
-    borderColor: '#111',
-    backgroundColor: '#f4f4f4',
-  },
-  ring: {
-    position: 'absolute',
-    borderWidth: 2,
-    borderStyle: 'dashed',
-    borderColor: '#111',
-  },
-  bus: { backgroundColor: '#111', borderColor: '#111' },
-  out: { opacity: 0.35 },
-  text: { fontWeight: '900', color: '#111' },
+  chip: { alignItems: 'center', justifyContent: 'center', borderWidth: 3 },
+  ring: { position: 'absolute', borderWidth: 2, borderStyle: 'dashed' },
+  text: { fontFamily: typeTokens.score.family },
 });

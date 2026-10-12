@@ -10,6 +10,10 @@ import { CardText } from './CardText';
 import { ChipBadge } from './ChipBadge';
 import { SeatView, revealTag } from './SeatView';
 import { useSettings } from '@/settings/Settings';
+import { SIZE } from '@/theme/cardArt';
+import { DEALER, EMPTY_PILE, PANEL, PILL } from '@/theme/components';
+import { Txt } from '@/theme/text';
+import { color, layout, radius, space, type as typeTokens } from '@/theme/tokens';
 
 interface Props {
   client: TableClient;
@@ -80,7 +84,9 @@ export function GreyboxTable({ client, view, log, lastActions }: Props) {
             disabled={!canDraw}
             label={`Draw pile, ${view.drawPileCount} cards${canDraw ? '. Tap to draw' : ''}`}
           />
-          <Text style={styles.pileLabel}>Deck · {view.drawPileCount}</Text>
+          <Txt variant="status" color={color.onBaizeSecondary}>
+            Deck · {view.drawPileCount}
+          </Txt>
         </View>
         <View style={styles.pile}>
           {view.discardTop ? (
@@ -93,10 +99,14 @@ export function GreyboxTable({ client, view, log, lastActions }: Props) {
             />
           ) : (
             <View style={styles.emptyPile}>
-              <Text>empty</Text>
+              <Txt variant="status" fixed color={color.onBaizeSecondary}>
+                empty
+              </Txt>
             </View>
           )}
-          <Text style={styles.pileLabel}>Discard · {view.discardPileCount}</Text>
+          <Txt variant="status" color={color.onBaizeSecondary}>
+            Discard · {view.discardPileCount}
+          </Txt>
         </View>
       </View>
 
@@ -108,37 +118,63 @@ export function GreyboxTable({ client, view, log, lastActions }: Props) {
           myVerdict?.loser && styles.meLoser,
         ]}
       >
+        {me.isTurn || me.isKnocker || myVerdict?.loser ? (
+          <View
+            style={[
+              styles.bar,
+              {
+                backgroundColor: myVerdict?.loser
+                  ? color.loserBar
+                  : me.isKnocker
+                    ? color.knockBar
+                    : color.turnBar,
+              },
+            ]}
+          />
+        ) : null}
         <View style={styles.meHeader}>
           <View style={styles.meTitle}>
-            {me.isTurn ? <View style={styles.meTurnBar} /> : null}
-            <Text style={styles.name}>You</Text>
+            <Txt variant="title" color={color.ink}>
+              You
+            </Txt>
             {me.isDealer ? (
               <View style={styles.dealerButton} accessibilityLabel="Dealer">
-                <Text style={styles.dealerText}>D</Text>
+                <Text allowFontScaling={false} style={styles.dealerText}>
+                  D
+                </Text>
               </View>
             ) : null}
             {me.isKnocker ? (
               <View style={styles.badge}>
-                <Text style={styles.badgeText}>KNOCKED</Text>
+                <Txt variant="pill" color={color.paper}>
+                  KNOCKED
+                </Txt>
               </View>
             ) : null}
             {myVerdict ? (
-              <Text style={[styles.verdict, myVerdict.loser && styles.verdictLoser]}>
+              <Txt variant="label" color={color.ink}>
                 {myVerdict.tag}
-              </Text>
+              </Txt>
             ) : (
-              <Text style={styles.value} accessibilityLiveRegion="polite">
+              <Txt
+                variant="label"
+                color={color.inkSecondary}
+                style={styles.value}
+                accessibilityLiveRegion="polite"
+              >
                 {scoreText}
-              </Text>
+              </Txt>
             )}
           </View>
           {me.revealed ? (
-            <Text
+            <Txt
+              variant="score"
+              color={color.ink}
               style={styles.myScore}
               accessibilityLabel={`Your score: ${me.revealed.score.total}`}
             >
-              {me.revealed.score.total}
-            </Text>
+              {String(me.revealed.score.total)}
+            </Txt>
           ) : (
             <ChipBadge folds={me.folds} out={me.out} size={36} />
           )}
@@ -168,12 +204,16 @@ export function GreyboxTable({ client, view, log, lastActions }: Props) {
             );
           })}
         </View>
-        {error ? <Text style={styles.error}>{error}</Text> : null}
+        {error ? (
+          <Txt variant="status" color={color.ink}>
+            {error}
+          </Txt>
+        ) : null}
       </View>
 
       <View style={styles.log} accessibilityLiveRegion="polite">
         {log.filter(Boolean).map((line, i) => (
-          <CardText key={i} style={styles.logLine}>
+          <CardText key={i} color={color.onBaizeSecondary}>
             {line}
           </CardText>
         ))}
@@ -183,54 +223,63 @@ export function GreyboxTable({ client, view, log, lastActions }: Props) {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, padding: 12, gap: 10 },
-  seats: { gap: 6 },
+  root: { flex: 1, padding: PANEL.gutter, gap: space.sm },
+  seats: { gap: PANEL.rowListGap },
   piles: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',
-    gap: 24,
-    paddingVertical: 16,
+    gap: space.xxl,
+    paddingVertical: space.lg,
   },
-  pile: { alignItems: 'center', gap: 4 },
-  pileLabel: { fontSize: 12 },
+  pile: { alignItems: 'center', gap: space.xs },
   emptyPile: {
-    minWidth: 88,
-    minHeight: 126,
-    borderWidth: 2,
+    width: SIZE.large.w,
+    height: SIZE.large.h,
+    borderWidth: EMPTY_PILE.border,
     borderStyle: 'dashed',
-    borderColor: '#999',
-    borderRadius: 6,
+    borderColor: EMPTY_PILE.color,
+    borderRadius: radius.card,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  me: { borderWidth: 2, borderColor: '#bbb', borderRadius: 8, padding: 10, gap: 8 },
-  meTurn: { borderColor: '#000', backgroundColor: '#eef2ff' },
-  meTurnBar: { width: 6, height: 22, backgroundColor: '#000', borderRadius: 3 },
-  badge: { backgroundColor: '#000', borderRadius: 4, paddingHorizontal: 6, paddingVertical: 2 },
+  me: {
+    borderRadius: radius.panel,
+    paddingTop: PANEL.panelPad.top,
+    paddingRight: PANEL.panelPad.right,
+    paddingBottom: PANEL.panelPad.bottom,
+    paddingLeft: PANEL.panelPad.left,
+    gap: space.sm,
+    backgroundColor: color.paper,
+    overflow: 'hidden',
+  },
+  meTurn: { backgroundColor: color.turnFill },
+  bar: { position: 'absolute', left: 0, top: 0, bottom: 0, width: layout.stateBarWidth },
+  badge: {
+    minHeight: PILL.height,
+    justifyContent: 'center',
+    backgroundColor: color.ink,
+    borderRadius: radius.pill,
+    paddingHorizontal: PILL.padH,
+  },
   dealerButton: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#111',
-    backgroundColor: '#fff',
+    width: DEALER.size,
+    height: DEALER.size,
+    borderRadius: DEALER.size / 2,
+    borderWidth: 1,
+    borderColor: DEALER.border,
+    backgroundColor: DEALER.face,
     alignItems: 'center',
     justifyContent: 'center',
+    ...DEALER.shadow,
   },
-  dealerText: { fontSize: 11, fontWeight: '900', color: '#111' },
-  badgeText: { color: '#fff', fontWeight: '900', fontSize: 11, letterSpacing: 1 },
-  meKnocker: { backgroundColor: '#fff3c4' },
-  meLoser: { borderColor: '#b00020', backgroundColor: '#fde8e8' },
-  myScore: { fontSize: 24, fontWeight: '800', minWidth: 40, textAlign: 'right' },
-  verdict: { fontSize: 14, color: '#333' },
-  verdictLoser: { fontWeight: '800', color: '#b00020' },
+  dealerText: { fontSize: DEALER.font, fontFamily: typeTokens.score.family, color: color.ink },
+  meKnocker: { backgroundColor: color.knockTint },
+  meLoser: { backgroundColor: color.loserFill },
+  myScore: { minWidth: PANEL.figureWidth, textAlign: 'right' },
   meHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  meTitle: { flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1, flexWrap: 'wrap' },
-  name: { fontWeight: '700', fontSize: 16 },
-  hand: { flexDirection: 'row', gap: 10, flexWrap: 'wrap' },
-  value: { fontSize: 16 },
-  error: { color: '#b00020' },
+  meTitle: { flexDirection: 'row', alignItems: 'center', gap: 6, flex: 1, flexWrap: 'wrap' },
+  hand: { flexDirection: 'row', gap: PANEL.handGap, flexWrap: 'wrap' },
+  value: {},
   log: { gap: 2, flex: 1, minHeight: 60 },
-  logLine: { fontSize: 13, color: '#444' },
 });
