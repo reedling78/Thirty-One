@@ -1,7 +1,8 @@
 import type { PlayerView } from '@thirtyone/rules';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { Txt } from '@/theme/text';
-import { color, radius, space } from '@/theme/tokens';
+import { ISLAND, PANEL } from '@/theme/components';
+import { Txt, useFontScale } from '@/theme/text';
+import { color, layout, radius, space } from '@/theme/tokens';
 
 interface Props {
   view: PlayerView;
@@ -23,18 +24,20 @@ interface Content {
  */
 export function ActionIsland({ view, onKnock, onContinue }: Props) {
   const c = content(view, onKnock, onContinue);
+  const scale = useFontScale();
+  const tone = TONES[c.tone];
   return (
     <View
-      style={[styles.island, { backgroundColor: TONES[c.tone].bg }]}
+      style={[styles.island, { backgroundColor: tone.bg, height: layout.islandHeight * scale }]}
       accessibilityLiveRegion="polite"
       accessible={!c.button}
       accessibilityLabel={c.button ? undefined : `${c.title}. ${c.detail}`}
     >
       <View style={styles.text}>
-        <Txt variant="title" color={TONES[c.tone].fg}>
+        <Txt variant="title" color={tone.fg}>
           {c.title}
         </Txt>
-        <Txt variant="status" color={TONES[c.tone].fg}>
+        <Txt variant="status" color={tone.fg}>
           {c.detail}
         </Txt>
       </View>
@@ -43,7 +46,12 @@ export function ActionIsland({ view, onKnock, onContinue }: Props) {
           accessibilityRole="button"
           accessibilityLabel={c.button.a11y}
           onPress={c.button.onPress}
-          style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+          style={({ pressed }) => [
+            styles.button,
+            // On the ink island the one button style gains a cream outline so it still reads as a button.
+            { borderColor: c.tone === 'reveal' ? color.island.reveal.fg : color.ink },
+            pressed && styles.pressed,
+          ]}
         >
           <Txt variant="button" color={color.island.reveal.fg}>
             {c.button.label}
@@ -61,19 +69,15 @@ function content(view: PlayerView, onKnock: () => void, onContinue: () => void):
 
   if (view.phase === 'roundOver' && view.roundResult) {
     const r = view.roundResult;
-    const losers = r.penalties.map((p) => name(p.seat));
+    // The knocker is already marked by their pill, so the title doesn't repeat it;
+    // the outcome goes on the guide line.
     const title =
       r.reason === 'thirtyOne'
         ? `${r.thirtyOneSeats.map(name).join(' and ')} ${r.thirtyOneSeats.length > 1 ? 'have' : 'has'} 31!`
-        : r.knocker !== null
-          ? `${name(r.knocker)} knocked — hands revealed`
-          : 'Hands revealed';
-    const detail = losers.length
-      ? `${losers.join(' and ')} ${losers.length > 1 ? 'fold' : 'folds'} a corner.`
-      : 'Nobody folds.';
+        : 'Hands revealed';
     return {
       title,
-      detail,
+      detail: outcome(view, name),
       tone: 'reveal',
       button: { label: 'Continue', onPress: onContinue, a11y: 'Continue to the next round' },
     };
@@ -122,17 +126,36 @@ function content(view: PlayerView, onKnock: () => void, onContinue: () => void):
   if (view.legalActions.includes('knock')) {
     return {
       title: 'Your turn',
-      detail: 'Your hand is complete — knock, or draw to improve it.',
+      detail: 'Draw from the deck or the discard.',
       tone: 'mine',
       button: {
         label: 'KNOCK',
         onPress: onKnock,
-        a11y: 'Knock. Skip your turn; everyone else gets one more turn, then the reveal',
+        a11y: 'Knock. Your hand is complete: skip your turn; everyone else gets one more turn, then the reveal',
       },
     };
   }
 
   return { title: 'Your turn', detail: 'Draw from the deck or the discard.', tone: 'mine' };
+}
+
+/** The reveal's guide line: who is lowest and what it costs. */
+function outcome(view: PlayerView, name: (seat: number) => string): string {
+  const r = view.roundResult!;
+  if (r.penalties.length === 0) return 'Nobody folds.';
+  if (r.penalties.length === 1) {
+    const p = r.penalties[0]!;
+    const you = p.seat === view.seat;
+    const who = name(p.seat);
+    if (p.corners === 2)
+      return you
+        ? 'You knocked and are lowest — fold two.'
+        : `${who} knocked and is lowest — folds two.`;
+    if (r.reason !== 'thirtyOne')
+      return you ? 'You are lowest — fold a corner.' : `${who} is lowest — folds a corner.`;
+  }
+  const losers = r.penalties.map((p) => name(p.seat));
+  return `${losers.join(' and ')} ${losers.length > 1 || losers[0] === 'You' ? 'fold' : 'folds'} a corner.`;
 }
 
 const TONES = {
@@ -144,21 +167,25 @@ const TONES = {
 
 const styles = StyleSheet.create({
   island: {
-    minHeight: 72,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     gap: space.md,
-    padding: space.md,
+    marginTop: ISLAND.marginTop,
+    marginHorizontal: PANEL.gutter,
+    paddingLeft: ISLAND.padLeft,
+    paddingRight: ISLAND.padRight,
     borderRadius: radius.panel,
+    overflow: 'hidden',
   },
   text: { flex: 1, gap: 2 },
   button: {
-    minWidth: 96,
-    paddingVertical: space.md,
-    paddingHorizontal: space.lg,
-    borderRadius: radius.card,
+    minHeight: ISLAND.button.height,
+    justifyContent: 'center',
+    paddingHorizontal: ISLAND.button.padH,
+    borderRadius: ISLAND.button.radius,
+    borderWidth: ISLAND.button.border,
     backgroundColor: color.ink,
-    alignItems: 'center',
   },
   pressed: { opacity: 0.7 },
 });

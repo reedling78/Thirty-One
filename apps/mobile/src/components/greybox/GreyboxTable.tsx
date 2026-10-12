@@ -1,19 +1,20 @@
 import type { Card, PlayerView } from '@thirtyone/rules';
 import { cardId } from '@thirtyone/rules';
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 import type { TableClient } from '@/game/TableClient';
 import { CardView, cardName } from './CardView';
 import { ActionIsland } from './ActionIsland';
 import { CardText } from './CardText';
+import { DealerButton, Pill } from '@/components/ui/Marks';
 import { ChipBadge } from './ChipBadge';
 import { SeatView, revealTag } from './SeatView';
 import { useSettings } from '@/settings/Settings';
 import { SIZE } from '@/theme/cardArt';
-import { DEALER, EMPTY_PILE, PANEL, PILL } from '@/theme/components';
+import { EMPTY_PILE, PANEL } from '@/theme/components';
 import { Txt } from '@/theme/text';
-import { color, layout, radius, space, type as typeTokens } from '@/theme/tokens';
+import { color, layout, radius, space } from '@/theme/tokens';
 
 interface Props {
   client: TableClient;
@@ -137,20 +138,8 @@ export function GreyboxTable({ client, view, log, lastActions }: Props) {
             <Txt variant="title" color={color.ink}>
               You
             </Txt>
-            {me.isDealer ? (
-              <View style={styles.dealerButton} accessibilityLabel="Dealer">
-                <Text allowFontScaling={false} style={styles.dealerText}>
-                  D
-                </Text>
-              </View>
-            ) : null}
-            {me.isKnocker ? (
-              <View style={styles.badge}>
-                <Txt variant="pill" color={color.paper}>
-                  KNOCKED
-                </Txt>
-              </View>
-            ) : null}
+            {me.isDealer ? <DealerButton /> : null}
+            {me.isKnocker ? <Pill>KNOCKED</Pill> : null}
             {myVerdict ? (
               <Txt variant="label" color={color.ink}>
                 {myVerdict.tag}
@@ -255,25 +244,6 @@ const styles = StyleSheet.create({
   },
   meTurn: { backgroundColor: color.turnFill },
   bar: { position: 'absolute', left: 0, top: 0, bottom: 0, width: layout.stateBarWidth },
-  badge: {
-    minHeight: PILL.height,
-    justifyContent: 'center',
-    backgroundColor: color.ink,
-    borderRadius: radius.pill,
-    paddingHorizontal: PILL.padH,
-  },
-  dealerButton: {
-    width: DEALER.size,
-    height: DEALER.size,
-    borderRadius: DEALER.size / 2,
-    borderWidth: 1,
-    borderColor: DEALER.border,
-    backgroundColor: DEALER.face,
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...DEALER.shadow,
-  },
-  dealerText: { fontSize: DEALER.font, fontFamily: typeTokens.score.family, color: color.ink },
   meKnocker: { backgroundColor: color.knockTint },
   meLoser: { backgroundColor: color.loserFill },
   myScore: { minWidth: PANEL.figureWidth, textAlign: 'right' },

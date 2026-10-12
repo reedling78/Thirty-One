@@ -1,13 +1,14 @@
 import type { Card } from '@thirtyone/rules';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated, { FadeIn, FadeInUp } from 'react-native-reanimated';
 import { useSettings } from '@/settings/Settings';
 import { CardText } from './CardText';
+import { DealerButton, Pill } from '@/components/ui/Marks';
 import { ChipBadge } from './ChipBadge';
 import { CardView } from './CardView';
-import { DEALER, PANEL, PILL } from '@/theme/components';
+import { PANEL } from '@/theme/components';
 import { Txt } from '@/theme/text';
-import { color, layout, radius, type as typeTokens } from '@/theme/tokens';
+import { color, layout } from '@/theme/tokens';
 
 interface Props {
   name: string;
@@ -72,20 +73,8 @@ export function PlayerRow({
           <Txt variant="label" color={color.ink}>
             {name}
           </Txt>
-          {dealer ? (
-            <View style={styles.dealerButton} accessibilityLabel="Dealer">
-              <Text allowFontScaling={false} style={styles.dealerText}>
-                D
-              </Text>
-            </View>
-          ) : null}
-          {badge ? (
-            <View style={styles.badge}>
-              <Txt variant="pill" color={color.paper}>
-                {badge}
-              </Txt>
-            </View>
-          ) : null}
+          {dealer ? <DealerButton /> : null}
+          {badge ? <Pill>{badge}</Pill> : null}
         </View>
         <CardText
           color={emphasis === 'none' ? color.inkSecondary : color.ink}
@@ -147,25 +136,6 @@ const styles = StyleSheet.create({
   turn: { backgroundColor: color.turnFill },
   bar: { position: 'absolute', left: 0, top: 0, bottom: 0, width: layout.stateBarWidth },
   nameRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  dealerButton: {
-    width: DEALER.size,
-    height: DEALER.size,
-    borderRadius: DEALER.size / 2,
-    borderWidth: 1,
-    borderColor: DEALER.border,
-    backgroundColor: DEALER.face,
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...DEALER.shadow,
-  },
-  dealerText: { fontSize: DEALER.font, fontFamily: typeTokens.score.family, color: color.ink },
-  badge: {
-    minHeight: PILL.height,
-    justifyContent: 'center',
-    backgroundColor: color.ink,
-    borderRadius: radius.pill,
-    paddingHorizontal: PILL.padH,
-  },
   knocker: { backgroundColor: color.knockTint },
   loser: { backgroundColor: color.loserFill },
   me: {},
