@@ -1,21 +1,24 @@
-import { cardId, makeDeck, parseCard, parseCards, type Card } from '../src/index';
+import { cardId, cardValue, parseCard, parseCards, scriptedDeck, type Card } from '../src/index';
 
-/**
- * Build a 52-card deck that deals exactly these hands, flips `discard`, and then
- * serves `drawOrder` from the top of the draw pile. Everything unspecified fills
- * the bottom in deck order. `hands[i]` goes to the i-th *active* seat.
- */
+/** Thin wrapper over the engine's scriptedDeck that takes card shorthand. */
 export function scriptDeck(hands: string[], discard: string, drawOrder: string[] = []): Card[] {
-  const parsedHands = hands.map(parseCards);
-  const handSize = parsedHands[0]!.length;
-  const dealt: Card[] = [];
-  for (let n = 0; n < handSize; n++) for (const h of parsedHands) dealt.push(h[n]!);
-  const top = [...dealt, parseCard(discard), ...drawOrder.map(parseCard)];
-  const used = new Set(top.map(cardId));
-  if (used.size !== top.length) throw new Error('scriptDeck: duplicate card');
-  const rest = makeDeck().filter((c) => !used.has(cardId(c)));
-  // Last element is dealt first, so reverse the "top" list onto the end.
-  return [...rest, ...top.reverse()];
+  return scriptedDeck(hands.map(parseCards), parseCard(discard), drawOrder.map(parseCard));
 }
 
 export const ids = (cards: readonly Card[]): string[] => cards.map(cardId);
+
+/**
+ * A sensible-but-dumb discard for random-play tests: keep the most common suit,
+ * throw an off-suit card (lowest first), never the card just taken from the
+ * discard pile. Without this, random play almost never earns a complete hand
+ * and rounds run forever.
+ */
+export function pickDiscard(hand: readonly Card[], untouchable: Card | null): Card {
+  const counts = new Map<string, number>();
+  for (const c of hand) counts.set(c.suit, (counts.get(c.suit) ?? 0) + 1);
+  const majority = [...counts.entries()].sort((a, b) => b[1] - a[1])[0]![0];
+  const legal = hand.filter((c) => !untouchable || cardId(c) !== cardId(untouchable));
+  const offSuit = legal.filter((c) => c.suit !== majority);
+  const pool = offSuit.length ? offSuit : legal;
+  return [...pool].sort((a, b) => cardValue(a.rank) - cardValue(b.rank))[0]!;
+}

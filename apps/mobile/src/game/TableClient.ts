@@ -22,6 +22,8 @@ export interface TableClient {
   send(action: Action): ActionError | null;
   /** Begin the game: deal the first round and start the bots. */
   start(): void;
+  /** The player has seen the reveal; apply the folds and deal the next round. */
+  acknowledgeReveal(): void;
   /** Stop timers. The client is unusable afterwards. */
   dispose(): void;
 }

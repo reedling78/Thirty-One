@@ -18,7 +18,7 @@ import {
   startRound,
   type GameState,
 } from '../src/index';
-import { ids, scriptDeck } from './helpers';
+import { ids, pickDiscard, scriptDeck } from './helpers';
 
 const seats = (n: number) => Array.from({ length: n }, (_, i) => `p${i}`);
 
@@ -131,7 +131,8 @@ describe('seat helpers', () => {
 
 describe('apply — turn order and legality', () => {
   it('only the current seat may act, and only while playing', () => {
-    const g = playing(3, 1, 0); // turn = 1
+    const deck = scriptDeck(['2c 5d 9h', 'Kh Qh 2h', '5s 6s 7c'], '2d');
+    const g = startRound(createGame(seats(3), 1, { dealer: 0 }), { deck }).state; // turn = 1
     expect(apply(g, 0, { type: 'draw', source: 'deck' })).toMatchObject({
       ok: false,
       error: { code: 'notYourTurn' },
@@ -247,7 +248,8 @@ describe('apply — draw pile exhaustion', () => {
 
 describe('apply — knocking', () => {
   it('may knock on the very first turn; everyone else gets one more turn, then the reveal', () => {
-    const g = playing(3, 1, 0); // turn 1
+    const deck = scriptDeck(['2c 5d 9h', 'Kh Qh 2h', '5s 6s 7c'], '2d', ['3h', '4h']);
+    const g = startRound(createGame(seats(3), 1, { dealer: 0 }), { deck }).state; // turn 1
     const r = apply(g, 1, { type: 'knock' });
     let s = must(r);
     expect(s.knocker).toBe(1);
@@ -282,8 +284,32 @@ describe('apply — knocking', () => {
     });
   });
 
+  it('needs a complete hand: one suit or three of a kind', () => {
+    const deck = scriptDeck(['3c 5d 9h', 'Kh Qh 2c', '5s 6s 7c'], '2d');
+    const g = startRound(createGame(seats(3), 1, { dealer: 0 }), { deck }).state; // turn 1
+    expect(legalActions(g, 1)).toEqual(['draw']);
+    expect(apply(g, 1, { type: 'knock' })).toMatchObject({
+      ok: false,
+      error: { code: 'knockNeedsCompleteHand' },
+    });
+
+    const suited = scriptDeck(['2c 5d 9h', 'Kh Qh 2h', '5s 6s 7c'], '2d');
+    expect(
+      legalActions(startRound(createGame(seats(3), 1, { dealer: 0 }), { deck: suited }).state, 1),
+    ).toEqual(['draw', 'knock']);
+    const trips = scriptDeck(['2c 5d 9h', '8h 8c 8d', '5s 6s 7c'], '2d');
+    expect(
+      legalActions(startRound(createGame(seats(3), 1, { dealer: 0 }), { deck: trips }).state, 1),
+    ).toEqual(['draw', 'knock']);
+    const straight = scriptDeck(['2c 6d 9h', '3d 4d 5d', '5s 6s 7c'], '2h');
+    expect(
+      legalActions(startRound(createGame(seats(3), 1, { dealer: 0 }), { deck: straight }).state, 1),
+    ).toEqual(['draw', 'knock']);
+  });
+
   it('head-to-head: a knock gives the other player exactly one turn', () => {
-    const g = playing(2, 3, 0); // turn 1
+    const deck = scriptDeck(['2c 5d 9h', '7c 7d 7h'], '2d', ['3h']);
+    const g = startRound(createGame(seats(2), 3, { dealer: 0 }), { deck }).state; // turn 1
     let s = must(apply(g, 1, { type: 'knock' }));
     expect(s.turn).toBe(0);
     s = must(apply(s, 0, { type: 'draw', source: 'deck' }));
@@ -358,11 +384,10 @@ describe('apply — properties under random legal play', () => {
             const pick = step.value;
             let r;
             if (legal.includes('discard')) {
-              const hand = g.seats[seat]!.hand;
-              r = apply(g, seat, { type: 'discard', card: hand[pick % hand.length]! });
-              if (!r.ok && r.error.code === 'cannotThrowBackDrawnDiscard') {
-                r = apply(g, seat, { type: 'discard', card: hand[(pick + 1) % hand.length]! });
-              }
+              r = apply(g, seat, {
+                type: 'discard',
+                card: pickDiscard(g.seats[seat]!.hand, g.tookFromDiscard),
+              });
             } else if (legal.includes('knock') && pick < knockChance) {
               r = apply(g, seat, { type: 'knock' });
             } else {

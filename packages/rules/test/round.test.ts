@@ -13,7 +13,7 @@ import {
   startRound,
   type GameState,
 } from '../src/index';
-import { scriptDeck } from './helpers';
+import { pickDiscard, scriptDeck } from './helpers';
 
 const seats = (n: number) => Array.from({ length: n }, (_, i) => `p${i}`);
 
@@ -52,8 +52,8 @@ const outOf = (g: GameState) => g.seats.map((s) => s.out);
 describe('resolveRound — knock', () => {
   it('the lowest hand folds one corner', () => {
     // Draws are low off-suit cards so nobody improves.
-    const g = knockRound(scripted(['Kh Qh 2c', '9d 3c 4s', '5s 6s 7c'], '2d', ['3h', '4h']));
-    expect(g.roundResult?.hands.map((h) => h.score.total)).toEqual([20, 9, 11]);
+    const g = knockRound(scripted(['Kh Qh 2h', '9d 3c 4s', '5s 6s 7c'], '2d', ['3h', '4h']));
+    expect(g.roundResult?.hands.map((h) => h.score.total)).toEqual([22, 9, 11]);
     const { state, events } = resolveRound(g);
     expect(foldsOf(state)).toEqual([0, 1, 0]);
     expect(events.map((e) => e.type)).toEqual(['folded', 'dealerMoved']);
@@ -61,24 +61,28 @@ describe('resolveRound — knock', () => {
   });
 
   it('ties for lowest all fold', () => {
-    const g = knockRound(scripted(['Kh Qh 2c', '9d 3c 4s', '9s 3h 4c'], '2d', ['5h', '6h']));
-    expect(g.roundResult?.hands.map((h) => h.score.total)).toEqual([20, 9, 9]);
+    const g = knockRound(scripted(['Kh Qh 2h', '9d 3c 4s', '9s 3h 4c'], '2d', ['5h', '6h']));
+    expect(g.roundResult?.hands.map((h) => h.score.total)).toEqual([22, 9, 9]);
     expect(foldsOf(resolveRound(g).state)).toEqual([0, 1, 1]);
   });
 
   it('a knocker who ends up lowest folds two', () => {
-    const g = knockRound(scripted(['9d 3c 4s', 'Kh Qh 2c', '5s 6s 7c'], '2d', ['3h', '4h']));
+    const g = knockRound(scripted(['2d 3d 5d', 'Kh Qh 2c', '5s 6s 7c'], '6c', ['3h', '4h']));
     expect(g.roundResult?.knocker).toBe(0);
     expect(foldsOf(resolveRound(g).state)).toEqual([2, 0, 0]);
   });
 
   it('a knocker tied for lowest folds two while the others fold one', () => {
-    const g = knockRound(scripted(['9d 3c 4s', 'Kh Qh 2c', '9s 3h 4c'], '2d', ['5h', '6h']));
+    const g = knockRound(scripted(['2d 3d 5d', 'Kh Qh 2c', '10s 3h 4c'], '6c', ['5h', '6h']));
+    expect(g.roundResult?.penalties).toEqual([
+      { seat: 0, corners: 2 },
+      { seat: 2, corners: 1 },
+    ]);
     expect(foldsOf(resolveRound(g).state)).toEqual([2, 0, 1]);
   });
 
   it('the dealer moves left and the next round starts left of the new dealer', () => {
-    const g = knockRound(scripted(['Kh Qh 2c', '9d 3c 4s', '5s 6s 7c'], '2d', ['3h', '4h']));
+    const g = knockRound(scripted(['Kh Qh 2h', '9d 3c 4s', '5s 6s 7c'], '2d', ['3h', '4h']));
     expect(g.dealer).toBe(2);
     const { state } = resolveRound(g);
     expect(state.dealer).toBe(0);
@@ -117,14 +121,14 @@ describe('resolveRound — 31', () => {
 describe('resolveRound — corners, the bus, and elimination', () => {
   it('the fourth fold puts you on the bus; a loss on the bus puts you out', () => {
     const onBus = knockRound(
-      scripted(['Kh Qh 2c', '9d 3c 4s', '5s 6s 7c'], '2d', ['3h', '4h'], [0, 3, 0]),
+      scripted(['Kh Qh 2h', '9d 3c 4s', '5s 6s 7c'], '2d', ['3h', '4h'], [0, 3, 0]),
     );
     const r1 = resolveRound(onBus);
     expect(r1.state.seats[1]).toMatchObject({ folds: 4, out: false });
     expect(r1.events[0]).toMatchObject({ type: 'folded', seat: 1, folds: 4, onBus: true });
 
     const out = knockRound(
-      scripted(['Kh Qh 2c', '9d 3c 4s', '5s 6s 7c'], '2d', ['3h', '4h'], [0, 4, 0]),
+      scripted(['Kh Qh 2h', '9d 3c 4s', '5s 6s 7c'], '2d', ['3h', '4h'], [0, 4, 0]),
     );
     const r2 = resolveRound(out);
     expect(r2.state.seats[1]).toMatchObject({ folds: 4, out: true });
@@ -135,18 +139,18 @@ describe('resolveRound — corners, the bus, and elimination', () => {
 
   it('a losing knocker with one corner left is out; with two left they land on the bus', () => {
     const oneLeft = knockRound(
-      scripted(['9d 3c 4s', 'Kh Qh 2c', '5s 6s 7c'], '2d', ['3h', '4h'], [3, 0, 0]),
+      scripted(['2d 3d 5d', 'Kh Qh 2c', '5s 6s 7c'], '6c', ['3h', '4h'], [3, 0, 0]),
     );
     expect(resolveRound(oneLeft).state.seats[0]).toMatchObject({ folds: 4, out: true });
 
     const twoLeft = knockRound(
-      scripted(['9d 3c 4s', 'Kh Qh 2c', '5s 6s 7c'], '2d', ['3h', '4h'], [2, 0, 0]),
+      scripted(['2d 3d 5d', 'Kh Qh 2c', '5s 6s 7c'], '6c', ['3h', '4h'], [2, 0, 0]),
     );
     expect(resolveRound(twoLeft).state.seats[0]).toMatchObject({ folds: 4, out: false });
   });
 
   it('the game ends with a winner when one player remains', () => {
-    const g = knockRound(scripted(['Kh Qh 2c', '9d 3c 4s'], '2d', ['3h'], [0, 4]));
+    const g = knockRound(scripted(['Kh Qh 2h', '9d 3c 4s'], '2d', ['3h'], [0, 4]));
     const { state, events } = resolveRound(g);
     expect(state.phase).toBe('gameOver');
     expect(state.winner).toBe(0);
@@ -156,8 +160,8 @@ describe('resolveRound — corners, the bus, and elimination', () => {
 
   it('a round that would eliminate everyone is replayed and nobody folds', () => {
     // Head to head, both on the bus, tied lowest — even the knocker's double fold cannot save it.
-    const g = knockRound(scripted(['9d 3c 4s', '9s 3h 4c'], '2d', ['5h'], [4, 4]));
-    expect(g.roundResult?.hands.map((h) => h.score.total)).toEqual([9, 9]);
+    const g = knockRound(scripted(['2d 3d 5d', '10s 3h 4c'], '6c', ['5h'], [4, 4]));
+    expect(g.roundResult?.hands.map((h) => h.score.total)).toEqual([10, 10]);
     const { state, events } = resolveRound(g);
     expect(events).toEqual([{ type: 'roundReplayed' }]);
     expect(foldsOf(state)).toEqual([4, 4]);
@@ -198,7 +202,7 @@ describe('forfeit', () => {
   });
 
   it('a knock in progress stands; a leaver owed a turn is dropped from the list', () => {
-    const g = scripted(['Kh Qh 2c', '9d 3c 4s', '5s 6s 7c', '8h 8c 8d'], '2d', ['3h', '4h', '5h']);
+    const g = scripted(['Kh Qh 2h', '9d 3c 4s', '5s 6s 7c', '8h 8c 8d'], '2d', ['3h', '4h', '5h']);
     let s = must(apply(g, 0, { type: 'knock' }));
     expect(s.pendingAfterKnock).toEqual([1, 2, 3]);
     s = forfeit(s, 2).state;
@@ -214,7 +218,7 @@ describe('forfeit', () => {
   });
 
   it('the last player owed a turn leaving triggers the reveal immediately', () => {
-    const g = scripted(['Kh Qh 2c', '9d 3c 4s', '5s 6s 7c'], '2d', ['3h']);
+    const g = scripted(['Kh Qh 2h', '9d 3c 4s', '5s 6s 7c'], '2d', ['3h']);
     let s = must(apply(g, 0, { type: 'knock' }));
     s = must(apply(s, 1, { type: 'draw', source: 'deck' }));
     s = must(apply(s, 1, { type: 'discard', card: s.seats[1]!.hand[3]! }));
@@ -225,7 +229,7 @@ describe('forfeit', () => {
   });
 
   it('a knocker who leaves: the round still completes and nobody pays the knocker penalty', () => {
-    const g = scripted(['9d 3c 4s', 'Kh Qh 2c', '9s 3h 4c'], '2d', ['5h', '6h']);
+    const g = scripted(['2d 3d 5d', 'Kh Qh 2c', '10s 3h 4c'], '6c', ['5h', '6h']);
     let s = must(apply(g, 0, { type: 'knock' }));
     s = forfeit(s, 0).state;
     expect(s.knocker).toBe(0);
@@ -249,7 +253,7 @@ describe('forfeit', () => {
   });
 
   it('works between rounds too', () => {
-    const g = knockRound(scripted(['Kh Qh 2c', '9d 3c 4s', '5s 6s 7c'], '2d', ['3h', '4h']));
+    const g = knockRound(scripted(['Kh Qh 2h', '9d 3c 4s', '5s 6s 7c'], '2d', ['3h', '4h']));
     const between = resolveRound(g).state;
     const { state } = forfeit(between, 1);
     expect(state.phase).toBe('betweenRounds');
@@ -295,10 +299,10 @@ describe('whole games under random legal play', () => {
             const pick = step.value;
             let r;
             if (legal.includes('discard')) {
-              const hand = g.seats[seat]!.hand;
-              r = apply(g, seat, { type: 'discard', card: hand[pick % hand.length]! });
-              if (!r.ok)
-                r = apply(g, seat, { type: 'discard', card: hand[(pick + 1) % hand.length]! });
+              r = apply(g, seat, {
+                type: 'discard',
+                card: pickDiscard(g.seats[seat]!.hand, g.tookFromDiscard),
+              });
             } else if (legal.includes('knock') && pick < knockChance) {
               r = apply(g, seat, { type: 'knock' });
             } else {
@@ -339,7 +343,10 @@ describe('whole games under random legal play', () => {
         rng = step.state;
         const legal = legalActions(g, seat);
         const r = legal.includes('discard')
-          ? apply(g, seat, { type: 'discard', card: g.seats[seat]!.hand[step.value % 4]! })
+          ? apply(g, seat, {
+              type: 'discard',
+              card: pickDiscard(g.seats[seat]!.hand, g.tookFromDiscard),
+            })
           : step.value < 10 && legal.includes('knock')
             ? apply(g, seat, { type: 'knock' })
             : apply(g, seat, { type: 'draw', source: 'deck' });

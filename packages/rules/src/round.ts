@@ -28,19 +28,7 @@ export function resolveRound(state: GameState): Transition {
   const result = state.roundResult;
   const events: GameEvent[] = [];
 
-  // Who folds, and how many corners.
-  const penalties = new Map<number, number>();
-  if (result.reason === 'thirtyOne') {
-    const safe = new Set(result.thirtyOneSeats);
-    for (const h of result.hands) if (!safe.has(h.seat)) penalties.set(h.seat, 1);
-  } else {
-    const lowest = Math.min(...result.hands.map((h) => h.score.total));
-    const losers = result.hands.filter((h) => h.score.total === lowest).map((h) => h.seat);
-    const knockerStillIn =
-      state.knocker !== null && !state.seats[state.knocker]!.out && losers.includes(state.knocker);
-    for (const seat of losers)
-      penalties.set(seat, knockerStillIn && seat === state.knocker ? 2 : 1);
-  }
+  const penalties = new Map(result.penalties.map((p) => [p.seat, p.corners]));
 
   // Every remaining player would go out at once: replay the round, nobody folds.
   const active = activeSeatIndices(state);

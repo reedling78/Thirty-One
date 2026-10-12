@@ -10,6 +10,7 @@ import {
   type Action,
   type ActionError,
   type GameEvent,
+  type Card,
   type GameState,
   type RngState,
 } from '@thirtyone/rules';
@@ -23,10 +24,17 @@ export interface LocalTableOptions {
   readonly seed?: number;
   /** Milliseconds a bot "thinks" before acting. */
   readonly botDelayMs?: number;
-  /** Milliseconds the reveal stays on screen before folds are applied. */
-  readonly revealDelayMs?: number;
+  /**
+   * Milliseconds the reveal stays on screen before folds are applied. Omit (the
+   * default) to wait for `acknowledgeReveal()` instead, so the player sets the pace.
+   */
+  readonly revealDelayMs?: number | null;
   /** Milliseconds between folds being applied and the next deal. */
   readonly dealDelayMs?: number;
+  /** Fix the first dealer (seat index). The guided game uses this so the player goes first. */
+  readonly dealer?: number;
+  /** A full 52-card deck for the first round only. The guided game uses this for a known deal. */
+  readonly firstDeck?: readonly Card[];
 }
 
 const HUMAN_SEAT = 0;
@@ -43,7 +51,12 @@ export class LocalTableClient implements TableClient {
   private readonly listeners = new Set<(s: TableSnapshot) => void>();
   private timer: ReturnType<typeof setTimeout> | null = null;
   private disposed = false;
-  private readonly opts: Required<LocalTableOptions>;
+  private readonly opts: Required<
+    Omit<LocalTableOptions, 'revealDelayMs' | 'dealer' | 'firstDeck'>
+  > & {
+    revealDelayMs: number | null;
+  };
+  private firstDeck: readonly Card[] | undefined;
 
   constructor(options: LocalTableOptions) {
     const seed = options.seed ?? Math.floor(Math.random() * 0xffffffff);
@@ -52,13 +65,18 @@ export class LocalTableClient implements TableClient {
       bots: options.bots,
       seed,
       botDelayMs: options.botDelayMs ?? 700,
-      revealDelayMs: options.revealDelayMs ?? 2500,
+      revealDelayMs: options.revealDelayMs === undefined ? null : options.revealDelayMs,
       dealDelayMs: options.dealDelayMs ?? 900,
     };
     const ids = Array.from({ length: options.seats }, (_, i) =>
       i === HUMAN_SEAT ? 'you' : `bot${i}`,
     );
-    this.state = createGame(ids, seed);
+    this.state = createGame(
+      ids,
+      seed,
+      options.dealer === undefined ? {} : { dealer: options.dealer },
+    );
+    this.firstDeck = options.firstDeck;
     this.rng = seedRng(seed ^ 0x5bd1e995);
   }
 
@@ -72,7 +90,8 @@ export class LocalTableClient implements TableClient {
 
   start(): void {
     if (this.state.phase !== 'lobby') return;
-    const r = startRound(this.state);
+    const r = startRound(this.state, this.firstDeck ? { deck: this.firstDeck } : {});
+    this.firstDeck = undefined;
     this.commit(r.state, r.events);
   }
 
@@ -82,6 +101,13 @@ export class LocalTableClient implements TableClient {
     if (!r.ok) return r.error;
     this.commit(r.state, r.events);
     return null;
+  }
+
+  acknowledgeReveal(): void {
+    if (this.disposed || this.state.phase !== 'roundOver') return;
+    this.clearTimer();
+    const r = resolveRound(this.state);
+    this.commit(r.state, r.events);
   }
 
   dispose(): void {
@@ -111,10 +137,9 @@ export class LocalTableClient implements TableClient {
           this.timer = setTimeout(() => this.botTurn(), this.opts.botDelayMs);
         break;
       case 'roundOver':
-        this.timer = setTimeout(() => {
-          const r = resolveRound(this.state);
-          this.commit(r.state, r.events);
-        }, this.opts.revealDelayMs);
+        if (this.opts.revealDelayMs !== null) {
+          this.timer = setTimeout(() => this.acknowledgeReveal(), this.opts.revealDelayMs);
+        }
         break;
       case 'betweenRounds':
         this.timer = setTimeout(() => {

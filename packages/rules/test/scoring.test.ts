@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   findThirtyOne,
   hasThirtyOne,
+  isCompleteHand,
   isStraight,
   isTrips,
   makeDeck,
@@ -105,6 +106,17 @@ describe('scoreHand — edge cases', () => {
     expect(isStraight(parseHand('5d 3d 4d'))).toBe(true);
     expect(isStraight(parseHand('Ad Kd Qd'))).toBe(true);
     expect(isStraight(parseHand('2d Ad 3d'))).toBe(true);
+  });
+});
+
+describe('isCompleteHand', () => {
+  it('is true for one suit (straights and 31 included) and three of a kind, false otherwise', () => {
+    expect(isCompleteHand(parseHand('Kh Qh 2h'))).toBe(true);
+    expect(isCompleteHand(parseHand('3d 4d 5d'))).toBe(true);
+    expect(isCompleteHand(parseHand('Kh Ah Qh'))).toBe(true);
+    expect(isCompleteHand(parseHand('8h 8c 8d'))).toBe(true);
+    expect(isCompleteHand(parseHand('Kh Qh 2c'))).toBe(false);
+    expect(isCompleteHand(parseHand('2c 5d 9h'))).toBe(false);
   });
 });
 

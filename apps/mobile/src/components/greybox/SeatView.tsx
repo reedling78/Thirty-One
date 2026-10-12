@@ -1,48 +1,60 @@
-import type { SeatView as SeatInfo } from '@thirtyone/rules';
-import { StyleSheet, Text, View } from 'react-native';
-import { CardView } from './CardView';
+import type { RoundResult, SeatView as SeatInfo } from '@thirtyone/rules';
+import { PlayerRow } from './PlayerRow';
 
 interface Props {
   seat: SeatInfo;
-  isMe: boolean;
+  /** Present while the round's hands are revealed on the table. */
+  result: RoundResult | null;
+  round: number;
+  /** Position among the opponents, for the deal stagger. */
+  order: number;
+  /** Their last completed move this round, in words. */
+  lastAction: string | null;
 }
 
-/** One opponent's seat: name, cards (count or revealed), corners, and state markers. */
-export function SeatView({ seat, isMe }: Props) {
-  const name = isMe ? 'You' : seat.id;
-  const corners = seat.out ? 'OUT' : seat.onBus ? 'ON THE BUS' : `${seat.folds}/4 corners folded`;
-  const markers = [seat.isTurn && 'turn', seat.isKnocker && 'knocked', seat.isDealer && 'dealer']
-    .filter(Boolean)
-    .join(' · ');
-  const label = `${name}: ${seat.cardCount} cards, ${corners}${markers ? ', ' + markers : ''}`;
+/** What the reveal says about one seat: 31, knocked and safe, lowest, or safe. */
+export function revealTag(seat: SeatInfo, result: RoundResult): { tag: string; loser: boolean } {
+  const corners = result.penalties.find((p) => p.seat === seat.index)?.corners ?? 0;
+  const willBeOut = corners > 0 && seat.folds + corners > 4;
+  if (seat.revealed?.score.kind === 'thirtyOne') return { tag: '31!', loser: false };
+  if (corners === 2) return { tag: 'knocked and lowest — folds two corners', loser: true };
+  if (corners === 1)
+    return { tag: willBeOut ? 'lowest — out of the game' : 'lowest — folds a corner', loser: true };
+  if (seat.index === result.knocker) return { tag: 'knocked — safe', loser: false };
+  return { tag: 'safe', loser: false };
+}
 
+/** An opponent on the table: face-down cards and corners during play; cards and score at the reveal. */
+export function SeatView({ seat, result, round, order, lastAction }: Props) {
+  if (result && seat.revealed) {
+    const { tag, loser } = revealTag(seat, result);
+    return (
+      <PlayerRow
+        name={seat.id}
+        tag={tag}
+        cards={seat.revealed.hand}
+        figure={{ kind: 'score', total: seat.revealed.score.total }}
+        emphasis={loser ? 'loser' : seat.index === result.knocker ? 'knocker' : 'none'}
+        dimmed={seat.out}
+      />
+    );
+  }
+
+  const tag = seat.out
+    ? 'out'
+    : seat.isTurn
+      ? 'playing now'
+      : (lastAction ?? (seat.isDealer ? 'dealer · waiting' : 'waiting'));
   return (
-    <View
-      accessible
-      accessibilityLabel={label}
-      style={[styles.seat, seat.isTurn && styles.turn, seat.out && styles.out]}
-    >
-      <Text style={styles.name}>
-        {name} {markers ? `(${markers})` : ''}
-      </Text>
-      <View style={styles.cards}>
-        {seat.revealed
-          ? seat.revealed.hand.map((c, i) => <CardView key={i} card={c} />)
-          : Array.from({ length: seat.cardCount }, (_, i) => <CardView key={i} faceDown />)}
-      </View>
-      <Text style={styles.meta}>
-        {seat.revealed ? `${seat.revealed.score.total} · ` : ''}
-        {corners}
-      </Text>
-    </View>
+    <PlayerRow
+      name={seat.id}
+      tag={tag}
+      cards={seat.cardCount}
+      figure={{ kind: 'chip', folds: seat.folds, out: seat.out }}
+      emphasis={seat.isTurn ? 'turn' : seat.isKnocker ? 'knocker' : 'none'}
+      dimmed={seat.out}
+      dealKey={round}
+      delay={400 + order * 180}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  seat: { padding: 8, borderWidth: 1, borderColor: '#bbb', borderRadius: 8, gap: 4, minWidth: 120 },
-  turn: { borderColor: '#000', borderWidth: 3 },
-  out: { opacity: 0.4 },
-  name: { fontWeight: '700' },
-  cards: { flexDirection: 'row', gap: 4, flexWrap: 'wrap' },
-  meta: { fontSize: 12 },
-});

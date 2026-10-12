@@ -1,5 +1,5 @@
 import { cardLabel, type GameEvent, type PlayerView } from '@thirtyone/rules';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { TableClient, TableSnapshot } from './TableClient';
 
 /** Subscribe a screen to a table. Keeps the last few events for a simple log. */
@@ -8,6 +8,9 @@ export function useTable(client: TableClient, logLength = 4) {
   const [log, setLog] = useState<readonly string[]>([]);
   /** Seats that have gone out, in order — for the results screen. */
   const [eliminated, setEliminated] = useState<readonly number[]>([]);
+  /** Each seat's last completed move this round, in plain words. Reset on every deal. */
+  const [lastActions, setLastActions] = useState<Readonly<Record<number, string>>>({});
+  const pendingDraw = useRef<Record<number, string>>({});
 
   useEffect(() => {
     const unsubscribe = client.subscribe((s) => {
@@ -18,6 +21,31 @@ export function useTable(client: TableClient, logLength = 4) {
             -logLength,
           ),
         );
+        setLastActions((prev) => {
+          let next = prev;
+          for (const e of s.events) {
+            if (e.type === 'roundStarted') {
+              next = {};
+              pendingDraw.current = {};
+            } else if (e.type === 'drew') {
+              pendingDraw.current[e.seat] =
+                e.source === 'discard'
+                  ? `took ${e.card ? cardLabel(e.card) : 'the discard'}`
+                  : 'drew from the deck';
+            } else if (e.type === 'discarded') {
+              const draw = pendingDraw.current[e.seat];
+              delete pendingDraw.current[e.seat];
+              next = { ...next, [e.seat]: `${draw ?? 'played'}, threw ${cardLabel(e.card)}` };
+            } else if (e.type === 'knocked') {
+              next = { ...next, [e.seat]: 'knocked' };
+            } else if (e.type === 'thirtyOne') {
+              next = { ...next, [e.seat]: 'hit 31!' };
+            } else if (e.type === 'forfeited') {
+              next = { ...next, [e.seat]: 'left the table' };
+            }
+          }
+          return next;
+        });
         const outs = s.events
           .filter((e) => e.type === 'eliminated' || e.type === 'forfeited')
           .map((e) => e.seat);
@@ -31,7 +59,7 @@ export function useTable(client: TableClient, logLength = 4) {
     };
   }, [client, logLength]);
 
-  return { snapshot, log, eliminated };
+  return { snapshot, log, eliminated, lastActions };
 }
 
 function who(seat: number, view: PlayerView): string {

@@ -1,8 +1,9 @@
 import { sameCard, type Card } from './cards';
 import { shuffle } from './rng';
-import { findThirtyOne } from './scoring';
+import { findThirtyOne, isCompleteHand } from './scoring';
 import {
   HAND_SIZE,
+  asHand,
   endRound,
   handContains,
   nextActiveSeat,
@@ -23,6 +24,7 @@ export type ActionErrorCode =
   | 'cardNotInHand'
   | 'cannotThrowBackDrawnDiscard'
   | 'knockNotAllowedAfterDraw'
+  | 'knockNeedsCompleteHand'
   | 'someoneAlreadyKnocked'
   | 'noCardsToDraw';
 
@@ -45,7 +47,7 @@ export function legalActions(state: GameState, seat: number): Action['type'][] {
   const hand = state.seats[seat]!.hand;
   if (hand.length > HAND_SIZE) return ['discard'];
   const actions: Action['type'][] = ['draw'];
-  if (state.knocker === null) actions.push('knock');
+  if (state.knocker === null && isCompleteHand(asHand(hand))) actions.push('knock');
   return actions;
 }
 
@@ -153,6 +155,12 @@ function knock(state: GameState, seat: number): ApplyResult {
     return fail('knockNotAllowedAfterDraw', 'Knocking replaces your turn; you have already drawn');
   if (state.knocker !== null)
     return fail('someoneAlreadyKnocked', `Seat ${state.knocker} already knocked`);
+  if (!isCompleteHand(asHand(player.hand))) {
+    return fail(
+      'knockNeedsCompleteHand',
+      'You can only knock when all three cards count — one suit, or three of a kind',
+    );
+  }
 
   // Every other player gets exactly one more turn, in table order from the knocker.
   const pending: number[] = [];

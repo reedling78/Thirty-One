@@ -1,27 +1,36 @@
 import type { Card, PlayerView } from '@thirtyone/rules';
 import { cardId } from '@thirtyone/rules';
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import Animated, { FadeInUp } from 'react-native-reanimated';
 import type { TableClient } from '@/game/TableClient';
 import { CardView, cardName } from './CardView';
-import { SeatView } from './SeatView';
+import { ActionIsland } from './ActionIsland';
+import { CardText } from './CardText';
+import { ChipBadge } from './ChipBadge';
+import { SeatView, revealTag } from './SeatView';
+import { useSettings } from '@/settings/Settings';
 
 interface Props {
   client: TableClient;
   view: PlayerView;
   log: readonly string[];
+  /** Each seat's last move this round, from useTable. */
+  lastActions: Readonly<Record<number, string>>;
 }
 
 /**
  * The practice table, greyboxed: rectangles and system text, fully playable.
  * This is where the layout gets tested against real play; styling is Milestone 5.
  */
-export function GreyboxTable({ client, view, log }: Props) {
+export function GreyboxTable({ client, view, log, lastActions }: Props) {
   const [error, setError] = useState<string | null>(null);
+  const { motionReduced } = useSettings();
   const me = view.seats[view.seat]!;
   const canDraw = view.legalActions.includes('draw');
-  const canKnock = view.legalActions.includes('knock');
   const canDiscard = view.legalActions.includes('discard');
+  const revealing = view.phase === 'roundOver' && view.roundResult !== null;
+  const myVerdict = revealing ? revealTag(me, view.roundResult!) : null;
 
   const act = (action: Parameters<TableClient['send']>[0]) => {
     const err = client.send(action);
@@ -43,24 +52,30 @@ export function GreyboxTable({ client, view, log }: Props) {
 
   return (
     <View style={styles.root}>
-      <Text style={styles.status} accessibilityRole="header">
-        Round {view.round} · {phaseText(view)}
-      </Text>
+      <ActionIsland
+        view={view}
+        onKnock={() => act({ type: 'knock' })}
+        onContinue={() => client.acknowledgeReveal()}
+      />
 
-      <ScrollView
-        horizontal
-        contentContainerStyle={styles.seats}
-        showsHorizontalScrollIndicator={false}
-      >
-        {others.map((s) => (
-          <SeatView key={s.index} seat={s} isMe={false} />
+      <View style={styles.seats}>
+        {others.map((s, i) => (
+          <SeatView
+            key={s.index}
+            seat={s}
+            result={revealing ? view.roundResult : null}
+            round={view.round}
+            order={i}
+            lastAction={lastActions[s.index] ?? null}
+          />
         ))}
-      </ScrollView>
+      </View>
 
       <View style={styles.piles}>
         <View style={styles.pile}>
           <CardView
             faceDown
+            size="large"
             onPress={canDraw ? () => act({ type: 'draw', source: 'deck' }) : undefined}
             disabled={!canDraw}
             label={`Draw pile, ${view.drawPileCount} cards${canDraw ? '. Tap to draw' : ''}`}
@@ -71,6 +86,7 @@ export function GreyboxTable({ client, view, log }: Props) {
           {view.discardTop ? (
             <CardView
               card={view.discardTop}
+              size="large"
               onPress={canDraw ? () => act({ type: 'draw', source: 'discard' }) : undefined}
               disabled={!canDraw}
               label={`Discard pile, ${cardName(view.discardTop)} on top${canDraw ? '. Tap to take it' : ''}`}
@@ -84,88 +100,94 @@ export function GreyboxTable({ client, view, log }: Props) {
         </View>
       </View>
 
-      <View style={styles.me}>
-        <Text style={styles.name}>
-          You · {me.out ? 'OUT' : me.onBus ? 'ON THE BUS' : `${me.folds}/4 corners folded`}
-          {me.isKnocker ? ' · knocked' : ''}
-        </Text>
+      <View
+        style={[
+          styles.me,
+          me.isTurn && styles.meTurn,
+          me.isKnocker && styles.meKnocker,
+          myVerdict?.loser && styles.meLoser,
+        ]}
+      >
+        <View style={styles.meHeader}>
+          <View style={styles.meTitle}>
+            <Text style={styles.name}>You{me.isKnocker ? ' · knocked' : ''}</Text>
+            {myVerdict ? (
+              <Text style={[styles.verdict, myVerdict.loser && styles.verdictLoser]}>
+                {myVerdict.tag}
+              </Text>
+            ) : (
+              <Text style={styles.value} accessibilityLiveRegion="polite">
+                {scoreText}
+              </Text>
+            )}
+          </View>
+          {me.revealed ? (
+            <Text
+              style={styles.myScore}
+              accessibilityLabel={`Your score: ${me.revealed.score.total}`}
+            >
+              {me.revealed.score.total}
+            </Text>
+          ) : (
+            <ChipBadge folds={me.folds} out={me.out} size={36} />
+          )}
+        </View>
         <View style={styles.hand}>
-          {view.hand.map((c) => {
+          {view.hand.map((c, i) => {
             const untouchable =
               !!view.tookFromDiscard && cardId(view.tookFromDiscard) === cardId(c);
+            // At the reveal, only the cards that count stay bright — a 31 drawn into a
+            // four-card hand leaves one card out.
+            const counted = me.revealed?.hand;
+            const notCounted = !!counted && !counted.some((k) => cardId(k) === cardId(c));
             return (
-              <CardView
-                key={cardId(c)}
-                card={c}
-                onPress={canDiscard ? () => discard(c) : undefined}
-                disabled={!canDiscard || untouchable}
-                label={`${cardName(c)}${canDiscard ? (untouchable ? ', just taken, cannot discard' : '. Tap to discard') : ''}`}
-              />
+              <Animated.View
+                key={`${view.round}-${cardId(c)}`}
+                entering={
+                  motionReduced
+                    ? undefined
+                    : FadeInUp.delay(i < 3 ? i * 140 : 0).duration(i < 3 ? 260 : 180)
+                }
+              >
+                <CardView
+                  card={c}
+                  onPress={canDiscard && !untouchable ? () => discard(c) : undefined}
+                  dimmed={notCounted}
+                  label={`${cardName(c)}${notCounted ? ', not part of the hand' : ''}${canDiscard ? (untouchable ? ', just taken, cannot discard' : '. Tap to discard') : ''}`}
+                />
+              </Animated.View>
             );
           })}
-        </View>
-        <Text style={styles.value} accessibilityLiveRegion="polite">
-          Hand value: {scoreText}
-        </Text>
-        <View style={styles.actions}>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityState={{ disabled: !canKnock }}
-            disabled={!canKnock}
-            onPress={() => act({ type: 'knock' })}
-            style={[styles.button, !canKnock && styles.buttonDisabled]}
-          >
-            <Text style={styles.buttonText}>Knock</Text>
-          </Pressable>
-          <Text style={styles.hint}>
-            {canDiscard
-              ? 'Tap a card to discard'
-              : canDraw
-                ? 'Tap the deck or the discard to draw'
-                : ''}
-          </Text>
         </View>
         {error ? <Text style={styles.error}>{error}</Text> : null}
       </View>
 
       <View style={styles.log} accessibilityLiveRegion="polite">
         {log.filter(Boolean).map((line, i) => (
-          <Text key={i} style={styles.logLine}>
+          <CardText key={i} style={styles.logLine}>
             {line}
-          </Text>
+          </CardText>
         ))}
       </View>
     </View>
   );
 }
 
-function phaseText(view: PlayerView): string {
-  switch (view.phase) {
-    case 'playing':
-      return view.turn === view.seat
-        ? 'your turn'
-        : `${view.seats[view.turn]?.id ?? 'someone'} to play`;
-    case 'roundOver':
-      return 'hands revealed';
-    case 'betweenRounds':
-      return 'dealing…';
-    case 'gameOver':
-      return 'game over';
-    default:
-      return view.phase;
-  }
-}
-
 const styles = StyleSheet.create({
-  root: { flex: 1, padding: 12, gap: 12 },
-  status: { fontSize: 16, fontWeight: '700' },
-  seats: { gap: 8, paddingVertical: 4 },
-  piles: { flexDirection: 'row', justifyContent: 'center', gap: 32 },
+  root: { flex: 1, padding: 12, gap: 10 },
+  seats: { gap: 6 },
+  piles: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    gap: 24,
+    paddingVertical: 16,
+  },
   pile: { alignItems: 'center', gap: 4 },
   pileLabel: { fontSize: 12 },
   emptyPile: {
-    minWidth: 48,
-    minHeight: 68,
+    minWidth: 88,
+    minHeight: 126,
     borderWidth: 2,
     borderStyle: 'dashed',
     borderColor: '#999',
@@ -173,22 +195,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  me: { borderWidth: 1, borderColor: '#333', borderRadius: 8, padding: 10, gap: 8 },
-  name: { fontWeight: '700' },
-  hand: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
+  me: { borderWidth: 2, borderColor: '#bbb', borderRadius: 8, padding: 10, gap: 8 },
+  meTurn: { borderColor: '#000' },
+  meKnocker: { backgroundColor: '#fff3c4' },
+  meLoser: { borderColor: '#b00020', backgroundColor: '#fde8e8' },
+  myScore: { fontSize: 24, fontWeight: '800', minWidth: 40, textAlign: 'right' },
+  verdict: { fontSize: 14, color: '#333' },
+  verdictLoser: { fontWeight: '800', color: '#b00020' },
+  meHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  meTitle: { flexDirection: 'row', alignItems: 'baseline', gap: 10, flex: 1, flexWrap: 'wrap' },
+  name: { fontWeight: '700', fontSize: 16 },
+  hand: { flexDirection: 'row', gap: 10, flexWrap: 'wrap' },
   value: { fontSize: 16 },
-  actions: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  button: {
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-    borderWidth: 2,
-    borderColor: '#000',
-    borderRadius: 6,
-  },
-  buttonDisabled: { opacity: 0.3 },
-  buttonText: { fontWeight: '700', fontSize: 16 },
-  hint: { flex: 1, fontSize: 12 },
   error: { color: '#b00020' },
-  log: { gap: 2 },
+  log: { gap: 2, flex: 1, minHeight: 60 },
   logLine: { fontSize: 13, color: '#444' },
 });

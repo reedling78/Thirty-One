@@ -15,7 +15,7 @@ import {
   type GameEvent,
   type GameState,
 } from '../src/index';
-import { scriptDeck } from './helpers';
+import { pickDiscard, scriptDeck } from './helpers';
 
 const seats = (n: number) => Array.from({ length: n }, (_, i) => `p${i}`);
 
@@ -34,7 +34,7 @@ describe('bestScore', () => {
 });
 
 describe('viewFor', () => {
-  const deck = scriptDeck(['Kh Qh 2c', '9d 3c 4s', '5s 6s 7c'], '2d', ['Ah']);
+  const deck = scriptDeck(['Kh Qh 9h', '9d 3c 4s', '5s 6s 7c'], '2d', ['Ah']);
   const g = startRound(createGame(seats(3), 1, { dealer: 2 }), { deck }).state; // turn 0
 
   it('shows your own hand and score, and only counts for everyone else', () => {
@@ -62,7 +62,7 @@ describe('viewFor', () => {
     const s = must(apply(g, 0, { type: 'draw', source: 'discard' }));
     const mine = viewFor(s, 0);
     expect(mine.hand).toHaveLength(4);
-    expect(mine.handScore?.total).toBe(20);
+    expect(mine.handScore?.total).toBe(29);
     expect(mine.tookFromDiscard).toEqual(top);
     expect(mine.legalActions).toEqual(['discard']);
     const theirs = viewFor(s, 1);
@@ -80,7 +80,7 @@ describe('viewFor', () => {
     expect(s.phase).toBe('roundOver');
     const v = viewFor(s, 2);
     expect(v.roundResult?.reason).toBe('knock');
-    expect(v.seats.map((x) => x.revealed?.score.total)).toEqual([20, 9, 11]);
+    expect(v.seats.map((x) => x.revealed?.score.total)).toEqual([29, 9, 11]);
     expect(v.seats[0]!.isKnocker).toBe(true);
     expect(v.seats.some((x) => x.isTurn)).toBe(false);
     const after = resolveRound(s).state;
@@ -150,10 +150,10 @@ describe('hidden hands — properties', () => {
           rng = step.state;
           let r;
           if (legal.includes('discard')) {
-            const hand = g.seats[seat]!.hand;
-            r = apply(g, seat, { type: 'discard', card: hand[step.value % hand.length]! });
-            if (!r.ok)
-              r = apply(g, seat, { type: 'discard', card: hand[(step.value + 1) % hand.length]! });
+            r = apply(g, seat, {
+              type: 'discard',
+              card: pickDiscard(g.seats[seat]!.hand, g.tookFromDiscard),
+            });
           } else if (legal.includes('knock') && step.value < 5) {
             r = apply(g, seat, { type: 'knock' });
           } else {

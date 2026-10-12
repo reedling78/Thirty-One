@@ -58,6 +58,15 @@ function consecutive(sorted: readonly number[]): boolean {
 }
 
 /**
+ * Every card counts toward the score: three of one suit (which includes every
+ * straight and 31) or three of a kind. A player may knock only with such a hand.
+ */
+export function isCompleteHand(hand: Hand): boolean {
+  if (isTrips(hand)) return true;
+  return hand[0].suit === hand[1].suit && hand[1].suit === hand[2].suit;
+}
+
+/**
  * Score exactly three cards, always taking the best reading.
  * A suited Q-K-A is both a straight and 31; it scores 31.
  */

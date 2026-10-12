@@ -1,4 +1,4 @@
-import { makeDeck, sameCard, type Card, type Hand } from './cards';
+import { cardId, makeDeck, sameCard, type Card, type Hand } from './cards';
 import { nextInt, seedRng, shuffle, type RngState } from './rng';
 import { findThirtyOne, scoreHand, type HandScore } from './scoring';
 
@@ -34,6 +34,12 @@ export interface RevealedHand {
   readonly score: HandScore;
 }
 
+export interface Penalty {
+  readonly seat: number;
+  /** 1 for the lowest hand or a 31 victim, 2 for a knocker who was lowest. */
+  readonly corners: number;
+}
+
 export interface RoundResult {
   readonly reason: RoundEndReason;
   readonly knocker: number | null;
@@ -41,6 +47,8 @@ export interface RoundResult {
   readonly hands: readonly RevealedHand[];
   /** Seats holding 31 when the round ended by 31. Empty for a knock. */
   readonly thirtyOneSeats: readonly number[];
+  /** What `resolveRound` will apply, so the reveal can show it before it happens. */
+  readonly penalties: readonly Penalty[];
 }
 
 export interface GameState {
@@ -166,6 +174,28 @@ export function removeCard(hand: readonly Card[], card: Card): Card[] {
   return [...hand.slice(0, i), ...hand.slice(i + 1)];
 }
 
+/**
+ * Build a full 52-card deck that deals exactly these hands (one per active seat,
+ * in seat order), flips `discard`, then serves `drawOrder` from the top of the
+ * draw pile. Everything unspecified fills the bottom. For the guided first game
+ * and for tests.
+ */
+export function scriptedDeck(
+  hands: readonly (readonly Card[])[],
+  discard: Card,
+  drawOrder: readonly Card[] = [],
+): Card[] {
+  const handSize = hands[0]?.length ?? 0;
+  const dealt: Card[] = [];
+  for (let n = 0; n < handSize; n++) for (const h of hands) dealt.push(h[n]!);
+  const top = [...dealt, discard, ...drawOrder];
+  const used = new Set(top.map(cardId));
+  if (used.size !== top.length) throw new Error('scriptedDeck: duplicate card');
+  const rest = makeDeck().filter((c) => !used.has(cardId(c)));
+  // The last element is dealt first, so the "top" list goes on the end, reversed.
+  return [...rest, ...top.reverse()];
+}
+
 // ---------------------------------------------------------------------------
 // Rounds
 
@@ -269,9 +299,37 @@ export function endRound(
         : (findThirtyOne(raw) ?? asHand(raw.slice(0, HAND_SIZE)));
     return { seat, hand, score: scoreHand(hand) };
   });
-  const roundResult: RoundResult = { reason, knocker: state.knocker, hands, thirtyOneSeats };
+  const penalties = roundPenalties(state, reason, hands, thirtyOneSeats);
+  const roundResult: RoundResult = {
+    reason,
+    knocker: state.knocker,
+    hands,
+    thirtyOneSeats,
+    penalties,
+  };
   const event: RoundOverEvent = { type: 'roundOver', ...roundResult };
   return { state: { ...state, phase: 'roundOver', roundResult }, event };
+}
+
+/** Who folds, and how many corners: lowest folds one, ties all fold, a losing knocker folds two, a 31 folds everyone else. */
+function roundPenalties(
+  state: GameState,
+  reason: RoundEndReason,
+  hands: readonly RevealedHand[],
+  thirtyOneSeats: readonly number[],
+): Penalty[] {
+  if (reason === 'thirtyOne') {
+    const safe = new Set(thirtyOneSeats);
+    return hands.filter((h) => !safe.has(h.seat)).map((h) => ({ seat: h.seat, corners: 1 }));
+  }
+  const lowest = Math.min(...hands.map((h) => h.score.total));
+  const losers = hands.filter((h) => h.score.total === lowest).map((h) => h.seat);
+  const knockerStillIn =
+    state.knocker !== null && !state.seats[state.knocker]!.out && losers.includes(state.knocker);
+  return losers.map((seat) => ({
+    seat,
+    corners: knockerStillIn && seat === state.knocker ? 2 : 1,
+  }));
 }
 
 // ---------------------------------------------------------------------------
