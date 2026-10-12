@@ -38,7 +38,7 @@ export default function RootLayout() {
             contentStyle: { backgroundColor: color.baize },
           }}
         >
-          <Stack.Screen name="index" options={{ title: 'ThirtyOne' }} />
+          <Stack.Screen name="index" options={{ title: 'ThirtyOne', headerShown: false }} />
           <Stack.Screen name="practice" options={{ title: 'Practice' }} />
           <Stack.Screen name="rules" options={{ title: 'How to play' }} />
           <Stack.Screen name="settings" options={{ title: 'Settings' }} />

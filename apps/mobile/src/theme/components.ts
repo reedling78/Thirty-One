@@ -127,3 +127,16 @@ export const YOUR_PANEL = {
 
 /** The ad slot's placeholder captions sit on a fixed-size slot and don't scale. */
 export const AD_CAPTION = 12;
+
+/** Home: the fanned hand above the title. */
+export const HOME = {
+  fan: [
+    { transform: [{ rotate: '-8deg' }] },
+    { marginLeft: -22, marginBottom: 10 },
+    { marginLeft: -22, transform: [{ rotate: '8deg' }] },
+  ],
+  taglineWidth: 300,
+} as const;
+
+/** The guide card sits in the upper third of the table, clear of the piles. */
+export const GUIDE = { top: 100, padTop: 22 } as const;

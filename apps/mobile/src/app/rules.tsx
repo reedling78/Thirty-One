@@ -8,7 +8,8 @@ import {
   type Hand,
 } from '@thirtyone/rules';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { CardView } from '@/components/greybox/CardView';
+import { CardText } from '@/components/greybox/CardText';
+import { CardView, cardName } from '@/components/greybox/CardView';
 import { Felt } from '@/components/ui/Felt';
 import { PANEL } from '@/theme/components';
 import { Txt } from '@/theme/text';
@@ -114,23 +115,20 @@ function Example({ hand, why }: { hand: Hand; why: string }) {
     <View
       style={styles.example}
       accessible
-      accessibilityLabel={`Example: scores ${s.total}, ${kind}. ${why}`}
+      accessibilityLabel={`Example: ${hand.map(cardName).join(', ')}. Scores ${s.total}, ${kind}. ${why}`}
     >
       <View style={styles.cards}>
         {hand.map((c, i) => (
           <CardView key={i} card={c} size="small" />
         ))}
       </View>
+      <Txt variant="score" color={color.ink} style={styles.score}>
+        {String(s.total)}
+      </Txt>
       <View style={styles.exampleText}>
-        <Txt variant="score" color={color.ink}>
-          {s.total}{' '}
-          <Txt variant="status" color={color.inkSecondary}>
-            {kind}
-          </Txt>
-        </Txt>
-        <Txt variant="status" color={color.inkSecondary}>
+        <CardText variant="status" color={color.inkSecondary}>
           {why}
-        </Txt>
+        </CardText>
       </View>
     </View>
   );
@@ -150,12 +148,13 @@ const styles = StyleSheet.create({
   examples: { gap: 0 },
   example: {
     flexDirection: 'row',
-    gap: space.md,
+    gap: PANEL.rowGap,
     alignItems: 'center',
     paddingVertical: space.sm,
     borderTopWidth: 1,
     borderColor: color.rule,
   },
   cards: { flexDirection: 'row', gap: PANEL.smallCardGap },
-  exampleText: { flex: 1, gap: 2 },
+  score: { width: PANEL.figureWidth },
+  exampleText: { flex: 1 },
 });

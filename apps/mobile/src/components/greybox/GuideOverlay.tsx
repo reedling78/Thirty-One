@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import type { GuideStep } from '@/game/guide';
-import { SCRIM } from '@/theme/components';
+import { Button } from '@/components/ui/Button';
+import { GUIDE, SCRIM } from '@/theme/components';
 import { Txt } from '@/theme/text';
 import { color, radius, shadow, space } from '@/theme/tokens';
 import { CardText } from './CardText';
@@ -16,7 +17,7 @@ export function GuideOverlay({ step, onDismiss, onSkip }: Props) {
   return (
     <View style={styles.backdrop} accessibilityViewIsModal>
       <View style={styles.card} accessibilityRole="alert">
-        <Txt variant="title" color={color.ink}>
+        <Txt variant="title" color={color.ink} accessibilityRole="header">
           {step.title}
         </Txt>
         <CardText variant="body" color={color.ink}>
@@ -28,11 +29,7 @@ export function GuideOverlay({ step, onDismiss, onSkip }: Props) {
               Skip the guide
             </Txt>
           </Pressable>
-          <Pressable accessibilityRole="button" onPress={onDismiss} style={styles.ok}>
-            <Txt variant="button" color={color.paper}>
-              Got it
-            </Txt>
-          </Pressable>
+          <Button variant="primary" label="Got it" onPress={onDismiss} />
         </View>
       </View>
     </View>
@@ -43,13 +40,15 @@ const styles = StyleSheet.create({
   backdrop: {
     ...StyleSheet.absoluteFill,
     backgroundColor: SCRIM,
-    justifyContent: 'center',
-    padding: space.xl,
+    paddingHorizontal: space.xl,
+    paddingTop: GUIDE.top,
   },
   card: {
     backgroundColor: color.paper,
     borderRadius: radius.panel,
-    padding: space.xl,
+    paddingTop: GUIDE.padTop,
+    paddingHorizontal: space.xl,
+    paddingBottom: space.xl,
     gap: space.md,
     ...shadow.lifted,
   },
@@ -57,14 +56,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: space.xs,
+    gap: space.md,
+    paddingTop: 6,
   },
   skip: { paddingVertical: space.md },
   skipText: { textDecorationLine: 'underline' },
-  ok: {
-    paddingVertical: space.md,
-    paddingHorizontal: space.xl,
-    borderRadius: radius.card,
-    backgroundColor: color.ink,
-  },
 });

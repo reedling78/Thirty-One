@@ -3,6 +3,7 @@ import * as Haptics from 'expo-haptics';
 import { Link } from 'expo-router';
 import { useEffect } from 'react';
 import { ImageBackground, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
+import { Button } from '@/components/ui/Button';
 import { Felt } from '@/components/ui/Felt';
 import { BACK_SWATCH, BUTTON, PANEL } from '@/theme/components';
 import { Txt, setDevFontScale, useDevFontScale } from '@/theme/text';
@@ -56,11 +57,7 @@ export default function SettingsScreen() {
 
         <BackPicker value={settings.backColor} onChange={(backColor) => update({ backColor })} />
 
-        <Pressable accessibilityRole="button" onPress={test} style={styles.button}>
-          <Txt variant="button" color={color.ink}>
-            Test sound and haptics
-          </Txt>
-        </Pressable>
+        <Button size="sheet" label="Test sound and haptics" onPress={test} />
         <Txt variant="status" color={color.inkSecondary}>
           Sound plays through the silent switch. Haptics need “System Haptics” on in your phone’s
           Sounds & Haptics settings.
@@ -71,13 +68,12 @@ export default function SettingsScreen() {
             Learning
           </Txt>
           <Link href="/practice?guided=1" asChild>
-            <Pressable accessibilityRole="button" style={styles.button}>
-              <Txt variant="button" color={color.ink}>
-                {settings.guidedDone
-                  ? 'Replay the guided first game'
-                  : 'Play the guided first game'}
-              </Txt>
-            </Pressable>
+            <Button
+              size="sheet"
+              label={
+                settings.guidedDone ? 'Replay the guided first game' : 'Play the guided first game'
+              }
+            />
           </Link>
         </View>
 
@@ -276,14 +272,6 @@ const styles = StyleSheet.create({
   },
   settingText: { flex: 1, gap: 3 },
   section: { gap: space.sm, marginTop: space.sm },
-  button: {
-    minHeight: BUTTON.height.sheet,
-    justifyContent: 'center',
-    borderWidth: BUTTON.border,
-    borderColor: color.ink,
-    borderRadius: radius.panel,
-    alignItems: 'center',
-  },
   dev: {
     borderWidth: 1,
     borderColor: color.rule,
