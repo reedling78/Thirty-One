@@ -19,7 +19,9 @@ const BLACK = '#000000';
 
 /** The felt nap: a soft pool of light, a fine light speckle and a coarser dark one. */
 export const FELT = {
-  pool: { color: alpha(WHITE, 0.07), cx: 0.5, cy: 0.32, rx: 0.7, ry: 0.45 },
+  // Gradient stops take colour and opacity separately: react-native-svg on iOS
+  // ignores the alpha of an rgba() stopColor.
+  pool: { color: WHITE, opacity: 0.07, cx: 0.5, cy: 0.32, rx: 0.7, ry: 0.45 },
   fine: { color: alpha(WHITE, 0.05), period: 3, r: 0.7 },
   coarse: { color: alpha(BLACK, 0.16), period: 5, r: 0.7, dx: 1, dy: 2 },
 } as const;

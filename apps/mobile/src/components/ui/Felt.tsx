@@ -31,7 +31,7 @@ const Nap = memo(function Nap({ pool }: { pool: boolean }) {
           rx={`${p.rx * 100}%`}
           ry={`${p.ry * 100}%`}
         >
-          <Stop offset="0" stopColor={p.color} />
+          <Stop offset="0" stopColor={p.color} stopOpacity={p.opacity} />
           <Stop offset="1" stopColor={p.color} stopOpacity={0} />
         </RadialGradient>
       </Defs>
