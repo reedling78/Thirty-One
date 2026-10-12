@@ -42,6 +42,7 @@ export default function RootLayout() {
           <Stack.Screen name="practice" options={{ title: 'Practice' }} />
           <Stack.Screen name="rules" options={{ title: 'How to play' }} />
           <Stack.Screen name="settings" options={{ title: 'Settings' }} />
+          <Stack.Screen name="dev-cards" options={{ title: 'Card sheet' }} />
         </Stack>
       </DevSettingsProvider>
     </SettingsProvider>

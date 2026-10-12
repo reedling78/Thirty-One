@@ -1,3 +1,4 @@
+import { useSyncExternalStore } from 'react';
 import {
   PixelRatio,
   Text,
@@ -18,12 +19,35 @@ const BOLD: Record<string, string> = {
 };
 
 /**
+ * Developer override for the text size, so large-text layouts can be checked
+ * where the system size can't be changed (the web preview). Dev builds only;
+ * null means "use the system size".
+ */
+let devScale: number | null = null;
+const devListeners = new Set<() => void>();
+export function setDevFontScale(scale: number | null) {
+  if (!__DEV__) return;
+  devScale = scale;
+  devListeners.forEach((l) => l());
+}
+if (__DEV__)
+  (globalThis as { __setFontScale?: typeof setDevFontScale }).__setFontScale = setDevFontScale;
+function subscribeDevScale(l: () => void) {
+  devListeners.add(l);
+  return () => devListeners.delete(l);
+}
+export function useDevFontScale(): number | null {
+  return useSyncExternalStore(subscribeDevScale, () => devScale);
+}
+
+/**
  * The system text size. Reading the window dimensions re-renders the caller
  * when the player changes it in Settings, so layouts follow without a restart.
  */
 export function useFontScale(): number {
   useWindowDimensions();
-  return PixelRatio.getFontScale();
+  const override = useDevFontScale();
+  return override ?? PixelRatio.getFontScale();
 }
 
 /** A type token at the current text size. Text using it must not scale again (allowFontScaling={false}). */

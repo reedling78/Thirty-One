@@ -1,22 +1,29 @@
-import { cardLabel, type Card } from '@thirtyone/rules';
-import { Pressable, StyleSheet, Text } from 'react-native';
-import { SIZE } from '@/theme/cardArt';
-import { color, radius, type as typeTokens } from '@/theme/tokens';
+import type { Card } from '@thirtyone/rules';
+import { createContext, memo, useContext } from 'react';
+import { ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native';
+import Svg, { G, Path } from 'react-native-svg';
+import { useSettings } from '@/settings/Settings';
+import {
+  BACK,
+  SIZE,
+  SUIT,
+  cardLabel,
+  courtFigure,
+  pipPositions,
+  type CardSize,
+  type Rank,
+  type Suit,
+} from '@/theme/cardArt';
+import { CARD } from '@/theme/components';
+import { color, shadow, type as typeTokens, type BackColor } from '@/theme/tokens';
 
-const RANK_NAMES: Record<Card['rank'], string> = {
-  A: 'Ace',
-  '2': 'Two',
-  '3': 'Three',
-  '4': 'Four',
-  '5': 'Five',
-  '6': 'Six',
-  '7': 'Seven',
-  '8': 'Eight',
-  '9': 'Nine',
-  '10': 'Ten',
-  J: 'Jack',
-  Q: 'Queen',
-  K: 'King',
+export type { CardSize };
+
+const SUIT_CODE: Record<Card['suit'], Suit> = {
+  hearts: 'h',
+  diamonds: 'd',
+  clubs: 'c',
+  spades: 's',
 };
 
 /** Hearts and diamonds are red, clubs and spades black. Colour is additive: the suit symbol carries the meaning. */
@@ -24,11 +31,29 @@ export function isRed(suit: Card['suit']): boolean {
   return suit === 'hearts' || suit === 'diamonds';
 }
 
+/** Accessible name for a card: "Ace of hearts", "10 of spades". */
 export function cardName(card: Card): string {
-  return `${RANK_NAMES[card.rank]} of ${card.suit}`;
+  return cardLabel(card.rank as Rank, SUIT_CODE[card.suit]);
 }
 
-export type CardSize = 'small' | 'normal' | 'large';
+/**
+ * Renders every card face in greyscale. Only the dev card sheet sets it, to
+ * check the faces survive without colour.
+ */
+export const GreyscaleCards = createContext(false);
+
+function grey(hex: string): string {
+  const n = parseInt(hex.slice(1), 16);
+  const l = Math.round(0.299 * ((n >> 16) & 255) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255));
+  const h = l.toString(16).padStart(2, '0');
+  return `#${h}${h}${h}`;
+}
+
+const LATTICE = {
+  small: require('../../../assets/images/back/lattice-small.png'),
+  normal: require('../../../assets/images/back/lattice-normal.png'),
+  large: require('../../../assets/images/back/lattice-large.png'),
+} as const;
 
 interface Props {
   card?: Card;
@@ -40,9 +65,16 @@ interface Props {
   dimmed?: boolean;
   onPress?: () => void;
   label?: string;
+  /** Back colourway; defaults to the player's setting. */
+  back?: BackColor;
 }
 
-/** Greybox card: a rectangle with text. Suit by name, never by colour alone. */
+/**
+ * A playing card at one of three fixed sizes (cards never text-scale). Face:
+ * mirrored indices, traditional pip layouts, one big ace pip, or a double-headed
+ * court figure; the small size is a flat icon card. Back: white stock and a
+ * lattice panel in the player's colourway.
+ */
 export function CardView({
   card,
   size = 'normal',
@@ -52,66 +84,280 @@ export function CardView({
   dimmed,
   onPress,
   label,
+  back,
 }: Props) {
-  const text = faceDown || !card ? '▪' : cardLabel(card);
-  const a11y = label ?? (faceDown || !card ? 'Face-down card' : cardName(card));
+  const { settings } = useSettings();
+  const greyscale = useContext(GreyscaleCards);
+  const down = faceDown || !card;
+  const a11y = label ?? (down ? 'Face-down card' : cardName(card));
+  const s = SIZE[size];
   return (
     <Pressable
       accessibilityRole={onPress ? 'button' : 'image'}
       accessibilityLabel={a11y}
-      accessibilityState={{ disabled: !!disabled, selected: !!selected }}
+      accessibilityState={onPress ? { disabled: !!disabled, selected: !!selected } : undefined}
       disabled={disabled || !onPress}
       onPress={onPress}
       style={({ pressed }) => [
         styles.card,
-        SIZES[size],
-        faceDown && styles.faceDown,
-        selected && styles.selected,
+        { width: s.w, height: s.h, borderRadius: s.radius },
+        size === 'large' ? shadow.pile : shadow.card,
         ((disabled && onPress) || dimmed) && styles.disabled,
         pressed && styles.pressed,
       ]}
     >
-      <Text
-        style={[styles.text, TEXT_SIZES[size], !faceDown && card && isRed(card.suit) && styles.red]}
-        allowFontScaling={false}
-      >
-        {text}
-      </Text>
+      {down ? (
+        <Back size={size} colour={back ?? settings.backColor} greyscale={greyscale} />
+      ) : (
+        <Face
+          rank={card.rank as Rank}
+          suit={SUIT_CODE[card.suit]}
+          size={size}
+          greyscale={greyscale}
+        />
+      )}
     </Pressable>
   );
 }
 
-// Cards never text-scale.
-const SIZES = StyleSheet.create({
-  small: {
-    width: SIZE.small.w,
-    height: SIZE.small.h,
-    borderRadius: SIZE.small.radius,
-    borderColor: SIZE.small.border,
-  },
-  normal: { width: SIZE.normal.w, height: SIZE.normal.h, borderRadius: SIZE.normal.radius },
-  large: { width: SIZE.large.w, height: SIZE.large.h, borderRadius: SIZE.large.radius },
-});
-const TEXT_SIZES = StyleSheet.create({
-  small: { fontSize: SIZE.small.index.font },
-  normal: { fontSize: SIZE.normal.index.font },
-  large: { fontSize: SIZE.large.index.font },
+const Back = memo(function Back({
+  size,
+  colour,
+  greyscale,
+}: {
+  size: CardSize;
+  colour: BackColor;
+  greyscale: boolean;
+}) {
+  const s = SIZE[size];
+  const panel = color.back[colour];
+  return (
+    <View
+      style={[
+        styles.stock,
+        { borderRadius: s.radius, borderColor: SIZE.normal.border, padding: BACK.padding[size] },
+      ]}
+    >
+      <ImageBackground
+        source={LATTICE[size]}
+        resizeMode="repeat"
+        style={[
+          styles.panel,
+          {
+            backgroundColor: greyscale ? grey(panel) : panel,
+            borderRadius: BACK.innerRadius[size],
+          },
+        ]}
+        imageStyle={[styles.tile, { borderRadius: BACK.innerRadius[size] }]}
+      />
+    </View>
+  );
 });
 
+/** Suit pip as an SVG path in a 24×24 box, placed at (x, y) at `px` size, optionally upside down. */
+function Pip({
+  d,
+  fill,
+  x,
+  y,
+  px,
+  flip,
+}: {
+  d: string;
+  fill: string;
+  x: number;
+  y: number;
+  px: number;
+  flip?: boolean;
+}) {
+  const k = px / 24;
+  const t = flip
+    ? `translate(${x + px} ${y + px}) rotate(180) scale(${k})`
+    : `translate(${x} ${y}) scale(${k})`;
+  return <Path d={d} fill={fill} transform={t} />;
+}
+
+const Face = memo(function Face({
+  rank,
+  suit,
+  size,
+  greyscale,
+}: {
+  rank: Rank;
+  suit: Suit;
+  size: CardSize;
+  greyscale: boolean;
+}) {
+  const tone = (hex: string) => (greyscale ? grey(hex) : hex);
+  const pip = SUIT[suit].path;
+  const ink = tone(SUIT[suit].color);
+
+  if (size === 'small') {
+    const s = SIZE.small;
+    const rankStyle = [
+      styles.smallRank,
+      { color: ink, fontSize: s.index.font, lineHeight: s.index.font },
+    ];
+    return (
+      <View style={[styles.stock, { borderRadius: s.radius, borderColor: s.border }]}>
+        <Text
+          allowFontScaling={false}
+          style={[rankStyle, { top: s.index.inset, left: s.index.inset }]}
+        >
+          {rank}
+        </Text>
+        <Text
+          allowFontScaling={false}
+          style={[rankStyle, styles.flip, { bottom: s.index.inset, right: s.index.inset }]}
+        >
+          {rank}
+        </Text>
+        <Svg width={s.w} height={s.h} style={StyleSheet.absoluteFill}>
+          <Pip d={pip} fill={ink} x={s.centrePip.x} y={s.centrePip.y} px={s.centrePip.size} />
+        </Svg>
+      </View>
+    );
+  }
+
+  const s = SIZE[size];
+  const court = rank === 'J' || rank === 'Q' || rank === 'K';
+  const index = (
+    <View style={[styles.index, { gap: CARD.indexGap[size] }]}>
+      <Text
+        allowFontScaling={false}
+        style={[styles.rank, { color: ink, fontSize: s.index.font, lineHeight: s.index.font }]}
+      >
+        {rank}
+      </Text>
+      <Svg width={s.index.pip} height={s.index.pip} viewBox="0 0 24 24">
+        <Path d={pip} fill={ink} />
+      </Svg>
+    </View>
+  );
+  // Positions are measured inside the 1 dp border, as on the canvas.
+  const inner = { w: s.w - 2, h: s.h - 2 };
+
+  return (
+    <View style={[styles.stock, { borderRadius: s.radius, borderColor: s.border }]}>
+      {!court ? (
+        <Svg width={inner.w} height={inner.h} style={styles.art}>
+          {rank === 'A' ? (
+            <Pip d={pip} fill={ink} x={s.ace.x} y={s.ace.y} px={s.ace.size} />
+          ) : (
+            pipPositions(rank, size).map((p, i) => (
+              <Pip key={i} d={pip} fill={ink} x={p.x} y={p.y} px={s.pip} flip={p.rotate === 180} />
+            ))
+          )}
+        </Svg>
+      ) : (
+        <Court rank={rank} pip={pip} ink={ink} size={size} tone={tone} />
+      )}
+      <View style={[styles.corner, { top: s.index.inset, left: s.index.inset }]}>{index}</View>
+      <View style={[styles.corner, styles.flip, { bottom: s.index.inset, right: s.index.inset }]}>
+        {index}
+      </View>
+    </View>
+  );
+});
+
+function Court({
+  rank,
+  pip,
+  ink,
+  size,
+  tone,
+}: {
+  rank: 'J' | 'Q' | 'K';
+  pip: string;
+  ink: string;
+  size: 'normal' | 'large';
+  tone: (hex: string) => string;
+}) {
+  const c = SIZE[size].court;
+  const out = CARD.courtOutline[size];
+  const inset = CARD.courtPipInset[size];
+  // courtFigure takes the suit colour; tone() maps every fill for the greyscale sheet.
+  const parts = courtFigure(rank, ink).map((e) => ({
+    d: e.d,
+    fill: tone(e.fill),
+    stroke: tone(e.stroke),
+  }));
+  const figure = parts.map((e, i) => (
+    <Path
+      key={i}
+      d={e.d}
+      fill={e.fill}
+      stroke={e.stroke}
+      strokeWidth={c.stroke}
+      strokeLinejoin="round"
+    />
+  ));
+  return (
+    <>
+      <View
+        style={[
+          styles.frame,
+          {
+            left: c.x - out - 1,
+            top: c.y - out - 1,
+            width: c.w + 2 * (out + 1),
+            height: c.h + 2 * (out + 1),
+            borderColor: ink,
+          },
+        ]}
+      />
+      <View
+        style={[
+          styles.frame,
+          styles.frameInner,
+          { left: c.x, top: c.y, width: c.w, height: c.h, borderColor: ink },
+        ]}
+      >
+        <Svg width={c.w - 2} height={c.h - 2} viewBox="0 0 40 80">
+          <G>{figure}</G>
+          <G transform="rotate(180 20 40)">{figure}</G>
+          <Path d="M3 40 H37" stroke={ink} strokeWidth={CARD.courtHairline[size]} />
+        </Svg>
+        <Svg width={c.w - 2} height={c.h - 2} style={StyleSheet.absoluteFill}>
+          <Pip d={pip} fill={ink} x={inset} y={inset} px={c.cornerPip} />
+          <Pip
+            d={pip}
+            fill={ink}
+            x={c.w - 2 - inset - c.cornerPip}
+            y={c.h - 2 - inset - c.cornerPip}
+            px={c.cornerPip}
+            flip
+          />
+        </Svg>
+      </View>
+    </>
+  );
+}
+
 const styles = StyleSheet.create({
-  card: {
-    paddingHorizontal: 2,
+  card: { backgroundColor: color.cardFace },
+  stock: {
+    flex: 1,
     borderWidth: 1,
-    borderColor: SIZE.normal.border,
-    borderRadius: radius.md,
     backgroundColor: color.cardFace,
-    alignItems: 'center',
-    justifyContent: 'center',
+    overflow: 'hidden',
   },
-  faceDown: { backgroundColor: color.back.blue },
-  selected: { borderColor: color.ink },
+  panel: { flex: 1, overflow: 'hidden' },
+  // Without an explicit size the image takes one tile's intrinsic size and never repeats.
+  tile: { width: '100%', height: '100%' },
+  art: { position: 'absolute', left: 0, top: 0 },
+  corner: { position: 'absolute' },
+  index: { alignItems: 'center' },
+  rank: { fontFamily: typeTokens.title.family, includeFontPadding: false },
+  smallRank: {
+    position: 'absolute',
+    fontFamily: typeTokens.score.family,
+    letterSpacing: CARD.smallRankLetterSpacing,
+    includeFontPadding: false,
+  },
+  flip: { transform: [{ rotate: '180deg' }] },
+  frame: { position: 'absolute', borderWidth: 1 },
+  frameInner: { alignItems: 'center', justifyContent: 'center' },
   disabled: { opacity: 0.4 },
   pressed: { opacity: 0.7 },
-  text: { fontFamily: typeTokens.title.family, color: color.suitBlack },
-  red: { color: color.suitRed },
 });

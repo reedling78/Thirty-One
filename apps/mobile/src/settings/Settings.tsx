@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from 'react';
 import { AccessibilityInfo } from 'react-native';
+import { color, type BackColor } from '@/theme/tokens';
 
 export interface Settings {
   readonly sound: boolean;
@@ -17,9 +18,17 @@ export interface Settings {
   readonly reduceMotion: boolean;
   /** Whether the guided first game has been completed (or skipped). */
   readonly guidedDone: boolean;
+  /** Card back colourway. One pattern, four colours. */
+  readonly backColor: BackColor;
 }
 
-const DEFAULTS: Settings = { sound: true, haptics: true, reduceMotion: false, guidedDone: false };
+const DEFAULTS: Settings = {
+  sound: true,
+  haptics: true,
+  reduceMotion: false,
+  guidedDone: false,
+  backColor: 'blue',
+};
 const STORAGE_KEY = 'thirtyone.settings.v1';
 
 interface SettingsApi {
@@ -50,7 +59,9 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         if (cancelled) return;
         if (raw) {
           try {
-            setSettings({ ...DEFAULTS, ...(JSON.parse(raw) as Partial<Settings>) });
+            const stored = { ...DEFAULTS, ...(JSON.parse(raw) as Partial<Settings>) };
+            if (!(stored.backColor in color.back)) stored.backColor = DEFAULTS.backColor;
+            setSettings(stored);
           } catch {
             // Corrupt value: fall back to defaults and overwrite on the next change.
           }

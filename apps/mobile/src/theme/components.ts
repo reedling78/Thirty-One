@@ -93,3 +93,28 @@ export const BUTTON = {
 
 /** Opacity of an eliminated player's row. */
 export const OUT_OPACITY = 0.6;
+
+/** Card details the canvas draws that cardArt.ts's SIZE doesn't name. Cards never scale. */
+export const CARD = {
+  /** Gap between the index rank and its pip. */
+  indexGap: { normal: 1, large: 2 },
+  /** The court frame's outer rule sits this far outside the inner one. */
+  courtOutline: { normal: 1.5, large: 2 },
+  /** Corner pips inside the court frame. */
+  courtPipInset: { normal: 2, large: 3 },
+  /** Hairline across the middle of a court figure. */
+  courtHairline: { normal: 1, large: 0.8 },
+  smallRankLetterSpacing: -0.33,
+} as const;
+
+/** Settings › Card back: back-shaped radio swatches. */
+export const BACK_SWATCH = {
+  w: 44,
+  h: 60,
+  radius: 5,
+  stock: 3,
+  /** Selected: a paper gap, then an ink ring. */
+  gap: 3,
+  ring: 2,
+  spacing: 18,
+} as const;
