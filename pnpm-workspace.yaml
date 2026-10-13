@@ -7,5 +7,10 @@ nodeLinker: hoisted
 
 # unrs-resolver's postinstall only fetches a native fallback binary; the JS path works without it.
 allowBuilds:
-  esbuild: set this to true or false
+  esbuild: true
   unrs-resolver: false
+
+minimumReleaseAgeExclude:
+  - expo-dev-client@57.0.20
+  - expo-dev-launcher@57.0.21
+  - expo-dev-menu@57.0.20
