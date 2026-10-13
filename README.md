@@ -28,4 +28,6 @@ pnpm -F mobile start     # Expo dev server
 
 ## Design docs
 
-Rules, features, stack decisions and plans live in the Obsidian vault, not in this repo.
+Rules, features, stack decisions, plans and the design canvas source live in `docs/`, an
+Obsidian vault. Open that folder in Obsidian (Open folder as vault). The Claude Design
+canvas source is snapshotted under `docs/Design/canvas/`.

@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ThirtyOne practice table</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;family=Righteous&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#D7E3D6}a:hover{color:#F6F1E4}
+@keyframes calloutFade{0%{opacity:1}83%{opacity:1}100%{opacity:0;visibility:hidden}}
+</style>
+</helmet>
+<div style="--ts: {{ts}}; width: 375px; height: 812px; background-color: #1E5236; background-image: radial-gradient(ellipse 70% 45% at 50% 32%, rgba(255,255,255,0.07), transparent 100%), radial-gradient(rgba(255,255,255,0.05) 0.6px, transparent 0.8px), radial-gradient(rgba(0,0,0,0.16) 0.6px, transparent 0.8px); background-size: 100% 100%, 3px 3px, 5px 5px; background-position: 0 0, 0 0, 1px 2px; color: #17150F; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+
+  <sc-if value="{{headerIsland}}" hint-placeholder-val="{{false}}">
+  <div role="status" style="flex: none; padding: 6px 12px 10px 4px; background: {{island.bg}}; color: {{island.fg}}; display: flex; align-items: center; gap: 6px">
+    <button aria-label="Back" style="flex: none; width: 44px; height: 44px; background: none; border: 0; padding: 0; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" style="fill: none; stroke: {{island.fg}}; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round"></path></svg></button>
+    <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 auto">
+      <div style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: calc(19px * var(--ts)); line-height: calc(23px * var(--ts)); letter-spacing: -0.01em">{{island.title}}</div>
+      <div style="font-size: calc(14px * var(--ts)); line-height: calc(18px * var(--ts))">{{island.guide}}</div>
+    </div>
+  </div>
+  </sc-if>
+  <sc-if value="{{plainHeader}}" hint-placeholder-val="{{true}}">
+  <div style="display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; height: 44px; margin-top: 4px; flex: none">
+    <button aria-label="Back" style="width: 44px; height: 44px; background: none; border: 0; padding: 0; display: flex; align-items: center; justify-content: center; color: #F6F1E4; cursor: pointer"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" style="fill: none; stroke: #F6F1E4; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round"></path></svg></button>
+    <div style="display: flex; justify-content: center; min-width: 0">
+      <div role="status" style="display: inline-flex; align-items: center; height: calc(34px * var(--ts)); padding: 0 16px; border-radius: 999px; background: {{head.bg}}; color: {{head.fg}}; box-shadow: {{head.ring}}; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: calc(16px * var(--ts)); letter-spacing: 0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{head.text}}</div>
+    </div>
+    <div></div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{showIsland}}" hint-placeholder-val="{{true}}">
+  <div style="flex: none; height: calc(76px * var(--ts)); margin: 6px 12px 0; padding: 0 12px 0 14px; border-radius: 12px; background: {{island.bg}}; color: {{island.fg}}; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+    <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+      <div style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; font-size: calc(18px * var(--ts)); line-height: calc(22px * var(--ts))">{{island.title}}</div>
+      <div style="font-size: calc(14px * var(--ts)); line-height: calc(18px * var(--ts))">{{island.guide}}</div>
+    </div>
+    <sc-if value="{{island.hasButton}}" hint-placeholder-val="{{true}}">
+      <button style="flex: none; height: 44px; padding: 0 18px; border-radius: 10px; border: 1.5px solid {{island.btnBorder}}; background: #17150F; color: #F6F1E4; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: calc(15px * var(--ts)); letter-spacing: 0.04em; cursor: pointer">{{island.button}}</button>
+    </sc-if>
+  </div>
+  </sc-if>
+
+  <div style="flex: 0 1 auto; min-height: 0; overflow-y: auto; padding: 8px 12px 0; display: flex; flex-direction: column; gap: 6px">
+    <sc-for list="{{rows}}" as="r" hint-placeholder-count="3">
+      <div style="flex: none; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: center; padding: 8px 10px 8px 12px; border-radius: 10px; background: {{r.bg}}; box-shadow: {{r.shadow}}; opacity: {{r.opacity}}">
+        <div style="position: relative; display: flex; flex-direction: column; gap: 2px; min-width: 0; min-height: calc(58px * var(--ts))">
+          <sc-if value="{{r.callout}}" hint-placeholder-val="{{false}}">
+            <div role="status" style="position: absolute; left: -12px; top: -8px; bottom: -8px; right: -5px; z-index: 1; overflow: hidden; border-radius: 10px 0 0 10px; background: {{r.bg}}; box-shadow: {{r.shadow}}; display: flex; align-items: center; padding-left: 12px; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: calc({{r.calloutSize}}px * var(--ts)); line-height: 1; letter-spacing: 0.01em; color: #17150F; white-space: nowrap; animation: {{r.calloutAnim}}">{{r.calloutText}}</div>
+          </sc-if>
+          <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap">
+            <span style="font-weight: 700; font-size: calc(15px * var(--ts)); line-height: calc(20px * var(--ts)); color: #17150F">{{r.name}}</span>
+            <sc-if value="{{r.dealer}}" hint-placeholder-val="{{false}}">
+              <span role="img" aria-label="Dealer" style="width: 20px; height: 20px; border-radius: 999px; background: #FFFFFF; border: 1px solid #2A271F; box-shadow: 0 1px 1px rgba(0,0,0,0.2); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 11px; color: #17150F">D</span>
+            </sc-if>
+            <sc-if value="{{r.knocked}}" hint-placeholder-val="{{false}}">
+              <span style="display: inline-flex; align-items: center; height: 18px; padding: 0 7px; border-radius: 999px; background: #17150F; color: #F6F1E4; font-size: calc(10px * var(--ts)); font-weight: 700; letter-spacing: 0.08em">KNOCKED</span>
+            </sc-if>
+          </div>
+          <div style="font-size: calc(13px * var(--ts)); line-height: calc(18px * var(--ts)); color: {{r.statusColor}}; font-weight: {{r.statusWeight}}">
+            <sc-if value="{{r.active}}" hint-placeholder-val="{{false}}"><svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true" style="display: inline-block; vertical-align: -1px; margin-right: 5px"><path d="M2 1.5v9l8-4.5z" style="fill: #17150F"></path></svg></sc-if>
+            <sc-for list="{{r.status}}" as="g" hint-placeholder-count="1"><span style="color: {{g.color}}; font-weight: {{g.weight}}">{{g.t}}</span></sc-for>
+          </div>
+        </div>
+        <div style="display: flex; gap: 4px">
+          <sc-for list="{{r.cards}}" as="c" hint-placeholder-count="3">
+            <sc-if value="{{c.up}}" hint-placeholder-val="{{false}}">
+              <div role="img" aria-label="{{c.label}}" style="position: relative; width: 34px; height: 48px; border-radius: 5px; background: #FDFBF4; border: 1px solid rgba(23,21,15,0.3); box-shadow: 0 1px 2px rgba(0,0,0,0.25); font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 11px; line-height: 1; letter-spacing: -0.03em; color: {{c.color}}"><span style="position: absolute; top: 3px; left: 3px">{{c.rank}}</span><span style="position: absolute; bottom: 3px; right: 3px; transform: rotate(180deg)">{{c.rank}}</span><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="position: absolute; left: 6px; top: 13px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div>
+            </sc-if>
+            <sc-if value="{{c.down}}" hint-placeholder-val="{{true}}">
+              <div role="img" aria-label="Face-down card" style="width: 34px; height: 48px; border-radius: 4px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 1px 2px rgba(0,0,0,0.25); padding: 3px"><div style="width: 100%; height: 100%; border-radius: 1px; background-color: {{back}}; background-image: repeating-linear-gradient(45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 4px), repeating-linear-gradient(-45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 4px)"></div></div>
+            </sc-if>
+          </sc-for>
+        </div>
+        <div style="width: 40px; display: flex; justify-content: flex-end; align-items: center">
+          <sc-if value="{{r.showScore}}" hint-placeholder-val="{{false}}">
+            <div aria-label="{{r.scoreLabel}}" style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: calc(24px * var(--ts)); line-height: 1; color: {{r.scoreColor}}">{{r.score}}</div>
+          </sc-if>
+          <sc-if value="{{r.showChip}}" hint-placeholder-val="{{true}}">
+            <div role="img" aria-label="{{r.chip.label}}" style="position: relative; width: 32px; height: 32px; flex: none">
+              <svg viewBox="0 0 40 40" width="32" height="32" aria-hidden="true" style="display: block">
+                <circle cx="20" cy="20" r="19" style="fill: {{r.chip.fill}}; stroke: {{r.chip.edge}}; stroke-width: 1"></circle>
+                <circle cx="20" cy="20" r="16.5" style="fill: none; stroke: {{r.chip.ring}}; stroke-width: 3; stroke-dasharray: 8.64 4.32"></circle>
+                <circle cx="20" cy="20" r="11.5" style="fill: none; stroke: {{r.chip.ring}}; stroke-width: 1; stroke-dasharray: 2.5 2.5"></circle>
+              </svg>
+              <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: {{r.chip.fs}}px; line-height: 1; letter-spacing: {{r.chip.ls}}; color: {{r.chip.text}}">{{r.chip.num}}</div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="flex: 1 0 auto; min-height: 150px; display: flex; justify-content: center; align-items: center; gap: 20px; padding: 12px 0 12px 12px">
+    <button aria-label="{{deck.aria}}" aria-disabled="{{pilesDisabled}}" style="background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: {{pilesOpacity}}">
+      <div style="width: 88px; height: 126px; border-radius: 8px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 2px 4px rgba(0,0,0,0.35); padding: 6px">
+        <div style="width: 100%; height: 100%; border-radius: 3px; background-color: {{back}}; background-image: repeating-linear-gradient(45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 7px), repeating-linear-gradient(-45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 7px)"></div>
+      </div>
+    </button>
+    <button aria-label="{{discard.aria}}" aria-disabled="{{pilesDisabled}}" style="background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: {{pilesOpacity}}">
+      <sc-if value="{{discard.up}}" hint-placeholder-val="{{true}}">
+        <div style="position: relative; width: 88px; height: 126px; border-radius: 8px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 2px 4px rgba(0,0,0,0.35); font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; color: {{discard.color}}">
+          <div style="position: absolute; top: 7px; left: 7px; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 17px; line-height: 1"><span>{{discard.rank}}</span><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="{{discard.path}}" style="fill: {{discard.color}}"></path></svg></div>
+          <div style="position: absolute; bottom: 7px; right: 7px; transform: rotate(180deg); display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 17px; line-height: 1"><span>{{discard.rank}}</span><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="{{discard.path}}" style="fill: {{discard.color}}"></path></svg></div>
+          <sc-if value="{{discard.isNum}}" hint-placeholder-val="{{true}}"><sc-for list="{{discard.pipsL}}" as="p" hint-placeholder-count="4"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" style="position: absolute; left: {{p.x}}px; top: {{p.y}}px; transform: {{p.tr}}"><path d="{{discard.path}}" style="fill: {{discard.color}}"></path></svg></sc-for></sc-if>
+          <sc-if value="{{discard.isAce}}" hint-placeholder-val="{{false}}"><svg viewBox="0 0 24 24" width="44" height="44" aria-hidden="true" style="position: absolute; left: 22px; top: 41px"><path d="{{discard.path}}" style="fill: {{discard.color}}"></path></svg></sc-if>
+          <sc-if value="{{discard.isCourt}}" hint-placeholder-val="{{false}}"><div style="position: absolute; left: 24px; top: 24px; width: 40px; height: 78px; border: 1px solid {{discard.color}}; outline: 1px solid {{discard.color}}; outline-offset: 2px; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 800"><svg viewBox="0 0 40 80" width="40" height="78" aria-hidden="true"><g><sc-for list="{{discard.court}}" as="e" hint-placeholder-count="4"><path d="{{e.d}}" style="fill: {{e.f}}; stroke: {{e.s}}; stroke-width: 1; stroke-linejoin: round"></path></sc-for></g><g transform="rotate(180 20 40)"><sc-for list="{{discard.court}}" as="e" hint-placeholder-count="4"><path d="{{e.d}}" style="fill: {{e.f}}; stroke: {{e.s}}; stroke-width: 1; stroke-linejoin: round"></path></sc-for></g><path d="M3 40 H37" style="stroke: {{discard.color}}; stroke-width: 0.8"></path></svg><svg viewBox="0 0 24 24" width="9" height="9" aria-hidden="true" style="position: absolute; left: 3px; top: 3px"><path d="{{discard.path}}" style="fill: {{discard.color}}"></path></svg><svg viewBox="0 0 24 24" width="9" height="9" aria-hidden="true" style="position: absolute; right: 3px; bottom: 3px; transform: rotate(180deg)"><path d="{{discard.path}}" style="fill: {{discard.color}}"></path></svg></div></sc-if>
+        </div>
+      </sc-if>
+      <sc-if value="{{discard.empty}}" hint-placeholder-val="{{false}}">
+        <div style="width: 88px; height: 126px; border-radius: 8px; border: 1.5px dashed rgba(246,241,228,0.6); display: flex; align-items: center; justify-content: center; font-size: 12px; color: #D7E3D6">empty</div>
+      </sc-if>
+    </button>
+    <div style="flex: none; width: 104px; height: 126px; display: flex; align-items: center; justify-content: flex-start">
+      <sc-if value="{{island.hasButton}}" hint-placeholder-val="{{false}}">
+        <button style="flex: none; min-width: 92px; height: 52px; padding: 0 18px; border-radius: 12px; border: 1.5px solid #F6F1E4; background: #17150F; color: #F6F1E4; box-shadow: 0 4px 10px rgba(0,0,0,0.28); font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: calc(16px * var(--ts)); letter-spacing: 0.04em; cursor: pointer">{{island.button}}</button>
+      </sc-if>
+    </div>
+  </div>
+
+  <div style="flex: none; margin: 0 12px; padding: 10px 12px 12px; border-radius: 12px; background: {{you.bg}}; box-shadow: {{you.shadow}}; display: flex; flex-direction: column; gap: 8px">
+    <div style="order: {{you.headerOrder}}; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center">
+      <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0">
+        <span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; font-size: calc(18px * var(--ts)); line-height: calc(22px * var(--ts)); color: #17150F">You</span>
+        <sc-if value="{{you.dealer}}" hint-placeholder-val="{{false}}">
+          <span role="img" aria-label="Dealer" style="width: 20px; height: 20px; border-radius: 999px; background: #FFFFFF; border: 1px solid #2A271F; box-shadow: 0 1px 1px rgba(0,0,0,0.2); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 11px; color: #17150F">D</span>
+        </sc-if>
+        <sc-if value="{{you.knocked}}" hint-placeholder-val="{{false}}">
+          <span style="display: inline-flex; align-items: center; height: 18px; padding: 0 7px; border-radius: 999px; background: #17150F; color: #F6F1E4; font-size: calc(10px * var(--ts)); font-weight: 700; letter-spacing: 0.08em">KNOCKED</span>
+        </sc-if>
+        <span style="font-size: calc(15px * var(--ts)); line-height: calc(20px * var(--ts)); color: {{you.valueColor}}; font-weight: {{you.valueWeight}}">{{you.value}}</span>
+      </div>
+      <div style="display: flex; justify-content: flex-end; align-items: center; gap: 10px">
+        <sc-if value="{{you.hasButton}}" hint-placeholder-val="{{false}}">
+          <button style="flex: none; height: 44px; padding: 0 16px; border-radius: 10px; border: 1.5px solid #17150F; background: #17150F; color: #F6F1E4; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: calc(15px * var(--ts)); letter-spacing: 0.04em; cursor: pointer">{{you.button}}</button>
+        </sc-if>
+        <sc-if value="{{you.showScore}}" hint-placeholder-val="{{false}}">
+          <div aria-label="{{you.scoreLabel}}" style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: calc(26px * var(--ts)); line-height: 1; color: {{you.scoreColor}}">{{you.score}}</div>
+        </sc-if>
+        <sc-if value="{{you.showChip}}" hint-placeholder-val="{{true}}">
+          <div role="img" aria-label="{{you.chip.label}}" style="position: relative; width: 36px; height: 36px; flex: none">
+            <svg viewBox="0 0 40 40" width="36" height="36" aria-hidden="true" style="display: block">
+              <circle cx="20" cy="20" r="19" style="fill: {{you.chip.fill}}; stroke: {{you.chip.edge}}; stroke-width: 1"></circle>
+              <circle cx="20" cy="20" r="16.5" style="fill: none; stroke: {{you.chip.ring}}; stroke-width: 3; stroke-dasharray: 8.64 4.32"></circle>
+              <circle cx="20" cy="20" r="11.5" style="fill: none; stroke: {{you.chip.ring}}; stroke-width: 1; stroke-dasharray: 2.5 2.5"></circle>
+            </svg>
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: {{you.chip.fsL}}px; line-height: 1; letter-spacing: {{you.chip.ls}}; color: {{you.chip.text}}">{{you.chip.num}}</div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+    <sc-if value="{{you.hasStatus}}" hint-placeholder-val="{{false}}">
+      <div style="order: {{you.statusOrder}}; font-size: calc(14px * var(--ts)); line-height: calc(18px * var(--ts)); color: {{you.statusColor}}; font-weight: {{you.statusWeight}}; margin-top: -2px">{{you.status}}</div>
+    </sc-if>
+    <div style="order: {{you.cardsOrder}}; display: flex; gap: 10px">
+      <sc-for list="{{you.cards}}" as="c" hint-placeholder-count="3">
+        <sc-if value="{{c.up}}" hint-placeholder-val="{{true}}">
+          <button aria-label="{{c.handLabel}}" style="position: relative; width: 76px; height: 109px; border-radius: 7px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: {{c.handShadow}}; opacity: {{c.handOpacity}}; padding: 0; cursor: pointer; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; color: {{c.color}}">
+            <div style="position: absolute; top: 5px; left: 5px; display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 16px; line-height: 1"><span>{{c.rank}}</span><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div>
+            <div style="position: absolute; bottom: 5px; right: 5px; transform: rotate(180deg); display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 16px; line-height: 1"><span>{{c.rank}}</span><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div>
+            <sc-if value="{{c.isNum}}" hint-placeholder-val="{{true}}"><sc-for list="{{c.pipsH}}" as="p" hint-placeholder-count="4"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" style="position: absolute; left: {{p.x}}px; top: {{p.y}}px; transform: {{p.tr}}"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></sc-for></sc-if>
+            <sc-if value="{{c.isAce}}" hint-placeholder-val="{{false}}"><svg viewBox="0 0 24 24" width="46" height="46" aria-hidden="true" style="position: absolute; left: 15px; top: 31px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></sc-if>
+            <sc-if value="{{c.isCourt}}" hint-placeholder-val="{{false}}"><div style="position: absolute; left: 16px; top: 16px; width: 30px; height: 58px; border: 1px solid {{c.color}}; outline: 1px solid {{c.color}}; outline-offset: 1.5px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800"><svg viewBox="0 0 40 80" width="30" height="58" aria-hidden="true"><g><sc-for list="{{c.court}}" as="e" hint-placeholder-count="4"><path d="{{e.d}}" style="fill: {{e.f}}; stroke: {{e.s}}; stroke-width: 1.2; stroke-linejoin: round"></path></sc-for></g><g transform="rotate(180 20 40)"><sc-for list="{{c.court}}" as="e" hint-placeholder-count="4"><path d="{{e.d}}" style="fill: {{e.f}}; stroke: {{e.s}}; stroke-width: 1.2; stroke-linejoin: round"></path></sc-for></g><path d="M3 40 H37" style="stroke: {{c.color}}; stroke-width: 1"></path></svg><svg viewBox="0 0 24 24" width="7" height="7" aria-hidden="true" style="position: absolute; left: 2px; top: 2px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg><svg viewBox="0 0 24 24" width="7" height="7" aria-hidden="true" style="position: absolute; right: 2px; bottom: 2px; transform: rotate(180deg)"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div></sc-if>
+          </button>
+        </sc-if>
+        <sc-if value="{{c.down}}" hint-placeholder-val="{{false}}">
+          <div role="img" aria-label="Face-down card" style="width: 76px; height: 109px; border-radius: 7px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 4px 10px rgba(0,0,0,0.28); padding: 5px">
+            <div style="width: 100%; height: 100%; border-radius: 3px; background-color: {{back}}; background-image: repeating-linear-gradient(45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 6px), repeating-linear-gradient(-45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 6px)"></div>
+          </div>
+        </sc-if>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="flex: none; height: 124px; padding: 12px 0; display: flex; align-items: center; justify-content: center">
+    <div role="img" aria-label="Advertisement" style="width: 320px; height: 100px; border-radius: 6px; border: 1.5px dashed rgba(246,241,228,0.5); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #D7E3D6">
+      <span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase">Ad</span>
+      <span style="font-size: 12px">320 × 100 large banner</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"scenario":{"editor":"enum","default":"yourTurn","options":["yourTurn","opponent","afterKnock","reveal","revealDouble","revealThirtyOne","dealing"],"section":"Table state"},"callout":{"editor":"enum","default":"none","options":["none","knocked","folds","doubleFolds","thirtyOne"],"section":"Callout"},"calloutHold":{"editor":"boolean","default":true,"section":"Callout"},"showCounting":{"editor":"boolean","default":true,"section":"Hand"},"handFirst":{"editor":"boolean","default":true,"section":"Hand"},"layout":{"editor":"enum","default":"headerIsland","options":["headerIsland","island","noIsland"],"section":"Layout"},"seats":{"editor":"int","default":4,"min":2,"max":10,"section":"Table state"},"textScale":{"editor":"float","default":1,"min":1,"max":1.6,"step":0.1,"section":"Accessibility"},"backColor":{"editor":"enum","default":"blue","options":["blue","red","green","black"],"section":"Card back"},"$preview":{"width":375,"height":812}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const scenario = p.scenario || 'yourTurn';
+    const seats = Math.max(2, Math.min(10, Number(p.seats) || 4));
+    const nb = seats - 1;
+    const ts = Number(p.textScale) || 1;
+    const BACKS = { blue: '#1F3A8A', red: '#B8322B', green: '#245B3F', black: '#2A271F' };
+    const backHex = BACKS[p.backColor] || BACKS.blue;
+
+    const INK = '#17150F', RED = '#B8322B', PAPER = '#F6F1E4', SEC = '#5B5648';
+    const S = {
+      h: { name: 'hearts', glyph: '♥', color: RED, path: 'M12 21s-7-4.5-9.5-9C.8 8.6 2.5 4 6.5 4c2.2 0 3.9 1.3 5.5 3.2C13.6 5.3 15.3 4 17.5 4c4 0 5.7 4.6 4 8-2.5 4.5-9.5 9-9.5 9z' },
+      d: { name: 'diamonds', glyph: '♦', color: RED, path: 'M12 2l7 10-7 10-7-10z' },
+      c: { name: 'clubs', glyph: '♣', color: INK, path: 'M12 2a3.6 3.6 0 0 0-3.3 5A3.7 3.7 0 1 0 11 13.3c-.2 2.4-.9 4.3-2.5 5.7h7c-1.6-1.4-2.3-3.3-2.5-5.7A3.7 3.7 0 1 0 15.3 7 3.6 3.6 0 0 0 12 2z' },
+      s: { name: 'spades', glyph: '♠', color: INK, path: 'M12 2C9 7 4 9.5 4 14a4 4 0 0 0 7 2.6c-.2 2-.9 3.4-2.5 4.4h7c-1.6-1-2.3-2.4-2.5-4.4A4 4 0 0 0 20 14c0-4.5-5-7-8-12z' }
+    };
+    const NAMES = { A: 'Ace', K: 'King', Q: 'Queen', J: 'Jack' };
+    const split = (code) => ({ rank: code.slice(0, -1), suit: code.slice(-1) });
+    const LAY = {
+      '2': [['C', 0], ['C', 1, 1]],
+      '3': [['C', 0], ['C', 0.5], ['C', 1, 1]],
+      '4': [['L', 0], ['R', 0], ['L', 1, 1], ['R', 1, 1]],
+      '5': [['L', 0], ['R', 0], ['C', 0.5], ['L', 1, 1], ['R', 1, 1]],
+      '6': [['L', 0], ['R', 0], ['L', 0.5], ['R', 0.5], ['L', 1, 1], ['R', 1, 1]],
+      '7': [['L', 0], ['R', 0], ['C', 0.25], ['L', 0.5], ['R', 0.5], ['L', 1, 1], ['R', 1, 1]],
+      '8': [['L', 0], ['R', 0], ['C', 0.25], ['L', 0.5], ['R', 0.5], ['C', 0.75, 1], ['L', 1, 1], ['R', 1, 1]],
+      '9': [['L', 0], ['R', 0], ['L', 1 / 3], ['R', 1 / 3], ['C', 0.5], ['L', 2 / 3, 1], ['R', 2 / 3, 1], ['L', 1, 1], ['R', 1, 1]],
+      '10': [['L', 0], ['R', 0], ['C', 1 / 6], ['L', 1 / 3], ['R', 1 / 3], ['L', 2 / 3, 1], ['R', 2 / 3, 1], ['C', 5 / 6, 1], ['L', 1, 1], ['R', 1, 1]]
+    };
+    const pips = (rank, cols, y0, y1, size) => (LAY[rank] || []).map((p) => ({
+      x: Math.round((cols[p[0]] - size / 2) * 10) / 10,
+      y: Math.round((y0 + p[1] * (y1 - y0) - size / 2) * 10) / 10,
+      tr: p[2] ? 'rotate(180deg)' : 'none'
+    }));
+    const GOLD = '#F2C14E', CREAM = '#FDFBF4';
+    const court = (rank, suit) => {
+      const robe = { d: 'M6 40 L10 28 Q20 23 30 28 L34 40 Z', f: suit, s: INK };
+      const collar = { d: 'M14 29 Q20 33 26 29 L24.5 32.5 Q20 35.5 15.5 32.5 Z', f: CREAM, s: INK };
+      const head = { d: 'M13.5 19 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0 Z', f: CREAM, s: INK };
+      if (rank === 'K') return [robe, collar, head,
+        { d: 'M14 21 Q20 31 26 21 Q20 25.5 14 21 Z', f: INK, s: INK },
+        { d: 'M12 13 L13 5 L17 10 L20 3 L23 10 L27 5 L28 13 Z', f: GOLD, s: INK }];
+      if (rank === 'Q') return [robe, collar, head,
+        { d: 'M13 19 Q12.5 9 20 9 Q27.5 9 27 19 Q25 13 20 13 Q15 13 13 19 Z', f: INK, s: INK },
+        { d: 'M14 11 L17 6 L20 8.5 L23 6 L26 11 Z', f: GOLD, s: INK },
+        { d: 'M19 7.5 a1.2 1.2 0 1 0 2.4 0 a1.2 1.2 0 1 0 -2.4 0 Z', f: suit, s: suit }];
+      if (rank === 'J') return [robe, collar, head,
+        { d: 'M12 14 Q20 5 28 14 Z', f: suit, s: INK },
+        { d: 'M26 11 Q31 2 36 5 Q31 7 28 13 Z', f: GOLD, s: INK }];
+      return [];
+    };
+    const face = (code) => {
+      const { rank, suit } = split(code);
+      const s = S[suit];
+      const label = (NAMES[rank] || rank) + ' of ' + s.name;
+      return {
+        up: true, down: false, rank, path: s.path, color: s.color, label, handLabel: label + ', tap to discard',
+        isNum: !!LAY[rank], isAce: !LAY[rank], isCourt: false,
+        court: [],
+        pipsN: pips(rank, { L: 23, C: 32, R: 41 }, 18, 74, 14),
+        pipsH: pips(rank, { L: 27, C: 38, R: 49 }, 21, 88, 17),
+        handShadow: '0 4px 10px rgba(0,0,0,0.28)', handOpacity: '1',
+        pipsL: pips(rank, { L: 31, C: 44, R: 57 }, 26, 100, 15)
+      };
+    };
+    const back = () => ({ up: false, down: true, label: 'Face-down card' });
+    const val = (r) => r === 'A' ? 11 : (['K', 'Q', 'J', '10'].indexOf(r) >= 0 ? 10 : Number(r));
+    const ORDER = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+    const best = (codes) => {
+      const cs = codes.map(split);
+      const bySuit = {};
+      cs.forEach((c) => { bySuit[c.suit] = (bySuit[c.suit] || 0) + val(c.rank); });
+      let bs = null, bv = -1;
+      Object.keys(bySuit).forEach((k) => { if (bySuit[k] > bv) { bv = bySuit[k]; bs = k; } });
+      const oneSuit = Object.keys(bySuit).length === 1;
+      if (oneSuit && bv === 31) return { text: '31!', score: 31 };
+      if (cs.every((c) => c.rank === cs[0].rank)) return { text: '30 — three of a kind', score: 30 };
+      if (oneSuit) {
+        const idx = cs.map((c) => ORDER.indexOf(c.rank)).sort((a, b) => a - b);
+        if (idx[1] === idx[0] + 1 && idx[2] === idx[1] + 1) return { text: '30 — straight', score: 30 };
+      }
+      return { text: bv + ' in ' + S[bs].name, score: bv };
+    };
+    const plain = (t) => ({ t, color: 'inherit', weight: 'inherit', bg: 'transparent', pad: '0' });
+    const segs = (str, pill) => {
+      const out = [];
+      const re = /\[([^\]]+)\]/g;
+      let last = 0, m;
+      while ((m = re.exec(str))) {
+        if (m.index > last) out.push(plain(str.slice(last, m.index)));
+        const { rank, suit } = split(m[1]);
+        out.push({ t: rank + S[suit].glyph, color: S[suit].color, weight: '700', bg: pill ? PAPER : 'transparent', pad: pill ? '0 4px' : '0' });
+        last = m.index + m[0].length;
+      }
+      if (last < str.length) out.push(plain(str.slice(last)));
+      return out;
+    };
+    const chip = (lives) => {
+      if (lives <= 0) return { num: 'OUT', fill: '#E6E0D0', edge: '#9A948A', ring: '#9A948A', text: '#6F695F', fs: 7, fsL: 8, ls: '0.04em', label: 'Out of the game' };
+      if (lives === 1) return { num: 'BUS', fill: INK, edge: INK, ring: PAPER, text: PAPER, fs: 7, fsL: 8, ls: '0.04em', label: 'On the bus, one life left' };
+      return { num: String(lives), fill: '#FDFBF4', edge: INK, ring: INK, text: INK, fs: 13, fsL: 15, ls: '0', label: lives + ' corners left' };
+    };
+
+    const MOVES = [
+      'took [As] from the discard, threw [9h]', 'drew from the deck, threw [4d]', 'drew from the deck, threw [Jc]',
+      'took [6d] from the discard, threw [2s]', 'drew from the deck, threw [10h]', 'took [Qc] from the discard, threw [8d]',
+      'drew from the deck, threw [3s]', 'took [7h] from the discard, threw [Kd]', 'drew from the deck, threw [5c]'
+    ];
+    const LIVES = [3, 4, 2, 4, 1, 4, 0, 3, 2];
+    const dbl = scenario === 'revealDouble';
+    const t31 = scenario === 'revealThirtyOne';
+    const REVEAL_HANDS = dbl
+      ? { 1: ['9d', '4c', '7s'], 2: ['Kh', 'Qh', '5h'], 3: ['2s', '5d', '8c'] }
+      : (t31
+        ? { 1: ['9d', '4c', '7s'], 2: ['Ah', 'Kh', 'Qh'], 3: ['As', 'Ks', '9s'] }
+        : { 1: ['9d', '4c', '7s'], 2: ['Kh', 'Qh', '5h'], 3: ['As', 'Ks', '9s'] });
+    const REVEAL_VERDICT = dbl
+      ? { 1: 'safe', 2: 'safe', 3: 'lowest — folds two corners' }
+      : (t31
+        ? { 1: 'folds a corner', 2: '31!', 3: 'folds a corner' }
+        : { 1: 'lowest — folds a corner', 2: 'safe', 3: 'safe' });
+    const isLoser = (i) => dbl ? i === 3 : (t31 ? i !== 2 : i === 1);
+    const callout = p.callout || 'none';
+    const calloutAnim = (p.calloutHold === false || p.calloutHold === 'false') ? 'calloutFade 3.6s ease forwards' : 'none';
+
+    const round = scenario === 'dealing' ? 4 : 3;
+    const dealerBot = scenario === 'dealing' ? 2 : 1;
+    const activeBot = scenario === 'opponent' ? 2 : (scenario === 'afterKnock' ? 3 : 0);
+    const knockedBot = scenario === 'afterKnock' ? 2 : ((scenario === 'reveal' || dbl) ? 3 : 0);
+    const reveal = scenario === 'reveal' || dbl || t31;
+
+    const rows = [];
+    for (let i = 1; i <= nb; i++) {
+      const lives = LIVES[(i - 1) % LIVES.length];
+      const out = lives <= 0;
+      const active = i === activeBot && !out;
+      const knocked = i === knockedBot;
+      const dealer = i === dealerBot;
+      const revealHand = reveal ? (REVEAL_HANDS[i] || ['8c', '6d', '2h']) : null;
+      const loser = reveal && isLoser(i);
+      const winner31 = t31 && i === 2;
+      let calloutText = '';
+      if (callout === 'knocked' && knocked && !reveal) calloutText = 'KNOCKED!';
+      if (callout === 'folds' && loser && i === 1) calloutText = 'FOLDS!';
+      if (callout === 'doubleFolds' && loser && dbl) calloutText = 'DOUBLE FOLDS!';
+      if (callout === 'thirtyOne' && winner31) calloutText = 'THIRTY ONE!';
+      let status, statusColor = SEC, statusWeight = '400';
+      if (out) status = [plain('out of the game')];
+      else if (active) { status = [plain('Playing now')]; statusColor = INK; statusWeight = '700'; }
+      else if (scenario === 'dealing') status = [plain('Waiting for the deal.')];
+      else if (reveal) { status = [plain(REVEAL_VERDICT[i] || 'safe')]; statusColor = INK; statusWeight = '700'; }
+      else if (knocked) status = [plain('knocked')];
+      else status = segs(MOVES[(i - 1) % MOVES.length], false);
+      let bg = PAPER, shadow = 'none';
+      if (active) { bg = '#FBF0CF'; shadow = 'inset 4px 0 0 #C9961A'; }
+      if (knocked) { bg = '#F9E3C8'; shadow = 'inset 4px 0 0 #A8461A'; }
+      if (loser) { bg = '#E6DECB'; shadow = 'inset 4px 0 0 #5B5648'; }
+      if (winner31) { bg = '#FBF0CF'; shadow = 'inset 4px 0 0 #C9961A'; }
+      const cards = out ? [] : (revealHand ? revealHand.map(face) : [back(), back(), back()]);
+      const b = revealHand ? best(revealHand) : null;
+      rows.push({
+        name: 'bot' + i, dealer, knocked, active, status, statusColor, statusWeight, cards, bg, shadow,
+        callout: !!calloutText, calloutText, calloutAnim, calloutSize: calloutText.length > 8 ? 18 : 24,
+        opacity: out ? '0.6' : '1',
+        showScore: reveal && !out, showChip: !(reveal && !out), chip: chip(lives),
+        score: b ? String(b.score) : '', scoreColor: INK, scoreLabel: b ? 'Score ' + b.score : ''
+      });
+    }
+
+    const ISLANDS = {
+      yourTurn: { bg: '#F2C14E', fg: INK, title: 'Your turn', guide: 'Draw from the deck or the discard.', button: 'KNOCK', btnBorder: '#17150F' },
+      opponent: { bg: '#EFE7D3', fg: INK, title: 'bot2 is playing', guide: 'Waiting for your turn.', button: '', btnBorder: '#17150F' },
+      afterKnock: { bg: '#A8461A', fg: '#FFF4E6', title: 'bot2 knocked', guide: 'One more turn each, then the reveal.', button: '', btnBorder: '#17150F' },
+      reveal: { bg: INK, fg: PAPER, title: 'Hands revealed', guide: 'bot1 is lowest — folds a corner.', button: 'Deal', btnBorder: '#F6F1E4' },
+      revealDouble: { bg: INK, fg: PAPER, title: 'Hands revealed', guide: 'bot3 knocked and is lowest — folds two.', button: 'Deal', btnBorder: '#F6F1E4' },
+      revealThirtyOne: { bg: INK, fg: PAPER, title: 'bot2 has 31!', guide: 'Everyone else folds a corner.', button: 'Deal', btnBorder: '#F6F1E4' },
+      dealing: { bg: '#EFE7D3', fg: INK, title: 'Dealing…', guide: 'Round 4 · bot2 deals.', button: '', btnBorder: '#17150F' }
+    };
+    const isl = ISLANDS[scenario] || ISLANDS.yourTurn;
+    const island = Object.assign({}, isl, { hasButton: !!isl.button });
+    const headerIsland = !p.layout || p.layout === 'headerIsland';
+    const showIsland = p.layout !== 'noIsland' && !headerIsland;
+    const plainHeader = !headerIsland;
+    const HEADS = {
+      yourTurn:        { bg: '#F2C14E', fg: INK, ring: 'none', text: 'Your turn' },
+      opponent:        { bg: 'rgba(246,241,228,0.16)', fg: PAPER, ring: 'inset 0 0 0 1px rgba(246,241,228,0.35)', text: 'bot2 is playing' },
+      afterKnock:      { bg: '#A8461A', fg: '#FFF4E6', ring: 'none', text: 'bot2 knocked' },
+      reveal:          { bg: PAPER, fg: INK, ring: 'none', text: 'Hands revealed' },
+      revealDouble:    { bg: PAPER, fg: INK, ring: 'none', text: 'Hands revealed' },
+      revealThirtyOne: { bg: '#F2C14E', fg: INK, ring: 'none', text: 'bot2 has 31!' },
+      dealing:         { bg: 'rgba(246,241,228,0.16)', fg: PAPER, ring: 'inset 0 0 0 1px rgba(246,241,228,0.35)', text: 'Dealing…' }
+    };
+    const head = HEADS[scenario] || HEADS.yourTurn;
+
+    const YOUR_HANDS = { yourTurn: ['Kc', '7c', '3c'], opponent: ['Kc', '7c', '9h'], afterKnock: ['Kc', '7c', '9h'], reveal: ['Kc', '7c', '3c'], revealDouble: ['Kc', '7c', '3c'], revealThirtyOne: ['Kc', '7c', '3c'], dealing: null };
+    const yh = YOUR_HANDS[scenario];
+    const yb = yh ? best(yh) : null;
+    const youActive = scenario === 'yourTurn';
+    const youLoser = t31;
+    const you = {
+      dealer: false, knocked: false,
+      value: youLoser ? 'folds a corner' : (yb ? yb.text : 'waiting for cards'),
+      valueColor: youLoser ? INK : SEC, valueWeight: youLoser ? '700' : '400',
+      bg: youActive ? '#FBF0CF' : (youLoser ? '#E6DECB' : PAPER), shadow: youActive ? 'inset 4px 0 0 #C9961A' : (youLoser ? 'inset 4px 0 0 #5B5648' : 'none'),
+      cards: yh ? yh.map(face) : [back(), back(), back()],
+      showScore: reveal, showChip: !reveal, chip: chip(4),
+      score: yb ? String(yb.score) : '', scoreColor: INK, scoreLabel: yb ? 'Score ' + yb.score : ''
+    };
+    if (!showIsland && !headerIsland) {
+      you.hasButton = !!isl.button;
+      you.button = isl.button;
+      you.hasStatus = true;
+      you.status = scenario === 'afterKnock' ? 'bot2 knocked — this is your last turn.' : isl.guide;
+      you.statusColor = youActive ? INK : SEC;
+      you.statusWeight = youActive ? '700' : '400';
+    } else {
+      you.hasButton = false; you.button = ''; you.hasStatus = false; you.status = ''; you.statusColor = SEC; you.statusWeight = '400';
+    }
+    const handFirst = !(p.handFirst === false || p.handFirst === 'false');
+    you.cardsOrder = handFirst ? '0' : '2';
+    you.headerOrder = '1';
+    you.statusOrder = handFirst ? '2' : '1';
+    if (!handFirst) { you.headerOrder = '0'; }
+    const showCounting = !(p.showCounting === false || p.showCounting === 'false');
+    if (showCounting && yh && !reveal) {
+      const cs = yh.map(split);
+      const allSame = cs.every((c) => c.rank === cs[0].rank);
+      const bySuit = {};
+      cs.forEach((c) => { bySuit[c.suit] = (bySuit[c.suit] || 0) + val(c.rank); });
+      let bs = null, bv = -1;
+      Object.keys(bySuit).forEach((k) => { if (bySuit[k] > bv) { bv = bySuit[k]; bs = k; } });
+      you.cards.forEach((card, i) => {
+        const counts = allSame || cs[i].suit === bs;
+        card.handShadow = counts ? '0 4px 10px rgba(0,0,0,0.28), inset 0 -4px 0 #C9961A' : '0 4px 10px rgba(0,0,0,0.28)';
+        card.handOpacity = counts ? '1' : '0.7';
+      });
+    }
+
+    const DISCARD = { yourTurn: ['9h', 8], opponent: ['4d', 8], afterKnock: ['Jc', 11], reveal: ['3s', 14], revealDouble: ['3s', 14], revealThirtyOne: ['5h', 9], dealing: [null, 0] };
+    const DECK = { yourTurn: 32, opponent: 32, afterKnock: 29, reveal: 26, revealDouble: 26, revealThirtyOne: 31, dealing: 52 };
+    const dc = DISCARD[scenario] || DISCARD.yourTurn;
+    const top = dc[0] ? face(dc[0]) : null;
+    const discard = {
+      up: !!top, empty: !top, rank: top ? top.rank : '', path: top ? top.path : '', color: top ? top.color : INK,
+      isNum: top ? top.isNum : false, isAce: top ? top.isAce : false, isCourt: top ? top.isCourt : false, pipsL: top ? top.pipsL : [], court: top ? top.court : [],
+      caption: 'Discard',
+      aria: top ? 'Discard pile, ' + dc[1] + ' cards, ' + top.label + ' on top, tap to take' : 'Discard pile, empty'
+    };
+    const deck = { caption: 'Deck', aria: 'Deck, ' + DECK[scenario] + ' cards, tap to draw' };
+
+    const LOGS = {
+      yourTurn: ['Round 3 · bot1 deals.', 'bot2 drew from the deck, threw [4d].', 'bot3 took [4d] from the discard, threw [Jc].', 'You drew from the deck, threw [2s].', 'bot1 took [2s] from the discard, threw [Qd].', 'bot2 drew from the deck, threw [4h].', 'bot3 drew from the deck, threw [9h].'],
+      opponent: ['bot3 took [4d] from the discard, threw [Jc].', 'You drew from the deck, threw [2s].', 'bot1 took [2s] from the discard, threw [Qd].', 'bot2 drew from the deck, threw [9h].', 'bot3 took [As] from the discard, threw [9h].', 'You took [9h] from the discard, threw [3c].', 'bot1 drew from the deck, threw [4d].'],
+      afterKnock: ['You took [9h] from the discard, threw [3c].', 'bot1 drew from the deck, threw [4d].', 'bot2 knocked.', 'bot3 drew from the deck, threw [Jc].', 'You drew from the deck, threw [6s].', 'bot1 took [6s] from the discard, threw [10h].', 'bot3 is playing.'],
+      reveal: ['bot3 knocked.', 'You took [3c] from the discard, threw [9h].', 'bot1 drew from the deck, threw [3s].', 'bot2 took [Qh] from the discard, threw [8d].', 'Hands revealed.', 'bot1 is lowest with 9 and folds a corner.', 'bot3 knocked and is safe.'],
+      revealDouble: ['bot3 knocked.', 'You took [3c] from the discard, threw [9h].', 'bot1 drew from the deck, threw [3s].', 'bot2 took [Qh] from the discard, threw [8d].', 'Hands revealed.', 'bot3 knocked but is lowest with 8.', 'bot3 folds two corners.'],
+      revealThirtyOne: ['bot1 drew from the deck, threw [4d].', 'bot2 took [Ah] from the discard, threw [5h].', 'bot2 has 31!', 'Hands revealed.', 'bot1 folds a corner.', 'bot3 folds a corner.', 'You fold a corner.'],
+      dealing: ['bot1 is lowest with 9 and folds a corner.', 'bot3 knocked and is safe.', 'Round 3 over.', 'bot2 collects the cards.', 'Shuffling…', 'Round 4 · bot2 deals.', 'Dealing three cards each.']
+    };
+    const log = (LOGS[scenario] || LOGS.yourTurn).map((s) => ({ segs: segs(s, true) }));
+
+    return {
+      ts: String(ts),
+      back: backHex,
+      head, headerIsland, plainHeader,
+      pilesOpacity: reveal ? '0.45' : '1', pilesDisabled: reveal ? 'true' : 'false',
+      showIsland, island, rows, deck, discard, you, log
+    };
+  }
+}
+</script>
+</body>
+</html>

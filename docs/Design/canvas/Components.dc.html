@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ThirtyOne components</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;family=Righteous&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#5B5648}a:hover{color:#17150F}
+</style>
+</helmet>
+<div style="width: 1440px; height: 980px; padding: 36px 40px; background: #F6F1E4; color: #17150F; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; display: flex; flex-direction: column; gap: 22px">
+
+  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px">
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 30px; line-height: 1.05; letter-spacing: -0.01em">Components</h1>
+    <div style="font-size: 13px; color: #5B5648">Every state has a shape or a word as well as a colour. Items that live on the baize are shown on it.</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 400px 1fr 1fr; gap: 28px; flex: 1; min-height: 0">
+
+    <div style="display: flex; flex-direction: column; gap: 18px">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5648">chip · 4 → 1 · BUS · OUT</div>
+        <div style="display: flex; align-items: center; gap: 12px">
+          <sc-for list="{{chips}}" as="k" hint-placeholder-count="6">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; opacity: {{k.opacity}}">
+              <div role="img" aria-label="{{k.label}}" style="position: relative; width: 36px; height: 36px">
+                <svg viewBox="0 0 40 40" width="36" height="36" aria-hidden="true" style="display: block">
+                  <circle cx="20" cy="20" r="19" style="fill: {{k.fill}}; stroke: {{k.edge}}; stroke-width: 1"></circle>
+                  <circle cx="20" cy="20" r="16.5" style="fill: none; stroke: {{k.ring}}; stroke-width: 3; stroke-dasharray: 8.64 4.32"></circle>
+                  <circle cx="20" cy="20" r="11.5" style="fill: none; stroke: {{k.ring}}; stroke-width: 1; stroke-dasharray: 2.5 2.5"></circle>
+                </svg>
+                <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: {{k.fsL}}px; line-height: 1; letter-spacing: {{k.ls}}; color: {{k.text}}">{{k.num}}</div>
+              </div>
+              <span style="font-size: 10px; color: #5B5648">{{k.caption}}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-size: 11px; color: #5B5648">Eight edge notches, a dashed inner ring, the corners left in the middle. The last life inverts to ink and says BUS; eliminated dims to OUT. 32 in rows, 36 in the panel.</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5648">dealer button · KNOCKED pill · playing-now mark</div>
+        <div style="display: flex; align-items: center; gap: 14px">
+          <span role="img" aria-label="Dealer" style="width: 20px; height: 20px; border-radius: 999px; background: #FFFFFF; border: 1px solid #2A271F; box-shadow: 0 1px 1px rgba(0,0,0,0.2); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 11px; color: #17150F">D</span>
+          <span style="display: inline-flex; align-items: center; height: 18px; padding: 0 7px; border-radius: 999px; background: #17150F; color: #F6F1E4; font-size: 10px; font-weight: 700; letter-spacing: 0.08em">KNOCKED</span>
+          <span style="font-size: 13px; font-weight: 700; color: #17150F"><svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true" style="display: inline-block; vertical-align: -1px; margin-right: 5px"><path d="M2 1.5v9l8-4.5z" style="fill: #17150F"></path></svg>Playing now</span>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5648">buttons</div>
+        <div style="display: flex; align-items: center; gap: 10px">
+          <button style="height: 48px; padding: 0 20px; border-radius: 10px; border: 1.5px solid #17150F; background: #17150F; color: #F6F1E4; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.02em; cursor: pointer">Play practice</button>
+          <button style="height: 48px; padding: 0 20px; border-radius: 10px; border: 1.5px solid #17150F; background: transparent; color: #17150F; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; font-size: 15px; cursor: pointer">How to play</button>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; padding: 12px; border-radius: 10px; background: #1E5236">
+          <button style="height: 48px; padding: 0 20px; border-radius: 10px; border: 1.5px solid #17150F; background: #17150F; color: #F6F1E4; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.02em; cursor: pointer">Play practice</button>
+          <button style="height: 48px; padding: 0 20px; border-radius: 10px; border: 1.5px solid #F6F1E4; background: transparent; color: #F6F1E4; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; font-size: 15px; cursor: pointer">How to play</button>
+          <a href="#" style="font-size: 14px; color: #D7E3D6; text-decoration: underline; text-underline-offset: 3px">Skip the guide</a>
+        </div>
+        <div style="font-size: 11px; color: #5B5648">Primary is always ink on cream text; secondary takes the outline colour of its ground. Text link for the one de-emphasised action.</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5648">piles (deck · discard · empty discard) · action slot (KNOCK / Deal, always reserved) · card mentions (on baize)</div>
+        <div style="display: flex; flex-direction: column; gap: 12px; padding: 12px; border-radius: 10px; background: #1E5236">
+          <div style="display: flex; align-items: flex-start; gap: 20px">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px">
+              <div role="img" aria-label="Face-down card" style="width: 88px; height: 126px; border-radius: 8px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 2px 4px rgba(0,0,0,0.35); padding: 6px"><div style="width: 100%; height: 100%; border-radius: 3px; background-color: #1F3A8A; background-image: repeating-linear-gradient(45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 7px), repeating-linear-gradient(-45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 7px)"></div></div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px">
+              <div role="img" aria-label="{{disc.label}}" style="position: relative; width: 88px; height: 126px; border-radius: 8px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 2px 4px rgba(0,0,0,0.35); font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; color: {{disc.color}}">
+                <div style="position: absolute; top: 7px; left: 7px; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 17px; line-height: 1"><span>{{disc.rank}}</span><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="{{disc.path}}" style="fill: {{disc.color}}"></path></svg></div>
+                <div style="position: absolute; bottom: 7px; right: 7px; transform: rotate(180deg); display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 17px; line-height: 1"><span>{{disc.rank}}</span><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="{{disc.path}}" style="fill: {{disc.color}}"></path></svg></div>
+                <sc-for list="{{disc.pipsL}}" as="p" hint-placeholder-count="9"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" style="position: absolute; left: {{p.x}}px; top: {{p.y}}px; transform: {{p.tr}}"><path d="{{disc.path}}" style="fill: {{disc.color}}"></path></svg></sc-for>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 6px">
+              <div style="width: 88px; height: 126px; border-radius: 8px; border: 1.5px dashed rgba(246,241,228,0.6); display: flex; align-items: center; justify-content: center; font-size: 12px; color: #D7E3D6">empty</div>
+            </div>
+            <div style="width: 104px; height: 126px; display: flex; align-items: center">
+              <button style="flex: none; min-width: 92px; height: 52px; padding: 0 18px; border-radius: 12px; border: 1.5px solid #F6F1E4; background: #17150F; color: #F6F1E4; box-shadow: 0 4px 10px rgba(0,0,0,0.28); font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 16px; letter-spacing: 0.04em; cursor: pointer">KNOCK</button>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 3px; font-size: 13px; line-height: 19px; color: #D7E3D6">
+            <div>bot3 took <span style="color: #17150F; background: #F6F1E4; font-weight: 700; padding: 0 4px; border-radius: 4px">A♠</span> from the discard, threw <span style="color: #B8322B; background: #F6F1E4; font-weight: 700; padding: 0 4px; border-radius: 4px">9♥</span>.</div>
+            <div>You drew from the deck, threw <span style="color: #17150F; background: #F6F1E4; font-weight: 700; padding: 0 4px; border-radius: 4px">2♠</span>.</div>
+            <div>bot2 knocked.</div>
+          </div>
+        </div>
+        <div style="font-size: 11px; color: #5B5648">The action slot is 104 pt and always present, so the piles never move; at the reveal the deck and discard dim to 45%. Card mentions on baize sit on a cream chip so suit red stays legible (plain red on green fails contrast).</div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 18px">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5648">header band · the nav bar is the action island · four tones · two lines, no button</div>
+        <div style="display: flex; flex-direction: column; gap: 8px; padding: 12px; border-radius: 10px; background: #1E5236">
+          <sc-for list="{{islands}}" as="i" hint-placeholder-count="4">
+            <div style="padding: 6px 12px 10px 4px; background: {{i.bg}}; color: {{i.fg}}; display: flex; align-items: center; gap: 6px">
+              <div aria-hidden="true" style="flex: none; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M15 5l-7 7 7 7" style="fill: none; stroke: {{i.fg}}; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round"></path></svg></div>
+              <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+                <div style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 19px; line-height: 23px; letter-spacing: -0.01em">{{i.title}}</div>
+                <div style="font-size: 14px; line-height: 18px">{{i.guide}}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-size: 11px; color: #5B5648">Neutral · your-turn (gold) · knock (burnt orange, cream text) · reveal (ink, cream text). Edge to edge, extends behind the status bar. The headline always names who, the guide always says what happens next. The action button lives beside the discard, not here.</div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5648">opponent row · waiting · playing now · knocked · revealed · revealed-loser</div>
+        <div style="display: flex; flex-direction: column; gap: 6px; padding: 12px; border-radius: 10px; background: #1E5236">
+          <sc-for list="{{rows}}" as="r" hint-placeholder-count="5">
+            <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: center; padding: 8px 10px 8px 12px; border-radius: 10px; background: {{r.bg}}; box-shadow: {{r.shadow}}">
+              <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap">
+                  <span style="font-weight: 700; font-size: 15px; line-height: 20px; color: #17150F">{{r.name}}</span>
+                  <sc-if value="{{r.dealer}}" hint-placeholder-val="{{false}}"><span role="img" aria-label="Dealer" style="width: 20px; height: 20px; border-radius: 999px; background: #FFFFFF; border: 1px solid #2A271F; box-shadow: 0 1px 1px rgba(0,0,0,0.2); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 11px; color: #17150F">D</span></sc-if>
+                  <sc-if value="{{r.knocked}}" hint-placeholder-val="{{false}}"><span style="display: inline-flex; align-items: center; height: 18px; padding: 0 7px; border-radius: 999px; background: #17150F; color: #F6F1E4; font-size: 10px; font-weight: 700; letter-spacing: 0.08em">KNOCKED</span></sc-if>
+                </div>
+                <div style="font-size: 13px; line-height: 18px; color: {{r.statusColor}}; font-weight: {{r.statusWeight}}">
+                  <sc-if value="{{r.active}}" hint-placeholder-val="{{false}}"><svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true" style="display: inline-block; vertical-align: -1px; margin-right: 5px"><path d="M2 1.5v9l8-4.5z" style="fill: #17150F"></path></svg></sc-if>
+                  <sc-for list="{{r.status}}" as="g" hint-placeholder-count="1"><span style="color: {{g.color}}; font-weight: {{g.weight}}">{{g.t}}</span></sc-for>
+                </div>
+              </div>
+              <div style="display: flex; gap: 4px">
+                <sc-for list="{{r.cards}}" as="c" hint-placeholder-count="3">
+                  <sc-if value="{{c.up}}" hint-placeholder-val="{{false}}"><div role="img" aria-label="{{c.label}}" style="position: relative; width: 34px; height: 48px; border-radius: 5px; background: #FDFBF4; border: 1px solid rgba(23,21,15,0.3); box-shadow: 0 1px 2px rgba(0,0,0,0.25); font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 11px; line-height: 1; letter-spacing: -0.03em; color: {{c.color}}"><span style="position: absolute; top: 3px; left: 3px">{{c.rank}}</span><span style="position: absolute; bottom: 3px; right: 3px; transform: rotate(180deg)">{{c.rank}}</span><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="position: absolute; left: 6px; top: 13px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div></sc-if>
+                  <sc-if value="{{c.down}}" hint-placeholder-val="{{true}}"><div role="img" aria-label="Face-down card" style="width: 34px; height: 48px; border-radius: 4px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 1px 2px rgba(0,0,0,0.25); padding: 3px"><div style="width: 100%; height: 100%; border-radius: 1px; background-color: #1F3A8A; background-image: repeating-linear-gradient(45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 4px), repeating-linear-gradient(-45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 4px)"></div></div></sc-if>
+                </sc-for>
+              </div>
+              <div style="width: 40px; display: flex; justify-content: flex-end; align-items: center">
+                <sc-if value="{{r.showScore}}" hint-placeholder-val="{{false}}"><div style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 24px; line-height: 1; color: {{r.scoreColor}}">{{r.score}}</div></sc-if>
+                <sc-if value="{{r.showChip}}" hint-placeholder-val="{{true}}">
+                  <div role="img" aria-label="{{r.chip.label}}" style="position: relative; width: 32px; height: 32px"><svg viewBox="0 0 40 40" width="32" height="32" aria-hidden="true" style="display: block"><circle cx="20" cy="20" r="19" style="fill: {{r.chip.fill}}; stroke: {{r.chip.edge}}; stroke-width: 1"></circle><circle cx="20" cy="20" r="16.5" style="fill: none; stroke: {{r.chip.ring}}; stroke-width: 3; stroke-dasharray: 8.64 4.32"></circle><circle cx="20" cy="20" r="11.5" style="fill: none; stroke: {{r.chip.ring}}; stroke-width: 1; stroke-dasharray: 2.5 2.5"></circle></svg><div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: {{r.chip.fs}}px; line-height: 1; letter-spacing: {{r.chip.ls}}; color: {{r.chip.text}}">{{r.chip.num}}</div></div>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-size: 11px; color: #5B5648">Waiting: cream, last move in secondary ink. Playing now: gold bar + gold fill + bold line with a triangle. Knocked: orange bar + tint + KNOCKED pill. Revealed: cards flip, the verdict replaces the move, the score replaces the chip. Loser: the row sinks — grey-brown fill, dark grey bar, verdict and score in ink. Red is never used for state, only for suits.</div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 18px">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5648">player panel · at rest · your turn · knocked · revealed-loser</div>
+        <div style="display: flex; flex-direction: column; gap: 8px; padding: 12px; border-radius: 10px; background: #1E5236">
+          <sc-for list="{{panels}}" as="y" hint-placeholder-count="4">
+            <div style="padding: 10px 12px 12px; border-radius: 12px; background: {{y.bg}}; box-shadow: {{y.shadow}}; display: flex; flex-direction: column; gap: 8px">
+              <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center">
+                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0">
+                  <span style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; font-size: 18px; line-height: 22px; color: #17150F">You</span>
+                  <sc-if value="{{y.dealer}}" hint-placeholder-val="{{false}}"><span role="img" aria-label="Dealer" style="width: 20px; height: 20px; border-radius: 999px; background: #FFFFFF; border: 1px solid #2A271F; box-shadow: 0 1px 1px rgba(0,0,0,0.2); display: inline-flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 11px; color: #17150F">D</span></sc-if>
+                  <sc-if value="{{y.knocked}}" hint-placeholder-val="{{false}}"><span style="display: inline-flex; align-items: center; height: 18px; padding: 0 7px; border-radius: 999px; background: #17150F; color: #F6F1E4; font-size: 10px; font-weight: 700; letter-spacing: 0.08em">KNOCKED</span></sc-if>
+                  <span style="font-size: 15px; line-height: 20px; color: {{y.valueColor}}; font-weight: {{y.valueWeight}}">{{y.value}}</span>
+                </div>
+                <div style="width: 40px; display: flex; justify-content: flex-end; align-items: center">
+                  <sc-if value="{{y.showScore}}" hint-placeholder-val="{{false}}"><div style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 26px; line-height: 1; color: {{y.scoreColor}}">{{y.score}}</div></sc-if>
+                  <sc-if value="{{y.showChip}}" hint-placeholder-val="{{true}}">
+                    <div role="img" aria-label="{{y.chip.label}}" style="position: relative; width: 36px; height: 36px"><svg viewBox="0 0 40 40" width="36" height="36" aria-hidden="true" style="display: block"><circle cx="20" cy="20" r="19" style="fill: {{y.chip.fill}}; stroke: {{y.chip.edge}}; stroke-width: 1"></circle><circle cx="20" cy="20" r="16.5" style="fill: none; stroke: {{y.chip.ring}}; stroke-width: 3; stroke-dasharray: 8.64 4.32"></circle><circle cx="20" cy="20" r="11.5" style="fill: none; stroke: {{y.chip.ring}}; stroke-width: 1; stroke-dasharray: 2.5 2.5"></circle></svg><div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: {{y.chip.fsL}}px; line-height: 1; letter-spacing: {{y.chip.ls}}; color: {{y.chip.text}}">{{y.chip.num}}</div></div>
+                  </sc-if>
+                </div>
+              </div>
+              <div style="display: flex; gap: 10px">
+                <sc-for list="{{y.cards}}" as="c" hint-placeholder-count="3">
+                  <button aria-label="{{c.handLabel}}" style="position: relative; width: 76px; height: 109px; border-radius: 7px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: {{c.handShadow}}; opacity: {{c.handOpacity}}; padding: 0; cursor: pointer; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; color: {{c.color}}">
+                    <div style="position: absolute; top: 5px; left: 5px; display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 16px; line-height: 1"><span>{{c.rank}}</span><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div>
+                    <div style="position: absolute; bottom: 5px; right: 5px; transform: rotate(180deg); display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 16px; line-height: 1"><span>{{c.rank}}</span><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div>
+                    <sc-if value="{{c.isNum}}" hint-placeholder-val="{{true}}"><sc-for list="{{c.pipsH}}" as="p" hint-placeholder-count="4"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" style="position: absolute; left: {{p.x}}px; top: {{p.y}}px; transform: {{p.tr}}"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></sc-for></sc-if>
+                    <sc-if value="{{c.isAce}}" hint-placeholder-val="{{false}}"><svg viewBox="0 0 24 24" width="46" height="46" aria-hidden="true" style="position: absolute; left: 15px; top: 31px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></sc-if>
+                    <sc-if value="{{c.isCourt}}" hint-placeholder-val="{{false}}"><div style="position: absolute; left: 16px; top: 16px; width: 30px; height: 58px; border: 1px solid {{c.color}}; outline: 1px solid {{c.color}}; outline-offset: 1.5px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800"><svg viewBox="0 0 40 80" width="30" height="58" aria-hidden="true"><g><sc-for list="{{c.court}}" as="e" hint-placeholder-count="4"><path d="{{e.d}}" style="fill: {{e.f}}; stroke: {{e.s}}; stroke-width: 1.2; stroke-linejoin: round"></path></sc-for></g><g transform="rotate(180 20 40)"><sc-for list="{{c.court}}" as="e" hint-placeholder-count="4"><path d="{{e.d}}" style="fill: {{e.f}}; stroke: {{e.s}}; stroke-width: 1.2; stroke-linejoin: round"></path></sc-for></g><path d="M3 40 H37" style="stroke: {{c.color}}; stroke-width: 1"></path></svg><svg viewBox="0 0 24 24" width="7" height="7" aria-hidden="true" style="position: absolute; left: 2px; top: 2px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg><svg viewBox="0 0 24 24" width="7" height="7" aria-hidden="true" style="position: absolute; right: 2px; bottom: 2px; transform: rotate(180deg)"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-size: 11px; color: #5B5648">Same vocabulary as a row, one size up. Hand cards are 76×109 with the lifted shadow; cards in your best suit carry a gold rule on their bottom edge and dead cards sit at 70% — the marks switch off at the reveal. The hand value beside the name is recomputed on every draw and discard; four cards between a draw and a discard.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":980}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const INK = '#17150F', RED = '#B8322B', PAPER = '#F6F1E4', SEC = '#5B5648';
+    const S = {
+      h: { name: 'hearts', glyph: '♥', color: RED, path: 'M12 21s-7-4.5-9.5-9C.8 8.6 2.5 4 6.5 4c2.2 0 3.9 1.3 5.5 3.2C13.6 5.3 15.3 4 17.5 4c4 0 5.7 4.6 4 8-2.5 4.5-9.5 9-9.5 9z' },
+      d: { name: 'diamonds', glyph: '♦', color: RED, path: 'M12 2l7 10-7 10-7-10z' },
+      c: { name: 'clubs', glyph: '♣', color: INK, path: 'M12 2a3.6 3.6 0 0 0-3.3 5A3.7 3.7 0 1 0 11 13.3c-.2 2.4-.9 4.3-2.5 5.7h7c-1.6-1.4-2.3-3.3-2.5-5.7A3.7 3.7 0 1 0 15.3 7 3.6 3.6 0 0 0 12 2z' },
+      s: { name: 'spades', glyph: '♠', color: INK, path: 'M12 2C9 7 4 9.5 4 14a4 4 0 0 0 7 2.6c-.2 2-.9 3.4-2.5 4.4h7c-1.6-1-2.3-2.4-2.5-4.4A4 4 0 0 0 20 14c0-4.5-5-7-8-12z' }
+    };
+    const NAMES = { A: 'Ace', K: 'King', Q: 'Queen', J: 'Jack' };
+    const LAY = {
+      '2': [['C', 0], ['C', 1, 1]],
+      '3': [['C', 0], ['C', 0.5], ['C', 1, 1]],
+      '4': [['L', 0], ['R', 0], ['L', 1, 1], ['R', 1, 1]],
+      '5': [['L', 0], ['R', 0], ['C', 0.5], ['L', 1, 1], ['R', 1, 1]],
+      '6': [['L', 0], ['R', 0], ['L', 0.5], ['R', 0.5], ['L', 1, 1], ['R', 1, 1]],
+      '7': [['L', 0], ['R', 0], ['C', 0.25], ['L', 0.5], ['R', 0.5], ['L', 1, 1], ['R', 1, 1]],
+      '8': [['L', 0], ['R', 0], ['C', 0.25], ['L', 0.5], ['R', 0.5], ['C', 0.75, 1], ['L', 1, 1], ['R', 1, 1]],
+      '9': [['L', 0], ['R', 0], ['L', 1 / 3], ['R', 1 / 3], ['C', 0.5], ['L', 2 / 3, 1], ['R', 2 / 3, 1], ['L', 1, 1], ['R', 1, 1]],
+      '10': [['L', 0], ['R', 0], ['C', 1 / 6], ['L', 1 / 3], ['R', 1 / 3], ['L', 2 / 3, 1], ['R', 2 / 3, 1], ['C', 5 / 6, 1], ['L', 1, 1], ['R', 1, 1]]
+    };
+    const pips = (rank, cols, y0, y1, size) => (LAY[rank] || []).map((p) => ({
+      x: Math.round((cols[p[0]] - size / 2) * 10) / 10,
+      y: Math.round((y0 + p[1] * (y1 - y0) - size / 2) * 10) / 10,
+      tr: p[2] ? 'rotate(180deg)' : 'none'
+    }));
+    const GOLD = '#F2C14E', CREAM = '#FDFBF4';
+    const court = (rank, suit) => {
+      const robe = { d: 'M6 40 L10 28 Q20 23 30 28 L34 40 Z', f: suit, s: INK };
+      const collar = { d: 'M14 29 Q20 33 26 29 L24.5 32.5 Q20 35.5 15.5 32.5 Z', f: CREAM, s: INK };
+      const head = { d: 'M13.5 19 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0 Z', f: CREAM, s: INK };
+      if (rank === 'K') return [robe, collar, head,
+        { d: 'M14 21 Q20 31 26 21 Q20 25.5 14 21 Z', f: INK, s: INK },
+        { d: 'M12 13 L13 5 L17 10 L20 3 L23 10 L27 5 L28 13 Z', f: GOLD, s: INK }];
+      if (rank === 'Q') return [robe, collar, head,
+        { d: 'M13 19 Q12.5 9 20 9 Q27.5 9 27 19 Q25 13 20 13 Q15 13 13 19 Z', f: INK, s: INK },
+        { d: 'M14 11 L17 6 L20 8.5 L23 6 L26 11 Z', f: GOLD, s: INK },
+        { d: 'M19 7.5 a1.2 1.2 0 1 0 2.4 0 a1.2 1.2 0 1 0 -2.4 0 Z', f: suit, s: suit }];
+      if (rank === 'J') return [robe, collar, head,
+        { d: 'M12 14 Q20 5 28 14 Z', f: suit, s: INK },
+        { d: 'M26 11 Q31 2 36 5 Q31 7 28 13 Z', f: GOLD, s: INK }];
+      return [];
+    };
+    const face = (code) => {
+      const rank = code.slice(0, -1), s = S[code.slice(-1)];
+      const label = (NAMES[rank] || rank) + ' of ' + s.name;
+      return {
+        up: true, down: false, rank, path: s.path, color: s.color, label, handLabel: label + ', tap to discard',
+        isNum: !!LAY[rank], isAce: !LAY[rank], isCourt: false,
+        court: [],
+        pipsN: pips(rank, { L: 23, C: 32, R: 41 }, 18, 74, 14),
+        pipsH: pips(rank, { L: 27, C: 38, R: 49 }, 21, 88, 17),
+        handShadow: '0 4px 10px rgba(0,0,0,0.28), inset 0 -4px 0 #C9961A', handOpacity: '1',
+        pipsL: pips(rank, { L: 31, C: 44, R: 57 }, 26, 100, 15)
+      };
+    };
+    const back = () => ({ up: false, down: true, label: 'Face-down card' });
+    const plain = (t) => ({ t, color: 'inherit', weight: 'inherit' });
+    const segs = (str) => {
+      const out = []; const re = /\[([^\]]+)\]/g; let last = 0, m;
+      while ((m = re.exec(str))) {
+        if (m.index > last) out.push(plain(str.slice(last, m.index)));
+        const rank = m[1].slice(0, -1), s = S[m[1].slice(-1)];
+        out.push({ t: rank + s.glyph, color: s.color, weight: '700' });
+        last = m.index + m[0].length;
+      }
+      if (last < str.length) out.push(plain(str.slice(last)));
+      return out;
+    };
+    const chip = (lives) => {
+      if (lives <= 0) return { num: 'OUT', fill: '#E6E0D0', edge: '#9A948A', ring: '#9A948A', text: '#6F695F', fs: 7, fsL: 8, ls: '0.04em', label: 'Out of the game', caption: 'OUT', opacity: '0.7' };
+      if (lives === 1) return { num: 'BUS', fill: INK, edge: INK, ring: PAPER, text: PAPER, fs: 7, fsL: 8, ls: '0.04em', label: 'On the bus, one life left', caption: 'BUS', opacity: '1' };
+      return { num: String(lives), fill: '#FDFBF4', edge: INK, ring: INK, text: INK, fs: 13, fsL: 15, ls: '0', label: lives + ' corners left', caption: lives + ' left', opacity: '1' };
+    };
+    const chips = [4, 3, 2, 1, 0].map(chip);
+    const islands = [
+      { bg: '#EFE7D3', fg: INK, title: 'bot2 is playing', guide: 'Waiting for your turn.', hasButton: false, button: '', btnBorder: INK },
+      { bg: '#F2C14E', fg: INK, title: 'Your turn', guide: 'Draw from the deck or the discard.', hasButton: true, button: 'KNOCK', btnBorder: INK },
+      { bg: '#A8461A', fg: '#FFF4E6', title: 'bot2 knocked', guide: 'One more turn each — this is your last turn.', hasButton: false, button: '', btnBorder: INK },
+      { bg: INK, fg: PAPER, title: 'Hands revealed', guide: 'bot1 is lowest — folds a corner.', hasButton: true, button: 'Deal', btnBorder: PAPER }
+    ];
+    const row = (o) => Object.assign({ dealer: false, knocked: false, active: false, statusColor: SEC, statusWeight: '400', bg: PAPER, shadow: 'none', cards: [back(), back(), back()], showScore: false, showChip: true, chip: chip(3), score: '', scoreColor: INK }, o);
+    const rows = [
+      row({ name: 'bot1', dealer: true, status: segs('took [As] from the discard, threw [9h]') }),
+      row({ name: 'bot2', active: true, status: [plain('Playing now')], statusColor: INK, statusWeight: '700', bg: '#FBF0CF', shadow: 'inset 4px 0 0 #C9961A', chip: chip(4) }),
+      row({ name: 'bot3', knocked: true, status: [plain('knocked')], bg: '#F9E3C8', shadow: 'inset 4px 0 0 #A8461A', chip: chip(2) }),
+      row({ name: 'bot3', knocked: true, status: [plain('safe')], statusColor: INK, statusWeight: '700', bg: '#F9E3C8', shadow: 'inset 4px 0 0 #A8461A', cards: ['As', 'Ks', '9s'].map(face), showScore: true, showChip: false, score: '30' }),
+      row({ name: 'bot1', dealer: true, status: [plain('lowest — folds a corner')], statusColor: INK, statusWeight: '700', bg: '#E6DECB', shadow: 'inset 4px 0 0 #5B5648', cards: ['9d', '4c', '7s'].map(face), showScore: true, showChip: false, score: '9', scoreColor: INK })
+    ];
+    const panel = (o) => Object.assign({ dealer: false, knocked: false, value: '17 in clubs', valueColor: SEC, valueWeight: '400', bg: PAPER, shadow: 'none', cards: ['Kc', '7c', '9h'].map(face), showScore: false, showChip: true, chip: chip(4), score: '', scoreColor: INK }, o);
+    const dead = (c) => Object.assign(c, { handShadow: '0 4px 10px rgba(0,0,0,0.28)', handOpacity: '0.7' });
+    const plainCard = (c) => Object.assign(c, { handShadow: '0 4px 10px rgba(0,0,0,0.28)', handOpacity: '1' });
+    const panels = [
+      panel({ cards: [face('Kc'), face('7c'), dead(face('9h'))] }),
+      panel({ value: '20 in clubs', bg: '#FBF0CF', shadow: 'inset 4px 0 0 #C9961A', cards: [face('Kc'), face('7c'), face('3c'), dead(face('Qd'))] }),
+      panel({ knocked: true, dealer: true, value: '30 — straight', bg: '#F9E3C8', shadow: 'inset 4px 0 0 #A8461A', cards: ['9h', '10h', 'Jh'].map(face) }),
+      panel({ value: 'lowest — you fold a corner', valueColor: INK, valueWeight: '700', bg: '#E6DECB', shadow: 'inset 4px 0 0 #5B5648', cards: ['8d', '4d', '2s'].map(face).map(plainCard), showScore: true, showChip: false, score: '12', scoreColor: INK })
+    ];
+    return { chips, islands, rows, panels, disc: face('9h') };
+  }
+}
+</script>
+</body>
+</html>
