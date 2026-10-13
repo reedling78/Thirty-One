@@ -18,8 +18,8 @@ export interface Moment {
   tone: 'neutral' | 'mine' | 'knock' | 'reveal';
 }
 
-/** The one button style's two jobs: Knock when you may, Deal at the reveal. */
-const ACTIONS: Record<MomentAction, { label: string; a11y: string }> = {
+/** The one button's two jobs: Knock when you may, Deal at the reveal. It sits beside the discard. */
+export const MOMENT_ACTIONS: Record<MomentAction, { label: string; a11y: string }> = {
   knock: {
     label: 'KNOCK',
     a11y: 'Knock. Your hand is complete: skip your turn; everyone else gets one more turn, then the reveal',
@@ -28,8 +28,8 @@ const ACTIONS: Record<MomentAction, { label: string; a11y: string }> = {
 };
 
 /**
- * Every guide line the band can show. Each fits one line beside the chevron and
- * the button at 1.3× text on a 375 pt phone, so the band is always two lines.
+ * Every guide line the band can show. Each fits one line beside the chevron at
+ * 1.3× text on a 375 pt phone, so the band is always two lines.
  * `who` is a seat name (up to "bot9") or "You".
  */
 const GUIDE = {
@@ -40,7 +40,7 @@ const GUIDE = {
   oneMoreTurn: 'One more turn each.',
   lastDraw: 'Last turn — draw.',
   lastDiscard: 'Last turn — discard.',
-  thirtyOne: 'Everyone else folds.',
+  thirtyOne: 'Everyone else folds a corner.',
   nobody: 'Nobody folds.',
   foldsTwo: (who: string) => (who === 'You' ? 'You fold two.' : `${who} folds two.`),
   foldsOne: (who: string) => (who === 'You' ? 'You fold a corner.' : `${who} folds a corner.`),
@@ -67,18 +67,17 @@ const LONGEST_GUIDE = [
 interface Props {
   /** The table, or null before the first deal (the band then says "Dealing…"). */
   view: PlayerView | null;
-  onKnock?: () => void;
-  onDeal?: () => void;
 }
 
 /**
  * The table's navigation bar is the action island: a full-width band in the
- * moment's tone, up behind the status bar, with the back chevron, the headline
- * over one guide line, and the one action the moment allows — KNOCK when you
- * may, Deal at the reveal. On your turn the whole top of the phone goes gold.
- * Announced as a status to screen readers.
+ * moment's tone, up behind the status bar, holding only the back chevron and
+ * the headline over one guide line (KNOCK and Deal sit beside the discard). On
+ * your turn the whole top of the phone goes gold. Announced as a status to
+ * screen readers. The screen hides the navigator's own header and renders this
+ * as its first child.
  */
-export function HeaderBand({ view, onKnock, onDeal }: Props) {
+export function HeaderBand({ view }: Props) {
   const router = useRouter();
   const scale = useFontScale();
   const insets = useSafeAreaInsets();
@@ -86,8 +85,6 @@ export function HeaderBand({ view, onKnock, onDeal }: Props) {
     ? moment(view)
     : { title: 'Dealing…', detail: GUIDE.dealing, tone: 'neutral' };
   const tone = TONES[m.tone];
-  const button = m.action ? ACTIONS[m.action] : null;
-  const onPress = m.action === 'knock' ? onKnock : onDeal;
   const titleStyle = {
     fontSize: BAND.title.size * scale,
     lineHeight: BAND.title.lineHeight * scale,
@@ -151,39 +148,6 @@ export function HeaderBand({ view, onKnock, onDeal }: Props) {
             {m.detail}
           </Txt>
         </View>
-      </View>
-      {/* The slot always keeps the wider button's room, so the lines never reflow as it comes and goes. */}
-      <View style={styles.slot}>
-        <View
-          style={[styles.button, styles.ghost, styles.ghostButton]}
-          pointerEvents="none"
-          accessibilityElementsHidden
-          importantForAccessibility="no-hide-descendants"
-        >
-          {Object.values(ACTIONS).map((a) => (
-            <Txt key={a.label} variant="button">
-              {a.label}
-            </Txt>
-          ))}
-        </View>
-        {button ? (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={button.a11y}
-            onPress={onPress}
-            style={({ pressed }) => [
-              styles.button,
-              styles.live,
-              // On the ink tone the one button style gains a cream outline so it still reads as a button.
-              { borderColor: m.tone === 'reveal' ? color.island.reveal.fg : color.ink },
-              pressed && styles.pressed,
-            ]}
-          >
-            <Txt variant="button" color={color.island.reveal.fg}>
-              {button.label}
-            </Txt>
-          </Pressable>
-        ) : null}
       </View>
     </View>
   );
@@ -300,19 +264,5 @@ const styles = StyleSheet.create({
   lines: { gap: BAND.lineGap },
   ghost: { opacity: 0 },
   overlay: { ...StyleSheet.absoluteFill },
-  slot: { minHeight: BAND.button.height, justifyContent: 'center' },
-  button: {
-    minHeight: BAND.button.height,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: BAND.button.padH,
-    borderRadius: BAND.button.radius,
-    borderWidth: BAND.button.border,
-    borderColor: color.ink,
-    backgroundColor: color.ink,
-  },
-  // Sized by the wider label; no height of its own.
-  ghostButton: { height: 0, minHeight: 0, overflow: 'hidden', borderWidth: 0 },
-  live: { position: 'absolute', right: 0, top: 0, bottom: 0 },
   pressed: { opacity: 0.7 },
 });

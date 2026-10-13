@@ -1,7 +1,7 @@
 import { easyBot, normalBot } from '@thirtyone/bots';
-import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Felt } from '@/components/ui/Felt';
 import { GreyboxTable } from '@/components/greybox/GreyboxTable';
@@ -58,19 +58,18 @@ export default function PracticeScreen() {
   useFeedback(snapshot);
   const callouts = useRowCallouts(snapshot);
 
-  // Before the first deal and at the end of the game the band has no action; during
-  // play the table sets it, with its KNOCK and Deal wired to the client.
-  const header = (
-    <Stack.Screen options={{ header: () => <HeaderBand view={snapshot?.view ?? null} /> }} />
-  );
+  // The band is the screen's header (the navigator's own is hidden), in every state.
+  const header = <HeaderBand view={snapshot?.view ?? null} />;
 
   if (!snapshot) {
     return (
-      <Felt style={styles.center}>
+      <Felt>
         {header}
-        <Txt variant="title" color={color.onBaize}>
-          Dealing…
-        </Txt>
+        <View style={styles.center}>
+          <Txt variant="title" color={color.onBaize}>
+            Dealing…
+          </Txt>
+        </View>
       </Felt>
     );
   }
@@ -100,6 +99,7 @@ export default function PracticeScreen() {
 
   return (
     <Felt>
+      {header}
       <SafeAreaView style={styles.safe} edges={['bottom']}>
         <GreyboxTable
           client={client}
@@ -125,5 +125,5 @@ export default function PracticeScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1 },
-  center: { alignItems: 'center', justifyContent: 'center' },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
 });

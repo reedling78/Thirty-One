@@ -53,8 +53,6 @@ export const BAND = {
   lineGap: 2,
   title: { size: 19, lineHeight: 23, letterSpacing: -0.19 },
   guide: { size: 14, lineHeight: 18 },
-  /** KNOCK and Deal: the one ink button. */
-  button: { height: 44, padH: 18, radius: 10, border: 1.5 },
 } as const;
 
 /** The deck and discard, centred in whatever the opponent list leaves, never in less than `minArea`. */

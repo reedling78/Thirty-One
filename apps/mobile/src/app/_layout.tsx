@@ -39,7 +39,7 @@ export default function RootLayout() {
           }}
         >
           <Stack.Screen name="index" options={{ title: 'ThirtyOne', headerShown: false }} />
-          <Stack.Screen name="practice" options={{ title: 'Practice' }} />
+          <Stack.Screen name="practice" options={{ title: 'Practice', headerShown: false }} />
           <Stack.Screen name="rules" options={{ title: 'How to play' }} />
           <Stack.Screen name="settings" options={{ title: 'Settings' }} />
           <Stack.Screen name="dev-cards" options={{ title: 'Card sheet' }} />

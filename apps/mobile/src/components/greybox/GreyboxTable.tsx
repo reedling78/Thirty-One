@@ -9,7 +9,6 @@ import {
   View,
   type LayoutChangeEvent,
 } from 'react-native';
-import { Stack } from 'expo-router';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 import type { TableClient } from '@/game/TableClient';
 import type { Callout } from '@/game/useRowCallouts';
@@ -19,7 +18,6 @@ import { SIZE } from '@/theme/cardArt';
 import { AD, AD_CAPTION, CHIP, EMPTY_PILE, PANEL, PILES, YOUR_PANEL } from '@/theme/components';
 import { Txt, useFontScale } from '@/theme/text';
 import { color, layout, radius, space, type as typeTokens } from '@/theme/tokens';
-import { HeaderBand } from './HeaderBand';
 import { CardView, cardName } from './CardView';
 import { ChipBadge } from './ChipBadge';
 import { ROW_STATE } from './PlayerRow';
@@ -37,8 +35,7 @@ interface Props {
 }
 
 /**
- * The practice table, top to bottom: the header band (the screen's navigation
- * bar, set from here so its KNOCK and Deal reach the client), the opponents, the
+ * The practice table below the header band, top to bottom: the opponents, the
  * two piles on the felt, your panel (your hand above the "You · value" line),
  * and the ad slot. Your panel and the ad slot have fixed heights, so your hand
  * sits at the same place in every state. The opponent list takes its natural
@@ -64,8 +61,6 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
   };
 
   const discard = (card: Card) => act({ type: 'discard', card });
-  const onKnock = () => act({ type: 'knock' });
-  const onDeal = () => client.acknowledgeReveal();
   const others = view.seats.filter((s) => s.index !== view.seat);
   const score = view.handScore;
   const scoreText = score
@@ -106,12 +101,6 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
 
   return (
     <View style={styles.root}>
-      <Stack.Screen
-        options={{
-          header: () => <HeaderBand view={view} onKnock={onKnock} onDeal={onDeal} />,
-        }}
-      />
-
       <ScrollView style={styles.seats} contentContainerStyle={styles.seatList}>
         {others.map((s, i) => (
           <SeatView
