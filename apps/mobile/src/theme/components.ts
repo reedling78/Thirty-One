@@ -40,12 +40,13 @@ export const PANEL = {
 } as const;
 
 /**
- * The header band (the action island as the navigation bar): canvas padding,
+ * The header band (the action island as the navigation bar): its padding (the
+ * top is added to the status-bar inset; the band hugs its content),
  * the back target and chevron, and the headline and guide sizes, which scale
  * with the system text size.
  */
 export const BAND = {
-  pad: { top: 8, right: 12, bottom: 10, left: 4 },
+  pad: { top: 6, right: 12, bottom: 10, left: 4 },
   gap: 6,
   back: 44,
   chevron: { size: 22, stroke: 2.2, path: 'M15 5l-7 7 7 7' },

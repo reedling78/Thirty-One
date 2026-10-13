@@ -2,11 +2,11 @@ import type { PlayerView } from '@thirtyone/rules';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
 import { BAND } from '@/theme/components';
 import { Txt, useFontScale } from '@/theme/text';
-import { color, layout } from '@/theme/tokens';
+import { color } from '@/theme/tokens';
 
 export type MomentAction = 'knock' | 'deal';
 
@@ -54,6 +54,7 @@ interface Props {
 export function HeaderBand({ view, onKnock, onDeal }: Props) {
   const router = useRouter();
   const scale = useFontScale();
+  const insets = useSafeAreaInsets();
   const m: Moment = view
     ? moment(view)
     : { title: 'Dealing…', detail: 'Next round coming up.', tone: 'neutral' };
@@ -70,94 +71,92 @@ export function HeaderBand({ view, onKnock, onDeal }: Props) {
     lineHeight: BAND.guide.lineHeight * scale,
   };
   return (
-    <SafeAreaView
-      edges={['top']}
-      style={{ backgroundColor: tone.bg }}
+    // The band hugs its content: the status-bar inset, 6 pt, headline over guide, 10 pt.
+    <View
+      style={[styles.band, { backgroundColor: tone.bg, paddingTop: insets.top + BAND.pad.top }]}
       accessibilityLiveRegion="polite"
     >
       {/* Dark status-bar text on the light tones, light on the dark ones. */}
       <StatusBar style={m.tone === 'knock' || m.tone === 'reveal' ? 'light' : 'dark'} />
-      <View style={[styles.band, { minHeight: layout.islandHeight * scale }]}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="Back"
-          onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
-          style={({ pressed }) => [styles.back, pressed && styles.pressed]}
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Back"
+        onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))}
+        style={({ pressed }) => [styles.back, pressed && styles.pressed]}
+      >
+        <Svg width={BAND.chevron.size} height={BAND.chevron.size} viewBox="0 0 24 24">
+          <Path
+            d={BAND.chevron.path}
+            fill="none"
+            stroke={tone.fg}
+            strokeWidth={BAND.chevron.stroke}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </Svg>
+      </Pressable>
+      <View style={styles.text}>
+        <View
+          style={[styles.lines, styles.ghost]}
+          pointerEvents="none"
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
         >
-          <Svg width={BAND.chevron.size} height={BAND.chevron.size} viewBox="0 0 24 24">
-            <Path
-              d={BAND.chevron.path}
-              fill="none"
-              stroke={tone.fg}
-              strokeWidth={BAND.chevron.stroke}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </Svg>
-        </Pressable>
-        <View style={styles.text}>
-          <View
-            style={[styles.lines, styles.ghost]}
-            pointerEvents="none"
-            accessibilityElementsHidden
-            importantForAccessibility="no-hide-descendants"
-          >
-            <Txt variant="display" style={titleStyle}>
-              {LONGEST_TITLE}
-            </Txt>
-            <Txt variant="body" style={guideStyle}>
-              {LONGEST_GUIDE}
-            </Txt>
-          </View>
-          <View
-            style={[styles.lines, styles.overlay]}
-            accessible
-            accessibilityRole="summary"
-            accessibilityLabel={m.detail ? `${m.title}. ${m.detail}` : m.title}
-          >
-            <Txt variant="display" color={tone.fg} style={titleStyle}>
-              {m.title}
-            </Txt>
-            <Txt variant="body" color={tone.fg} style={guideStyle}>
-              {m.detail}
-            </Txt>
-          </View>
+          <Txt variant="display" style={titleStyle}>
+            {LONGEST_TITLE}
+          </Txt>
+          <Txt variant="body" style={guideStyle}>
+            {LONGEST_GUIDE}
+          </Txt>
         </View>
-        {/* The slot always keeps the wider button's room, so the lines never reflow as it comes and goes. */}
-        <View style={styles.slot}>
-          <View
-            style={[styles.button, styles.ghost, styles.ghostButton]}
-            pointerEvents="none"
-            accessibilityElementsHidden
-            importantForAccessibility="no-hide-descendants"
-          >
-            {Object.values(ACTIONS).map((a) => (
-              <Txt key={a.label} variant="button">
-                {a.label}
-              </Txt>
-            ))}
-          </View>
-          {button ? (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={button.a11y}
-              onPress={onPress}
-              style={({ pressed }) => [
-                styles.button,
-                styles.live,
-                // On the ink tone the one button style gains a cream outline so it still reads as a button.
-                { borderColor: m.tone === 'reveal' ? color.island.reveal.fg : color.ink },
-                pressed && styles.pressed,
-              ]}
-            >
-              <Txt variant="button" color={color.island.reveal.fg}>
-                {button.label}
-              </Txt>
-            </Pressable>
-          ) : null}
+        <View
+          style={[styles.lines, styles.overlay]}
+          accessible
+          accessibilityRole="summary"
+          accessibilityLabel={m.detail ? `${m.title}. ${m.detail}` : m.title}
+        >
+          <Txt variant="display" color={tone.fg} style={titleStyle}>
+            {m.title}
+          </Txt>
+          <Txt variant="body" color={tone.fg} style={guideStyle}>
+            {m.detail}
+          </Txt>
         </View>
       </View>
-    </SafeAreaView>
+      {/* The slot always keeps the wider button's room, so the lines never reflow as it comes and goes. */}
+      <View style={styles.slot}>
+        <View
+          style={[styles.button, styles.ghost, styles.ghostButton]}
+          pointerEvents="none"
+          accessibilityElementsHidden
+          importantForAccessibility="no-hide-descendants"
+        >
+          {Object.values(ACTIONS).map((a) => (
+            <Txt key={a.label} variant="button">
+              {a.label}
+            </Txt>
+          ))}
+        </View>
+        {button ? (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={button.a11y}
+            onPress={onPress}
+            style={({ pressed }) => [
+              styles.button,
+              styles.live,
+              // On the ink tone the one button style gains a cream outline so it still reads as a button.
+              { borderColor: m.tone === 'reveal' ? color.island.reveal.fg : color.ink },
+              pressed && styles.pressed,
+            ]}
+          >
+            <Txt variant="button" color={color.island.reveal.fg}>
+              {button.label}
+            </Txt>
+          </Pressable>
+        ) : null}
+      </View>
+    </View>
   );
 }
 
@@ -265,7 +264,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: BAND.gap,
-    paddingTop: BAND.pad.top,
     paddingRight: BAND.pad.right,
     paddingBottom: BAND.pad.bottom,
     paddingLeft: BAND.pad.left,
@@ -279,7 +277,7 @@ const styles = StyleSheet.create({
   text: { flex: 1, minWidth: 0 },
   lines: { gap: BAND.lineGap },
   ghost: { opacity: 0 },
-  overlay: { ...StyleSheet.absoluteFill, justifyContent: 'center' },
+  overlay: { ...StyleSheet.absoluteFill },
   slot: { minHeight: BAND.button.height, justifyContent: 'center' },
   button: {
     minHeight: BAND.button.height,
