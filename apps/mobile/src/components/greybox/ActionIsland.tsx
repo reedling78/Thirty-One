@@ -148,6 +148,26 @@ export function moment(view: PlayerView): Moment {
   return { title: 'Your turn', detail: 'Draw from the deck or the discard.', tone: 'mine' };
 }
 
+/**
+ * The guide line your panel carries when the island is off: the island's
+ * guide, except that while someone else's knock still leaves you a turn it
+ * says so.
+ */
+export function panelGuide(view: PlayerView): string {
+  const m = moment(view);
+  const k = view.knocker;
+  if (view.phase === 'playing' && k !== null && k !== view.seat) {
+    // Play moves to higher seats; everyone after the knocker gets one turn.
+    const n = view.seats.length;
+    const after = (s: number) => (s - k + n) % n;
+    if (after(view.seat) >= after(view.turn)) {
+      const who = view.seats[k]?.id ?? `Seat ${k}`;
+      return `${who} knocked — this is your last turn.`;
+    }
+  }
+  return m.detail;
+}
+
 /** The reveal's guide line: who is lowest and what it costs. */
 function outcome(view: PlayerView, name: (seat: number) => string): string {
   const r = view.roundResult!;

@@ -20,6 +20,11 @@ export interface Settings {
   readonly guidedDone: boolean;
   /** Card back colourway. One pattern, four colours. */
   readonly backColor: BackColor;
+  /**
+   * The action island above the table (an A/B to settle by play). Off, your
+   * panel carries the guide line and the KNOCK / Continue button.
+   */
+  readonly actionIsland: boolean;
 }
 
 const DEFAULTS: Settings = {
@@ -28,6 +33,7 @@ const DEFAULTS: Settings = {
   reduceMotion: false,
   guidedDone: false,
   backColor: 'blue',
+  actionIsland: true,
 };
 const STORAGE_KEY = 'thirtyone.settings.v1';
 

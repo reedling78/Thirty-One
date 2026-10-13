@@ -54,6 +54,12 @@ export default function SettingsScreen() {
           value={settings.reduceMotion}
           onChange={(reduceMotion) => update({ reduceMotion })}
         />
+        <Row
+          label="Action island"
+          detail="The message panel above the table. Off, your own panel carries the message and the buttons."
+          value={settings.actionIsland}
+          onChange={(actionIsland) => update({ actionIsland })}
+        />
 
         <BackPicker value={settings.backColor} onChange={(backColor) => update({ backColor })} />
 

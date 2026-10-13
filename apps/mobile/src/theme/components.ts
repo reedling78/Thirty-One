@@ -119,6 +119,10 @@ export const BACK_SWATCH = {
 export const YOUR_PANEL = {
   /** tokens.type.score is 24; the canvas sets your own score at 26 (see the token's comment). */
   scoreSize: 26,
+  /** With the island off: the guide line under your name (the canvas sets it at 14/18). */
+  status: { size: 14, lineHeight: 18, lines: 2 },
+  /** With the island off: KNOCK / Continue in the header, a little narrower than the island's. */
+  buttonPadH: 16,
 } as const;
 
 /** The ad slot's placeholder captions sit on a fixed-size slot and don't scale. */

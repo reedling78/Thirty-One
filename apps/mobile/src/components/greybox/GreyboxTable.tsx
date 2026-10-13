@@ -3,6 +3,7 @@ import { cardId } from '@thirtyone/rules';
 import { useState } from 'react';
 import {
   AccessibilityInfo,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -15,10 +16,25 @@ import type { Callout } from '@/game/useRowCallouts';
 import { DealerButton, Pill } from '@/components/ui/Marks';
 import { useSettings } from '@/settings/Settings';
 import { SIZE } from '@/theme/cardArt';
-import { AD, AD_CAPTION, CHIP, EMPTY_PILE, PANEL, PILES, YOUR_PANEL } from '@/theme/components';
+import {
+  AD,
+  AD_CAPTION,
+  CHIP,
+  EMPTY_PILE,
+  ISLAND,
+  PANEL,
+  PILES,
+  YOUR_PANEL,
+} from '@/theme/components';
 import { Txt, useFontScale } from '@/theme/text';
 import { color, layout, radius, space, type as typeTokens } from '@/theme/tokens';
-import { ActionIsland } from './ActionIsland';
+import {
+  ActionIsland,
+  MOMENT_ACTIONS,
+  moment,
+  panelGuide,
+  type MomentAction,
+} from './ActionIsland';
 import { CardView, cardName } from './CardView';
 import { ChipBadge } from './ChipBadge';
 import { ROW_STATE } from './PlayerRow';
@@ -40,11 +56,14 @@ interface Props {
  * piles on the felt, your panel, and the ad slot. Only the opponent list flexes
  * (and scrolls when it must); everything below it has a fixed height, so the
  * piles and your hand sit at the same place in every state and at every seat count.
+ * With the island off (Settings › Action island), your panel carries its guide
+ * line and its button, and the opponent list takes the freed height.
  */
 export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [handWidth, setHandWidth] = useState(0);
-  const { motionReduced } = useSettings();
+  const { motionReduced, settings } = useSettings();
+  const island = settings.actionIsland;
   const scale = useFontScale();
   const me = view.seats[view.seat]!;
   const canDraw = view.legalActions.includes('draw');
@@ -59,6 +78,8 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
   };
 
   const discard = (card: Card) => act({ type: 'discard', card });
+  const onKnock = () => act({ type: 'knock' });
+  const onContinue = () => client.acknowledgeReveal();
   const others = view.seats.filter((s) => s.index !== view.seat);
   const score = view.handScore;
   const scoreText = score
@@ -99,11 +120,7 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
 
   return (
     <View style={styles.root}>
-      <ActionIsland
-        view={view}
-        onKnock={() => act({ type: 'knock' })}
-        onContinue={() => client.acknowledgeReveal()}
-      />
+      {island ? <ActionIsland view={view} onKnock={onKnock} onContinue={onContinue} /> : null}
 
       <ScrollView style={styles.seats} contentContainerStyle={styles.seatList}>
         {others.map((s, i) => (
@@ -188,6 +205,12 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
               )}
             </View>
           </View>
+          {island ? null : (
+            <ActionSlot
+              action={moment(view).action}
+              onPress={(a) => (a === 'knock' ? onKnock() : onContinue())}
+            />
+          )}
           <View style={styles.figure}>
             {me.revealed ? (
               <Txt
@@ -206,6 +229,22 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
             )}
           </View>
         </View>
+        {island ? null : (
+          <Txt
+            variant="status"
+            bold={me.isTurn}
+            color={me.isTurn ? color.ink : color.inkSecondary}
+            accessibilityLiveRegion="polite"
+            style={{
+              fontSize: YOUR_PANEL.status.size * scale,
+              lineHeight: YOUR_PANEL.status.lineHeight * scale,
+              // Two lines reserved, as on every row, so the panel never changes height.
+              minHeight: YOUR_PANEL.status.lineHeight * YOUR_PANEL.status.lines * scale,
+            }}
+          >
+            {panelGuide(view)}
+          </Txt>
+        )}
         <View
           style={[styles.hand, { gap: handGap }]}
           onLayout={(e: LayoutChangeEvent) => setHandWidth(e.nativeEvent.layout.width)}
@@ -242,6 +281,52 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
       </View>
 
       <AdSlot />
+    </View>
+  );
+}
+
+/**
+ * KNOCK / Continue in your panel's header when the island is off. The slot
+ * always keeps the wider button's room, so the header doesn't reflow as the
+ * button comes and goes.
+ */
+function ActionSlot({
+  action,
+  onPress,
+}: {
+  action: MomentAction | undefined;
+  onPress: (action: MomentAction) => void;
+}) {
+  return (
+    <View style={styles.actionSlot}>
+      <View
+        style={[styles.actionButton, styles.ghost, styles.actionGhost]}
+        pointerEvents="none"
+        accessibilityElementsHidden
+        importantForAccessibility="no-hide-descendants"
+      >
+        {Object.values(MOMENT_ACTIONS).map((a) => (
+          <Txt key={a.label} variant="button">
+            {a.label}
+          </Txt>
+        ))}
+      </View>
+      {action ? (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={MOMENT_ACTIONS[action].a11y}
+          onPress={() => onPress(action)}
+          style={({ pressed }) => [
+            styles.actionButton,
+            styles.actionLive,
+            pressed && styles.pressed,
+          ]}
+        >
+          <Txt variant="button" color={color.paper}>
+            {MOMENT_ACTIONS[action].label}
+          </Txt>
+        </Pressable>
+      ) : null}
     </View>
   );
 }
@@ -305,6 +390,21 @@ const styles = StyleSheet.create({
   },
   bar: { position: 'absolute', left: 0, top: 0, bottom: 0, width: layout.stateBarWidth },
   meHeader: { flexDirection: 'row', alignItems: 'flex-start', gap: PANEL.rowGap },
+  actionSlot: { minHeight: ISLAND.button.height, justifyContent: 'center' },
+  actionButton: {
+    minHeight: ISLAND.button.height,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: YOUR_PANEL.buttonPadH,
+    borderRadius: ISLAND.button.radius,
+    borderWidth: ISLAND.button.border,
+    borderColor: color.ink,
+    backgroundColor: color.ink,
+  },
+  // Sized by the wider label; collapsed to nothing in height.
+  actionGhost: { height: 0, minHeight: 0, overflow: 'hidden', borderWidth: 0 },
+  actionLive: { position: 'absolute', right: 0, top: 0, bottom: 0 },
+  pressed: { opacity: 0.7 },
   meTitle: {
     flexDirection: 'row',
     alignItems: 'center',
