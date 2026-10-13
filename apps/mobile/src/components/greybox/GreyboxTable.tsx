@@ -39,7 +39,7 @@ interface Props {
 /**
  * The practice table, top to bottom: the header band (the screen's navigation
  * bar, set from here so its KNOCK and Deal reach the client), the opponents, the
- * two piles on the felt, your panel, and the ad slot. Only the opponent list
+ * two piles on the felt, your panel (your hand above the "You · value" line), and the ad slot. Only the opponent list
  * flexes (and scrolls when it must); everything below it has a fixed height, so
  * the piles and your hand sit at the same place in every state and at every seat count.
  */
@@ -150,6 +150,39 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
 
       <View style={[styles.me, { backgroundColor: state.fill }]}>
         {state.bar ? <View style={[styles.bar, { backgroundColor: state.bar }]} /> : null}
+        <View
+          style={[styles.hand, { gap: handGap }]}
+          onLayout={(e: LayoutChangeEvent) => setHandWidth(e.nativeEvent.layout.width)}
+        >
+          {view.hand.length === 0
+            ? // Between rounds the hand is three backs, so the panel keeps its height.
+              [0, 1, 2].map((i) => <CardView key={i} faceDown size="hand" />)
+            : view.hand.map((c, i) => {
+                // At the reveal, only the cards that count stay bright — a 31 drawn into a
+                // four-card hand leaves one card out.
+                const counted = me.revealed?.hand;
+                const notCounted = !!counted && !counted.some((k) => cardId(k) === cardId(c));
+                return (
+                  <Animated.View
+                    key={`${view.round}-${cardId(c)}`}
+                    entering={
+                      motionReduced
+                        ? undefined
+                        : FadeInUp.delay(i < 3 ? i * 140 : 0).duration(i < 3 ? 260 : 180)
+                    }
+                  >
+                    <CardView
+                      card={c}
+                      size="hand"
+                      counting={showCounting ? (counts(c) ? 'counts' : 'dead') : undefined}
+                      onPress={canDiscard ? () => discard(c) : undefined}
+                      dimmed={notCounted}
+                      label={`${cardName(c)}${notCounted ? ', not part of the hand' : ''}${canDiscard ? ', tap to discard' : ''}`}
+                    />
+                  </Animated.View>
+                );
+              })}
+        </View>
         <View style={styles.meHeader}>
           <View style={styles.titleArea}>
             {/* An invisible worst case — dealer disc, KNOCKED pill and the longest
@@ -209,39 +242,6 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
               <ChipBadge folds={me.folds} out={me.out} size={CHIP.size.panel} />
             )}
           </View>
-        </View>
-        <View
-          style={[styles.hand, { gap: handGap }]}
-          onLayout={(e: LayoutChangeEvent) => setHandWidth(e.nativeEvent.layout.width)}
-        >
-          {view.hand.length === 0
-            ? // Between rounds the hand is three backs, so the panel keeps its height.
-              [0, 1, 2].map((i) => <CardView key={i} faceDown size="hand" />)
-            : view.hand.map((c, i) => {
-                // At the reveal, only the cards that count stay bright — a 31 drawn into a
-                // four-card hand leaves one card out.
-                const counted = me.revealed?.hand;
-                const notCounted = !!counted && !counted.some((k) => cardId(k) === cardId(c));
-                return (
-                  <Animated.View
-                    key={`${view.round}-${cardId(c)}`}
-                    entering={
-                      motionReduced
-                        ? undefined
-                        : FadeInUp.delay(i < 3 ? i * 140 : 0).duration(i < 3 ? 260 : 180)
-                    }
-                  >
-                    <CardView
-                      card={c}
-                      size="hand"
-                      counting={showCounting ? (counts(c) ? 'counts' : 'dead') : undefined}
-                      onPress={canDiscard ? () => discard(c) : undefined}
-                      dimmed={notCounted}
-                      label={`${cardName(c)}${notCounted ? ', not part of the hand' : ''}${canDiscard ? ', tap to discard' : ''}`}
-                    />
-                  </Animated.View>
-                );
-              })}
         </View>
       </View>
 
