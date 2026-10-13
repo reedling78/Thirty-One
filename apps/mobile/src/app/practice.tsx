@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Felt } from '@/components/ui/Felt';
 import { GreyboxTable } from '@/components/greybox/GreyboxTable';
 import { GuideOverlay } from '@/components/greybox/GuideOverlay';
+import { MomentPill } from '@/components/greybox/MomentPill';
 import { Results } from '@/components/greybox/Results';
 import {
   GUIDED_DEALER,
@@ -57,9 +58,14 @@ export default function PracticeScreen() {
   useFeedback(snapshot);
   const callouts = useRowCallouts(snapshot);
 
+  const view = snapshot?.view ?? null;
+  // The header carries the moment, not the round number.
+  const header = <Stack.Screen options={{ headerTitle: () => <MomentPill view={view} /> }} />;
+
   if (!snapshot) {
     return (
       <Felt style={styles.center}>
+        {header}
         <Txt variant="title" color={color.onBaize}>
           Dealing…
         </Txt>
@@ -70,6 +76,7 @@ export default function PracticeScreen() {
   if (snapshot.view.phase === 'gameOver') {
     return (
       <Felt>
+        {header}
         <SafeAreaView style={styles.safe} edges={['bottom']}>
           <Results
             view={snapshot.view}
@@ -89,12 +96,10 @@ export default function PracticeScreen() {
     update({ guidedDone: true });
   };
 
-  const round = snapshot.view.round;
-  const title = `${guideActive ? 'Guided game' : 'Practice'}${round > 0 ? ` · Round ${round}` : ''}`;
   return (
     <Felt>
       <SafeAreaView style={styles.safe} edges={['bottom']}>
-        <Stack.Screen options={{ title }} />
+        {header}
         <GreyboxTable
           client={client}
           view={snapshot.view}

@@ -136,3 +136,16 @@ export const HOME = {
 
 /** The guide card sits in the upper third of the table, clear of the piles. */
 export const GUIDE = { top: 100, padTop: 22 } as const;
+
+/**
+ * The header's moment pill: the island's headline in the island's tone. Its
+ * text and height scale with the system text size; the quiet tone (someone
+ * else playing, dealing) is a translucent cream capsule on the felt.
+ */
+export const MOMENT_PILL = {
+  height: 34,
+  padH: 16,
+  font: 16,
+  letterSpacing: 0.16,
+  quiet: { bg: alpha(color.paper, 0.16), ring: alpha(color.paper, 0.35), ringWidth: 1 },
+} as const;

@@ -10,12 +10,24 @@ interface Props {
   onContinue(): void;
 }
 
-interface Content {
+export type MomentAction = 'knock' | 'continue';
+
+/** What the table is doing now: the island's title, its guide line, its tone and its one action. */
+export interface Moment {
   title: string;
   detail: string;
-  button?: { label: string; onPress: () => void; a11y: string };
+  action?: MomentAction;
   tone: 'neutral' | 'mine' | 'knock' | 'reveal';
 }
+
+/** The one button style's two jobs: Knock when you may, Continue at the reveal. */
+export const MOMENT_ACTIONS: Record<MomentAction, { label: string; a11y: string }> = {
+  knock: {
+    label: 'KNOCK',
+    a11y: 'Knock. Your hand is complete: skip your turn; everyone else gets one more turn, then the reveal',
+  },
+  continue: { label: 'Continue', a11y: 'Continue to the next round' },
+};
 
 /**
  * The action island: always present above the opponents. It says what is
@@ -23,15 +35,16 @@ interface Content {
  * when you may, Continue at the reveal.
  */
 export function ActionIsland({ view, onKnock, onContinue }: Props) {
-  const c = content(view, onKnock, onContinue);
+  const c = moment(view);
+  const button = c.action ? MOMENT_ACTIONS[c.action] : null;
   const scale = useFontScale();
   const tone = TONES[c.tone];
   return (
     <View
       style={[styles.island, { backgroundColor: tone.bg, height: layout.islandHeight * scale }]}
       accessibilityLiveRegion="polite"
-      accessible={!c.button}
-      accessibilityLabel={c.button ? undefined : `${c.title}. ${c.detail}`}
+      accessible={!button}
+      accessibilityLabel={button ? undefined : `${c.title}. ${c.detail}`}
     >
       <View style={styles.text}>
         <Txt variant="title" color={tone.fg}>
@@ -41,11 +54,11 @@ export function ActionIsland({ view, onKnock, onContinue }: Props) {
           {c.detail}
         </Txt>
       </View>
-      {c.button ? (
+      {button ? (
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={c.button.a11y}
-          onPress={c.button.onPress}
+          accessibilityLabel={button.a11y}
+          onPress={c.action === 'knock' ? onKnock : onContinue}
           style={({ pressed }) => [
             styles.button,
             // On the ink island the one button style gains a cream outline so it still reads as a button.
@@ -54,7 +67,7 @@ export function ActionIsland({ view, onKnock, onContinue }: Props) {
           ]}
         >
           <Txt variant="button" color={color.island.reveal.fg}>
-            {c.button.label}
+            {button.label}
           </Txt>
         </Pressable>
       ) : null}
@@ -62,7 +75,7 @@ export function ActionIsland({ view, onKnock, onContinue }: Props) {
   );
 }
 
-function content(view: PlayerView, onKnock: () => void, onContinue: () => void): Content {
+export function moment(view: PlayerView): Moment {
   const name = (seat: number) =>
     seat === view.seat ? 'You' : (view.seats[seat]?.id ?? `Seat ${seat}`);
   const mine = view.turn === view.seat;
@@ -79,7 +92,7 @@ function content(view: PlayerView, onKnock: () => void, onContinue: () => void):
       title,
       detail: outcome(view, name),
       tone: 'reveal',
-      button: { label: 'Continue', onPress: onContinue, a11y: 'Continue to the next round' },
+      action: 'continue',
     };
   }
 
@@ -128,11 +141,7 @@ function content(view: PlayerView, onKnock: () => void, onContinue: () => void):
       title: 'Your turn',
       detail: 'Draw from the deck or the discard.',
       tone: 'mine',
-      button: {
-        label: 'KNOCK',
-        onPress: onKnock,
-        a11y: 'Knock. Your hand is complete: skip your turn; everyone else gets one more turn, then the reveal',
-      },
+      action: 'knock',
     };
   }
 
