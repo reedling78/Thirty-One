@@ -39,9 +39,12 @@ interface Props {
 /**
  * The practice table, top to bottom: the header band (the screen's navigation
  * bar, set from here so its KNOCK and Deal reach the client), the opponents, the
- * two piles on the felt, your panel (your hand above the "You · value" line), and the ad slot. Only the opponent list
- * flexes (and scrolls when it must); everything below it has a fixed height, so
- * the piles and your hand sit at the same place in every state and at every seat count.
+ * two piles on the felt, your panel (your hand above the "You · value" line),
+ * and the ad slot. Your panel and the ad slot have fixed heights, so your hand
+ * sits at the same place in every state. The opponent list takes its natural
+ * height and the piles are centred in what is left, never in less than
+ * PILES.minArea (from about seven seats the list scrolls instead), so they stay
+ * put for the whole game but sit higher or lower with the seat count.
  */
 export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
   const [error, setError] = useState<string | null>(null);
@@ -273,7 +276,7 @@ function AdSlot() {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  seats: { flex: 1, minHeight: 0 },
+  seats: { flexGrow: 0, flexShrink: 1, minHeight: 0 },
   seatList: {
     paddingTop: space.sm,
     paddingHorizontal: PANEL.gutter,
@@ -281,11 +284,14 @@ const styles = StyleSheet.create({
     gap: PANEL.rowListGap,
   },
   piles: {
+    flexGrow: 1,
+    flexShrink: 0,
+    minHeight: PILES.minArea,
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     gap: PILES.gap,
-    paddingTop: PILES.padTop,
-    paddingBottom: PILES.padBottom,
+    paddingVertical: PILES.padV,
   },
   emptyPile: {
     width: SIZE.large.w,

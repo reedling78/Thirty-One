@@ -61,7 +61,8 @@ export const ISLAND = {
   button: { height: 44, padH: 18, radius: 10, border: 1.5 },
 } as const;
 
-export const PILES = { gap: 28, padTop: 14, padBottom: 10 } as const;
+/** The deck and discard, centred in whatever the opponent list leaves, never in less than `minArea`. */
+export const PILES = { gap: 28, padV: 12, minArea: 150 } as const;
 
 export const DEALER = {
   size: 20,
