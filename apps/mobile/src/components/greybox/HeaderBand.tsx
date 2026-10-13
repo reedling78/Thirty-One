@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
-import { BAND, ISLAND } from '@/theme/components';
+import { BAND } from '@/theme/components';
 import { Txt, useFontScale } from '@/theme/text';
 import { color, layout } from '@/theme/tokens';
 
@@ -280,14 +280,14 @@ const styles = StyleSheet.create({
   lines: { gap: BAND.lineGap },
   ghost: { opacity: 0 },
   overlay: { ...StyleSheet.absoluteFill, justifyContent: 'center' },
-  slot: { minHeight: ISLAND.button.height, justifyContent: 'center' },
+  slot: { minHeight: BAND.button.height, justifyContent: 'center' },
   button: {
-    minHeight: ISLAND.button.height,
+    minHeight: BAND.button.height,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: ISLAND.button.padH,
-    borderRadius: ISLAND.button.radius,
-    borderWidth: ISLAND.button.border,
+    paddingHorizontal: BAND.button.padH,
+    borderRadius: BAND.button.radius,
+    borderWidth: BAND.button.border,
     borderColor: color.ink,
     backgroundColor: color.ink,
   },

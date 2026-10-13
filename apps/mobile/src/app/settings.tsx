@@ -57,16 +57,8 @@ export default function SettingsScreen() {
 
         <BackPicker value={settings.backColor} onChange={(backColor) => update({ backColor })} />
 
-        <Button size="sheet" label="Test sound and haptics" onPress={test} />
-        <Txt variant="status" color={color.inkSecondary}>
-          Sound plays through the silent switch. Haptics need “System Haptics” on in your phone’s
-          Sounds & Haptics settings.
-        </Txt>
-
         <View style={styles.section}>
-          <Txt variant="title" color={color.ink}>
-            Learning
-          </Txt>
+          <Button size="sheet" label="Test sound and haptics" onPress={test} />
           <Link href="/practice?guided=1" asChild>
             <Button
               size="sheet"
@@ -271,7 +263,7 @@ const styles = StyleSheet.create({
     borderColor: color.rule,
   },
   settingText: { flex: 1, gap: 3 },
-  section: { gap: space.sm, marginTop: space.sm },
+  section: { gap: space.md, marginTop: space.xs },
   dev: {
     borderWidth: 1,
     borderColor: color.rule,

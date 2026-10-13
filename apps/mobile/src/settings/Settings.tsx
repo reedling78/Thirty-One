@@ -59,9 +59,18 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         if (cancelled) return;
         if (raw) {
           try {
-            const stored = { ...DEFAULTS, ...(JSON.parse(raw) as Partial<Settings>) };
-            if (!(stored.backColor in color.back)) stored.backColor = DEFAULTS.backColor;
-            setSettings(stored);
+            const { sound, haptics, reduceMotion, guidedDone, backColor } = {
+              ...DEFAULTS,
+              ...(JSON.parse(raw) as Partial<Settings>),
+            };
+            // Only the keys this version knows: a retired one is dropped on the next save.
+            setSettings({
+              sound,
+              haptics,
+              reduceMotion,
+              guidedDone,
+              backColor: backColor in color.back ? backColor : DEFAULTS.backColor,
+            });
           } catch {
             // Corrupt value: fall back to defaults and overwrite on the next change.
           }

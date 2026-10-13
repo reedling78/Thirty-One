@@ -26,7 +26,7 @@ export const FELT = {
   coarse: { color: alpha(BLACK, 0.16), period: 5, r: 0.7, dx: 1, dy: 2 },
 } as const;
 
-/** Rows, panel, island: shared shell. */
+/** Rows and your panel: shared shell. */
 export const PANEL = {
   gutter: 12, // screen side margin for every panel
   rowRadius: 10,
@@ -52,12 +52,7 @@ export const BAND = {
   lineGap: 2,
   title: { size: 19, lineHeight: 23, letterSpacing: -0.19 },
   guide: { size: 14, lineHeight: 18 },
-} as const;
-
-export const ISLAND = {
-  marginTop: 6,
-  padLeft: 14,
-  padRight: 12,
+  /** KNOCK and Deal: the one ink button. */
   button: { height: 44, padH: 18, radius: 10, border: 1.5 },
 } as const;
 
@@ -135,10 +130,6 @@ export const BACK_SWATCH = {
 export const YOUR_PANEL = {
   /** tokens.type.score is 24; the canvas sets your own score at 26 (see the token's comment). */
   scoreSize: 26,
-  /** With the island off: the guide line under your name (the canvas sets it at 14/18). */
-  status: { size: 14, lineHeight: 18, lines: 2 },
-  /** With the island off: KNOCK / Continue in the header, a little narrower than the island's. */
-  buttonPadH: 16,
 } as const;
 
 /** The ad slot's placeholder captions sit on a fixed-size slot and don't scale. */
@@ -156,16 +147,3 @@ export const HOME = {
 
 /** The guide card sits in the upper third of the table, clear of the piles. */
 export const GUIDE = { top: 100, padTop: 22 } as const;
-
-/**
- * The header's moment pill: the island's headline in the island's tone. Its
- * text and height scale with the system text size; the quiet tone (someone
- * else playing, dealing) is a translucent cream capsule on the felt.
- */
-export const MOMENT_PILL = {
-  height: 34,
-  padH: 16,
-  font: 16,
-  letterSpacing: 0.16,
-  quiet: { bg: alpha(color.paper, 0.16), ring: alpha(color.paper, 0.35), ringWidth: 1 },
-} as const;
