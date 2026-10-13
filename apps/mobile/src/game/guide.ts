@@ -92,7 +92,7 @@ export function guideStepFor(view: PlayerView): GuideStep | null {
       body:
         'Every hand is shown. The lowest loses a life and folds a corner of their chip — the circle on the right. ' +
         'Four corners and you are on the bus: one more loss and you are out. Last player standing wins the pot. ' +
-        'Tap Continue for the next round.',
+        'Tap Deal for the next round.',
     };
   }
 

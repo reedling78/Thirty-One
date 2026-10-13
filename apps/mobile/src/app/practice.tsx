@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Felt } from '@/components/ui/Felt';
 import { GreyboxTable } from '@/components/greybox/GreyboxTable';
 import { GuideOverlay } from '@/components/greybox/GuideOverlay';
-import { MomentPill } from '@/components/greybox/MomentPill';
+import { HeaderBand } from '@/components/greybox/HeaderBand';
 import { Results } from '@/components/greybox/Results';
 import {
   GUIDED_DEALER,
@@ -58,9 +58,11 @@ export default function PracticeScreen() {
   useFeedback(snapshot);
   const callouts = useRowCallouts(snapshot);
 
-  const view = snapshot?.view ?? null;
-  // The header carries the moment, not the round number.
-  const header = <Stack.Screen options={{ headerTitle: () => <MomentPill view={view} /> }} />;
+  // Before the first deal and at the end of the game the band has no action; during
+  // play the table sets it, with its KNOCK and Deal wired to the client.
+  const header = (
+    <Stack.Screen options={{ header: () => <HeaderBand view={snapshot?.view ?? null} /> }} />
+  );
 
   if (!snapshot) {
     return (
@@ -99,7 +101,6 @@ export default function PracticeScreen() {
   return (
     <Felt>
       <SafeAreaView style={styles.safe} edges={['bottom']}>
-        {header}
         <GreyboxTable
           client={client}
           view={snapshot.view}
