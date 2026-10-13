@@ -28,6 +28,27 @@ const ACTIONS: Record<MomentAction, { label: string; a11y: string }> = {
 };
 
 /**
+ * Every guide line the band can show. Each fits one line beside the chevron and
+ * the button at 1.3× text on a 375 pt phone, so the band is always two lines.
+ * `who` is a seat name (up to "bot9") or "You".
+ */
+const GUIDE = {
+  draw: 'Draw a card.',
+  discard: 'Discard one card.',
+  waiting: 'Wait for your turn.',
+  dealing: 'Next round coming.',
+  oneMoreTurn: 'One more turn each.',
+  lastDraw: 'Last turn — draw.',
+  lastDiscard: 'Last turn — discard.',
+  thirtyOne: 'Everyone else folds.',
+  nobody: 'Nobody folds.',
+  foldsTwo: (who: string) => (who === 'You' ? 'You fold two.' : `${who} folds two.`),
+  foldsOne: (who: string) => (who === 'You' ? 'You fold a corner.' : `${who} folds a corner.`),
+  twoFold: (a: string, b: string) => `${a} and ${b} fold.`,
+  manyFold: (n: number) => `${n} players fold.`,
+};
+
+/**
  * The longest headline and guide line the band can show in play, with a long
  * seat name. Laid out invisibly, they set the band's height so it never changes
  * between states, at any text size. (Two seats dealt 31 at once — "bot1 and
@@ -35,7 +56,13 @@ const ACTIONS: Record<MomentAction, { label: string; a11y: string }> = {
  * to reserve a line for.)
  */
 const LONGEST_TITLE = 'bot9 is playing';
-const LONGEST_GUIDE = 'This is your last turn. Draw from the deck or the discard.';
+const LONGEST_GUIDE = [
+  ...Object.values(GUIDE).filter((g): g is string => typeof g === 'string'),
+  GUIDE.foldsTwo('bot9'),
+  GUIDE.foldsOne('bot9'),
+  GUIDE.twoFold('bot9', 'bot9'),
+  GUIDE.manyFold(10),
+].reduce((a, b) => (b.length > a.length ? b : a));
 
 interface Props {
   /** The table, or null before the first deal (the band then says "Dealing…"). */
@@ -57,7 +84,7 @@ export function HeaderBand({ view, onKnock, onDeal }: Props) {
   const insets = useSafeAreaInsets();
   const m: Moment = view
     ? moment(view)
-    : { title: 'Dealing…', detail: 'Next round coming up.', tone: 'neutral' };
+    : { title: 'Dealing…', detail: GUIDE.dealing, tone: 'neutral' };
   const tone = TONES[m.tone];
   const button = m.action ? ACTIONS[m.action] : null;
   const onPress = m.action === 'knock' ? onKnock : onDeal;
@@ -113,7 +140,9 @@ export function HeaderBand({ view, onKnock, onDeal }: Props) {
           style={[styles.lines, styles.overlay]}
           accessible
           accessibilityRole="summary"
-          accessibilityLabel={m.detail ? `${m.title}. ${m.detail}` : m.title}
+          accessibilityLabel={
+            m.detail ? `${m.title}${/[!?…]$/.test(m.title) ? '' : '.'} ${m.detail}` : m.title
+          }
         >
           <Txt variant="display" color={tone.fg} style={titleStyle}>
             {m.title}
@@ -182,7 +211,7 @@ export function moment(view: PlayerView): Moment {
   }
 
   if (view.phase === 'betweenRounds')
-    return { title: 'Dealing…', detail: 'Next round coming up.', tone: 'neutral' };
+    return { title: 'Dealing…', detail: GUIDE.dealing, tone: 'neutral' };
   if (view.phase === 'gameOver') return { title: 'Game over', detail: '', tone: 'neutral' };
   if (view.phase === 'lobby') return { title: 'Waiting to start', detail: '', tone: 'neutral' };
 
@@ -191,20 +220,17 @@ export function moment(view: PlayerView): Moment {
     if (view.knocker === view.seat) {
       return {
         title: 'You knocked',
-        detail: 'Everyone else gets one more turn, then the reveal.',
+        detail: GUIDE.oneMoreTurn,
         tone: 'knock',
       };
     }
     if (mine) {
-      const detail =
-        view.hand.length > 3
-          ? 'Last turn — tap a card to discard.'
-          : 'This is your last turn. Draw from the deck or the discard.';
+      const detail = view.hand.length > 3 ? GUIDE.lastDiscard : GUIDE.lastDraw;
       return { title: `${who} knocked`, detail, tone: 'knock' };
     }
     return {
       title: `${who} knocked`,
-      detail: 'One more turn each, then the reveal.',
+      detail: GUIDE.oneMoreTurn,
       tone: 'knock',
     };
   }
@@ -212,44 +238,40 @@ export function moment(view: PlayerView): Moment {
   if (!mine) {
     return {
       title: `${name(view.turn)} is playing`,
-      detail: 'Waiting for your turn.',
+      detail: GUIDE.waiting,
       tone: 'neutral',
     };
   }
 
   if (view.hand.length > 3) {
-    return { title: 'Your turn', detail: 'Tap a card to discard.', tone: 'mine' };
+    return { title: 'Your turn', detail: GUIDE.discard, tone: 'mine' };
   }
 
   if (view.legalActions.includes('knock')) {
     return {
       title: 'Your turn',
-      detail: 'Draw from the deck or the discard.',
+      detail: GUIDE.draw,
       tone: 'mine',
       action: 'knock',
     };
   }
 
-  return { title: 'Your turn', detail: 'Draw from the deck or the discard.', tone: 'mine' };
+  return { title: 'Your turn', detail: GUIDE.draw, tone: 'mine' };
 }
 
-/** The reveal's guide line: who is lowest and what it costs. */
+/**
+ * The reveal's guide line: who folds and how much. The rows already mark who
+ * was lowest and who knocked, so the line only says what it costs.
+ */
 function outcome(view: PlayerView, name: (seat: number) => string): string {
   const r = view.roundResult!;
-  if (r.reason === 'thirtyOne') return 'Everyone else folds a corner.';
-  if (r.penalties.length === 0) return 'Nobody folds.';
-  if (r.penalties.length === 1) {
-    const p = r.penalties[0]!;
-    const you = p.seat === view.seat;
-    const who = name(p.seat);
-    if (p.corners === 2)
-      return you
-        ? 'You knocked and are lowest — fold two.'
-        : `${who} knocked and is lowest — folds two.`;
-    return you ? 'You are lowest — fold a corner.' : `${who} is lowest — folds a corner.`;
-  }
+  if (r.reason === 'thirtyOne') return GUIDE.thirtyOne;
   const losers = r.penalties.map((p) => name(p.seat));
-  return `${losers.join(' and ')} ${losers.length > 1 || losers[0] === 'You' ? 'fold' : 'folds'} a corner.`;
+  if (losers.length === 0) return GUIDE.nobody;
+  if (losers.length === 1)
+    return r.penalties[0]!.corners === 2 ? GUIDE.foldsTwo(losers[0]!) : GUIDE.foldsOne(losers[0]!);
+  if (losers.length === 2) return GUIDE.twoFold(losers[0]!, losers[1]!);
+  return GUIDE.manyFold(losers.length);
 }
 
 const TONES = {
