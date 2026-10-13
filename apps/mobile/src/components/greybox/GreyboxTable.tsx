@@ -1,7 +1,14 @@
 import type { Card, PlayerView } from '@thirtyone/rules';
 import { cardId } from '@thirtyone/rules';
 import { useState } from 'react';
-import { AccessibilityInfo, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  AccessibilityInfo,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  type LayoutChangeEvent,
+} from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 import type { TableClient } from '@/game/TableClient';
 import type { Callout } from '@/game/useRowCallouts';
@@ -36,6 +43,7 @@ interface Props {
  */
 export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
   const [error, setError] = useState<string | null>(null);
+  const [handWidth, setHandWidth] = useState(0);
   const { motionReduced } = useSettings();
   const scale = useFontScale();
   const me = view.seats[view.seat]!;
@@ -62,6 +70,20 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
           ? '31!'
           : `${score.total} in ${score.suit}`
     : 'waiting for cards';
+  // Counting marks while the hand is in play: the cards in the best suit, or all
+  // three of a three of a kind. Derived from the view, so they follow every draw
+  // and discard; off at the reveal.
+  const counts = (c: Card) =>
+    score?.kind === 'trips'
+      ? view.hand.filter((k) => k.rank === c.rank).length >= 3
+      : c.suit === score?.suit;
+  const showCounting = !!score && !revealing;
+  // Four hand cards are wider than a 375 dp panel at the full gap; close it up just enough to fit.
+  const n = view.hand.length;
+  const handGap =
+    n > 1 && handWidth > 0
+      ? Math.max(0, Math.min(PANEL.handGap, (handWidth - n * SIZE.hand.w) / (n - 1)))
+      : PANEL.handGap;
 
   const state = myVerdict?.loser
     ? ROW_STATE.loser
@@ -184,10 +206,13 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
             )}
           </View>
         </View>
-        <View style={styles.hand}>
+        <View
+          style={[styles.hand, { gap: handGap }]}
+          onLayout={(e: LayoutChangeEvent) => setHandWidth(e.nativeEvent.layout.width)}
+        >
           {view.hand.length === 0
             ? // Between rounds the hand is three backs, so the panel keeps its height.
-              [0, 1, 2].map((i) => <CardView key={i} faceDown size="normal" />)
+              [0, 1, 2].map((i) => <CardView key={i} faceDown size="hand" />)
             : view.hand.map((c, i) => {
                 // At the reveal, only the cards that count stay bright — a 31 drawn into a
                 // four-card hand leaves one card out.
@@ -204,6 +229,8 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
                   >
                     <CardView
                       card={c}
+                      size="hand"
+                      counting={showCounting ? (counts(c) ? 'counts' : 'dead') : undefined}
                       onPress={canDiscard ? () => discard(c) : undefined}
                       dimmed={notCounted}
                       label={`${cardName(c)}${notCounted ? ', not part of the hand' : ''}${canDiscard ? ', tap to discard' : ''}`}
@@ -289,7 +316,7 @@ const styles = StyleSheet.create({
   ghost: { opacity: 0 },
   overlay: { ...StyleSheet.absoluteFill, alignContent: 'flex-start' },
   figure: { width: PANEL.figureWidth, alignItems: 'flex-end' },
-  hand: { flexDirection: 'row', gap: PANEL.handGap, minHeight: SIZE.normal.h },
+  hand: { flexDirection: 'row', minHeight: SIZE.hand.h },
   adOuter: {
     height: layout.adSlot.outerHeight,
     alignItems: 'center',

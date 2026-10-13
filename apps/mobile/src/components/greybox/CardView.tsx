@@ -51,6 +51,8 @@ function grey(hex: string): string {
 const LATTICE = {
   small: require('../../../assets/images/back/lattice-small.png'),
   normal: require('../../../assets/images/back/lattice-normal.png'),
+  // The hand back has the normal size's 6 dp lattice period, so it shares its tile.
+  hand: require('../../../assets/images/back/lattice-normal.png'),
   large: require('../../../assets/images/back/lattice-large.png'),
 } as const;
 
@@ -62,6 +64,11 @@ interface Props {
   disabled?: boolean;
   /** Shown faded: the card is in hand but does not count. */
   dimmed?: boolean;
+  /**
+   * Counting marks on your hand while it is in play: a gold rule along the
+   * inside of the bottom edge on cards that count, the rest faded.
+   */
+  counting?: 'counts' | 'dead';
   onPress?: () => void;
   label?: string;
   /** Back colourway; defaults to the player's setting. */
@@ -69,7 +76,7 @@ interface Props {
 }
 
 /**
- * A playing card at one of three fixed sizes (cards never text-scale). Face:
+ * A playing card at one of four fixed sizes (cards never text-scale). Face:
  * mirrored indices and traditional pip layouts for 2–10, one big centre pip for
  * A, J, Q and K (the index letter tells them apart); the small size is a flat
  * icon card. Back: white stock and a
@@ -82,6 +89,7 @@ export function CardView({
   selected,
   disabled,
   dimmed,
+  counting,
   onPress,
   label,
   back,
@@ -101,7 +109,8 @@ export function CardView({
       style={({ pressed }) => [
         styles.card,
         { width: s.w, height: s.h, borderRadius: s.radius },
-        size === 'large' ? shadow.pile : shadow.card,
+        size === 'large' ? shadow.pile : size === 'hand' ? shadow.lifted : shadow.card,
+        counting === 'dead' && styles.dead,
         ((disabled && onPress) || dimmed) && styles.disabled,
         pressed && styles.pressed,
       ]}
@@ -114,6 +123,7 @@ export function CardView({
           suit={SUIT_CODE[card.suit]}
           size={size}
           greyscale={greyscale}
+          counts={counting === 'counts'}
         />
       )}
     </Pressable>
@@ -182,11 +192,13 @@ const Face = memo(function Face({
   suit,
   size,
   greyscale,
+  counts,
 }: {
   rank: Rank;
   suit: Suit;
   size: CardSize;
   greyscale: boolean;
+  counts?: boolean;
 }) {
   const tone = (hex: string) => (greyscale ? grey(hex) : hex);
   const pip = SUIT[suit].path;
@@ -252,6 +264,9 @@ const Face = memo(function Face({
       <View style={[styles.corner, styles.flip, { bottom: s.index.inset, right: s.index.inset }]}>
         {index}
       </View>
+      {counts ? (
+        <View style={[styles.countRule, { backgroundColor: tone(color.turnBar) }]} />
+      ) : null}
     </View>
   );
 });
@@ -278,6 +293,14 @@ const styles = StyleSheet.create({
     includeFontPadding: false,
   },
   flip: { transform: [{ rotate: '180deg' }] },
+  countRule: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: SIZE.hand.counting.rule,
+  },
+  dead: { opacity: SIZE.hand.counting.deadOpacity },
   disabled: { opacity: 0.4 },
   pressed: { opacity: 0.7 },
 });

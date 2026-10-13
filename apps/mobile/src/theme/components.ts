@@ -99,7 +99,7 @@ export const OUT_OPACITY = 0.6;
 /** Card details the canvas draws that cardArt.ts's SIZE doesn't name. Cards never scale. */
 export const CARD = {
   /** Gap between the index rank and its pip. */
-  indexGap: { normal: 1, large: 2 },
+  indexGap: { normal: 1, hand: 1, large: 2 },
   smallRankLetterSpacing: -0.33,
 } as const;
 

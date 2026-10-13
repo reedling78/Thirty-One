@@ -8,7 +8,7 @@ import { PANEL } from '@/theme/components';
 import { Txt } from '@/theme/text';
 import { color, space, type BackColor } from '@/theme/tokens';
 
-const SIZES: readonly CardSize[] = ['small', 'normal', 'large'];
+const SIZES: readonly CardSize[] = ['small', 'normal', 'hand', 'large'];
 const BACKS = Object.keys(color.back) as BackColor[];
 
 /**
