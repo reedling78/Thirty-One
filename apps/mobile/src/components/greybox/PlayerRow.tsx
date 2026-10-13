@@ -31,7 +31,7 @@ interface Props {
   dealKey?: string | number;
   /** Stagger offset for this row's cards, in ms. */
   delay?: number;
-  /** A KNOCKED! / FOLDS! / DOUBLE FOLDS! stamp over the name block. */
+  /** A KNOCKED! / FOLDS! / DOUBLE FOLDS! / THIRTY ONE! stamp over the name block. */
   callout?: Callout;
 }
 
@@ -96,7 +96,8 @@ export function PlayerRow({
           {badge ? <Pill>{badge}</Pill> : null}
         </View>
         <View style={styles.status}>
-          {emphasis === 'turn' ? <PlayingMark /> : null}
+          {/* The ▶ means "Playing now"; a 31 at the reveal wears the gold without it. */}
+          {emphasis === 'turn' && figure.kind !== 'score' ? <PlayingMark /> : null}
           <View style={styles.statusText}>
             <CardText color={strong ? color.ink : color.inkSecondary} bold={strong}>
               {tag}

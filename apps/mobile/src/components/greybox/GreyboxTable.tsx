@@ -87,7 +87,7 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
 
   const state = myVerdict?.loser
     ? ROW_STATE.loser
-    : me.isTurn
+    : myVerdict?.thirtyOne || me.isTurn
       ? ROW_STATE.turn
       : me.isKnocker
         ? ROW_STATE.knocker

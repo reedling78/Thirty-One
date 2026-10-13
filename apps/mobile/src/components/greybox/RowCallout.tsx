@@ -20,8 +20,8 @@ interface Props {
 }
 
 /**
- * A stamp over a row's name-and-action block: KNOCKED! / FOLDS! / DOUBLE FOLDS!
- * in the row's fill, held for 3 s and faded over 0.6 s to show the
+ * A stamp over a row's name-and-action block: KNOCKED! / FOLDS! / DOUBLE FOLDS! /
+ * THIRTY ONE! in the row's fill, held for 3 s and faded over 0.6 s to show the
  * already-updated name and status. With reduce motion it is held, then simply
  * removed. The cards and chip beside it stay visible. Decorative to screen
  * readers — the announcement carries it.

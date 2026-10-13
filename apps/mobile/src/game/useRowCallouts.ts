@@ -4,7 +4,7 @@ import { useSettings } from '@/settings/Settings';
 import { layout } from '@/theme/tokens';
 import type { TableSnapshot } from './TableClient';
 
-export type CalloutKind = 'knocked' | 'folds' | 'doubleFolds';
+export type CalloutKind = 'knocked' | 'folds' | 'doubleFolds' | 'thirtyOne';
 
 export interface Callout {
   readonly kind: CalloutKind;
@@ -16,17 +16,19 @@ export const CALLOUT_TEXT: Record<CalloutKind, string> = {
   knocked: 'KNOCKED!',
   folds: 'FOLDS!',
   doubleFolds: 'DOUBLE FOLDS!',
+  thirtyOne: 'THIRTY ONE!',
 };
 
 /** What a screen reader hears: the stamp's meaning, not its capitals. */
 function announcement(kind: CalloutKind, name: string): string {
   if (kind === 'knocked') return `${name} knocked!`;
   if (kind === 'folds') return `${name} folds a corner!`;
+  if (kind === 'thirtyOne') return `${name} has 31!`;
   return `${name} folds two corners!`;
 }
 
 /**
- * Stamps over an opponent's row when they knock, fold or double-fold: held for
+ * Stamps over an opponent's row when they knock, fold, double-fold or hit 31: held for
  * 3 s, then faded over 0.6 s (just held, with reduce motion on). Folds stamp at
  * the reveal, when the penalties are known and the row wears its loser fill.
  * Each one is announced as a status to screen readers.
@@ -43,6 +45,7 @@ export function useRowCallouts(snapshot: TableSnapshot | null): Readonly<Record<
     const fired: { seat: number; kind: CalloutKind }[] = [];
     for (const e of snapshot.events) {
       if (e.type === 'knocked') fired.push({ seat: e.seat, kind: 'knocked' });
+      if (e.type === 'thirtyOne') fired.push({ seat: e.seat, kind: 'thirtyOne' });
       if (e.type === 'roundOver')
         for (const p of e.penalties)
           fired.push({ seat: p.seat, kind: p.corners >= 2 ? 'doubleFolds' : 'folds' });

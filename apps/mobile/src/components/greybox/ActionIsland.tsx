@@ -73,7 +73,7 @@ function content(view: PlayerView, onKnock: () => void, onContinue: () => void):
     // the outcome goes on the guide line.
     const title =
       r.reason === 'thirtyOne'
-        ? `${r.thirtyOneSeats.map(name).join(' and ')} ${r.thirtyOneSeats.length > 1 ? 'have' : 'has'} 31!`
+        ? `${r.thirtyOneSeats.map(name).join(' and ')} ${r.thirtyOneSeats.length > 1 || r.thirtyOneSeats[0] === view.seat ? 'have' : 'has'} 31!`
         : 'Hands revealed';
     return {
       title,
@@ -142,6 +142,7 @@ function content(view: PlayerView, onKnock: () => void, onContinue: () => void):
 /** The reveal's guide line: who is lowest and what it costs. */
 function outcome(view: PlayerView, name: (seat: number) => string): string {
   const r = view.roundResult!;
+  if (r.reason === 'thirtyOne') return 'Everyone else folds a corner.';
   if (r.penalties.length === 0) return 'Nobody folds.';
   if (r.penalties.length === 1) {
     const p = r.penalties[0]!;
@@ -151,8 +152,7 @@ function outcome(view: PlayerView, name: (seat: number) => string): string {
       return you
         ? 'You knocked and are lowest — fold two.'
         : `${who} knocked and is lowest — folds two.`;
-    if (r.reason !== 'thirtyOne')
-      return you ? 'You are lowest — fold a corner.' : `${who} is lowest — folds a corner.`;
+    return you ? 'You are lowest — fold a corner.' : `${who} is lowest — folds a corner.`;
   }
   const losers = r.penalties.map((p) => name(p.seat));
   return `${losers.join(' and ')} ${losers.length > 1 || losers[0] === 'You' ? 'fold' : 'folds'} a corner.`;
