@@ -1,8 +1,10 @@
 import type { Card, PlayerView } from '@thirtyone/rules';
 import { cardId } from '@thirtyone/rules';
+import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
 import {
   AccessibilityInfo,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -15,11 +17,21 @@ import type { Callout } from '@/game/useRowCallouts';
 import { DealerButton, Pill } from '@/components/ui/Marks';
 import { useSettings } from '@/settings/Settings';
 import { SIZE } from '@/theme/cardArt';
-import { AD, AD_CAPTION, CHIP, EMPTY_PILE, PANEL, PILES, YOUR_PANEL } from '@/theme/components';
+import {
+  ACTION,
+  AD,
+  AD_CAPTION,
+  CHIP,
+  EMPTY_PILE,
+  PANEL,
+  PILES,
+  YOUR_PANEL,
+} from '@/theme/components';
 import { Txt, useFontScale } from '@/theme/text';
-import { color, layout, radius, space, type as typeTokens } from '@/theme/tokens';
+import { color, layout, radius, shadow, space, type as typeTokens } from '@/theme/tokens';
 import { CardView, cardName } from './CardView';
 import { ChipBadge } from './ChipBadge';
+import { MOMENT_ACTIONS, moment, type MomentAction } from './HeaderBand';
 import { ROW_STATE } from './PlayerRow';
 import { LONGEST_YOUR_VERDICT, SeatView, revealTag } from './SeatView';
 
@@ -46,7 +58,7 @@ interface Props {
 export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [handWidth, setHandWidth] = useState(0);
-  const { motionReduced } = useSettings();
+  const { motionReduced, settings } = useSettings();
   const scale = useFontScale();
   const me = view.seats[view.seat]!;
   const canDraw = view.legalActions.includes('draw');
@@ -61,6 +73,12 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
   };
 
   const discard = (card: Card) => act({ type: 'discard', card });
+  const action = moment(view).action;
+  const onAction = (a: MomentAction) => {
+    if (settings.haptics) Haptics.selectionAsync().catch(() => {});
+    if (a === 'knock') act({ type: 'knock' });
+    else client.acknowledgeReveal();
+  };
   const others = view.seats.filter((s) => s.index !== view.seat);
   const score = view.handScore;
   const scoreText = score
@@ -116,28 +134,36 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
       </ScrollView>
 
       <View style={styles.piles}>
-        <CardView
-          faceDown
-          size="large"
-          onPress={canDraw ? () => act({ type: 'draw', source: 'deck' }) : undefined}
-          disabled={!canDraw}
-          label={`Deck, ${view.drawPileCount} cards${canDraw ? ', tap to draw' : ''}`}
-        />
-        {view.discardTop ? (
+        {/* At the reveal Deal is the one live thing in the row; the piles dim and can't be tapped. */}
+        <View style={[styles.pileRow, revealing && styles.pilesAtReveal]}>
           <CardView
-            card={view.discardTop}
+            faceDown
             size="large"
-            onPress={canDraw ? () => act({ type: 'draw', source: 'discard' }) : undefined}
+            onPress={canDraw ? () => act({ type: 'draw', source: 'deck' }) : undefined}
             disabled={!canDraw}
-            label={discardLabel}
+            label={`Deck, ${view.drawPileCount} cards${canDraw ? ', tap to draw' : ''}`}
           />
-        ) : (
-          <View style={styles.emptyPile} accessible accessibilityLabel={discardLabel}>
-            <Txt variant="status" fixed color={color.onBaizeSecondary}>
-              empty
-            </Txt>
-          </View>
-        )}
+          {view.discardTop ? (
+            <CardView
+              card={view.discardTop}
+              size="large"
+              onPress={canDraw ? () => act({ type: 'draw', source: 'discard' }) : undefined}
+              disabled={!canDraw}
+              label={discardLabel}
+            />
+          ) : (
+            <View style={styles.emptyPile} accessible accessibilityLabel={discardLabel}>
+              <Txt variant="status" fixed color={color.onBaizeSecondary}>
+                empty
+              </Txt>
+            </View>
+          )}
+        </View>
+        <View style={styles.actionSlot}>
+          {action ? (
+            <ActionButton action={action} onPress={() => onAction(action)} scale={scale} />
+          ) : null}
+        </View>
       </View>
 
       <View style={[styles.me, { backgroundColor: state.fill }]}>
@@ -242,6 +268,38 @@ export function GreyboxTable({ client, view, lastActions, callouts }: Props) {
   );
 }
 
+/** KNOCK or Deal: the one ink button, cream outline, lifted off the felt. */
+function ActionButton({
+  action,
+  onPress,
+  scale,
+}: {
+  action: MomentAction;
+  onPress: () => void;
+  scale: number;
+}) {
+  const a = MOMENT_ACTIONS[action];
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={a.a11y}
+      onPress={onPress}
+      style={({ pressed }) => [styles.action, pressed && styles.pressed]}
+    >
+      <Txt
+        variant="button"
+        color={color.paper}
+        style={{
+          fontSize: ACTION.font.size * scale,
+          lineHeight: ACTION.font.lineHeight * scale,
+        }}
+      >
+        {a.label}
+      </Txt>
+    </Pressable>
+  );
+}
+
 /** The fixed 320×100 large-banner slot. A placeholder until ads are wired; never text-scaled. */
 function AdSlot() {
   return (
@@ -282,6 +340,23 @@ const styles = StyleSheet.create({
     gap: PILES.gap,
     paddingVertical: PILES.padV,
   },
+  pileRow: { flexDirection: 'row', gap: PILES.gap },
+  pilesAtReveal: { opacity: PILES.revealOpacity },
+  // Always present, empty when there is nothing to press, so the piles never shift.
+  actionSlot: { width: ACTION.slot, alignItems: 'center', justifyContent: 'center' },
+  action: {
+    height: ACTION.height,
+    minWidth: ACTION.minWidth,
+    paddingHorizontal: ACTION.padH,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: ACTION.radius,
+    borderWidth: ACTION.border,
+    borderColor: color.paper,
+    backgroundColor: color.ink,
+    ...shadow.lifted,
+  },
+  pressed: { opacity: 0.7 },
   emptyPile: {
     width: SIZE.large.w,
     height: SIZE.large.h,

@@ -55,8 +55,25 @@ export const BAND = {
   guide: { size: 14, lineHeight: 18 },
 } as const;
 
-/** The deck and discard, centred in whatever the opponent list leaves, never in less than `minArea`. */
-export const PILES = { gap: 28, padV: 12, minArea: 150 } as const;
+/**
+ * The deck and discard, centred in whatever the opponent list leaves, never in
+ * less than `minArea`; at the reveal they dim to `revealOpacity`.
+ */
+export const PILES = { gap: 28, padV: 12, minArea: 150, revealOpacity: 0.45 } as const;
+
+/**
+ * KNOCK / Deal, in a slot right of the discard that is always reserved. The
+ * label scales with the system text size; the button does not.
+ */
+export const ACTION = {
+  slot: 104,
+  height: 52,
+  minWidth: 92,
+  padH: 12,
+  radius: 10,
+  border: 1.5,
+  font: { size: 16, lineHeight: 20 },
+} as const;
 
 export const DEALER = {
   size: 20,
