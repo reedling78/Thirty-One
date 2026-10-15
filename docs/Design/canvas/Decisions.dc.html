@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ThirtyOne design decision records</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#5B5648}a:hover{color:#17150F}
+</style>
+</helmet>
+<div style="width: 1440px; height: 760px; padding: 36px 40px; background: #F6F1E4; color: #17150F; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; display: flex; flex-direction: column; gap: 22px">
+  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px">
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 30px; line-height: 1.05; letter-spacing: -0.01em">Decision records</h1>
+    <div style="font-size: 13px; color: #5B5648">What was chosen and why, for the non-obvious calls · 2026-10-11</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px 28px; font-size: 13px; line-height: 18px">
+    <sc-for list="{{records}}" as="d" hint-placeholder-count="12">
+      <div style="display: flex; flex-direction: column; gap: 4px; padding-top: 10px; border-top: 1px solid #D8CFB8">
+        <div style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; font-size: 15px; line-height: 20px">{{d.title}}</div>
+        <div style="color: #17150F">{{d.what}}</div>
+        <div style="color: #5B5648">{{d.why}}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":760}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const r = (title, what, why) => ({ title, what, why });
+    return {
+      records: [
+        r('Baize ground, paper panels', 'The screen is deep green; rows, the panel and the island are cream. The piles sit directly on the green.', 'Cards on felt is the mental model of the game, and it makes the two piles the focal point without any extra emphasis: they are the only large cream objects on bare baize.'),
+        r('Atkinson Hyperlegible for everything but display', 'Body, labels, status lines and the log use Atkinson Hyperlegible; titles and card ranks use Bricolage Grotesque.', 'The accessibility commitments make legibility at 13 pt the hard case. Atkinson disambiguates 1/I/l and 0/O; Bricolage gives ranks and titles a condensed, tactile character without being a novelty face.'),
+        r('Red suits get an inner frame', 'Hearts and diamonds carry a thin red frame inside the card edge at normal and large sizes; black suits get a faint grey one.', 'In greyscale the pips already differ by shape, but the frame gives a second, non-shape cue that groups the suits in pairs. It costs nothing at colour.'),
+        r('No centre pip at 28×40', 'The small card is rank over pip, stacked, centred. No corner indices, no frame.', 'At 28 pt wide a 13 pt rank plus a 10 pt pip is the largest the two can be and still fit. Mirrored indices would be 7 pt and unreadable.'),
+        r('Card mentions in the log sit on cream chips', 'In the event log, A♠ and 9♥ are set on small cream pills; in rows (already on cream) they are plain coloured text.', 'Suit red on baize is 1.3:1 — illegible. The pill restores the paper the suit colour was designed for, and reads as a tiny card.'),
+        r('Four island tones, one button', 'Neutral cream, your-turn gold, knock burnt orange, reveal ink. KNOCK and Continue share one ink button; on the ink island it gains a cream outline.', 'Each tone pairs with a title that names who and a guide that says what is next, so the colour is never the only signal. The button outline is the one exception the single button style needs to survive its own background.'),
+        r('State is bar + fill + word', 'Active: gold edge bar, gold fill, bold “Playing now” with a triangle. Knocked: orange bar, tint, KNOCKED pill. Lost: dark grey bar, grey-brown fill, verdict and score in ink.', 'Commitment 3 — each state has a shape (the bar), a word (the status line) and a colour. Any one can be removed and the state still reads. Red is kept out of state entirely: on a row it reads as an error, and it is already the colour of two suits.'),
+        r('Chip inverts for BUS', 'Lives 4–2 are a cream chip with the count. The last life is a solid ink chip reading BUS. Eliminated is a dimmed grey chip reading OUT.', 'The brief asks for the chip to invert on the last life; inverting to ink rather than red keeps red reserved for the loser of the round, so the two never compete in the same row.'),
+        r('Rows scroll from 7 seats; island, piles and panel stay pinned', 'The opponent list has a flexible height and scrolls internally. The 10-seat board at 1.3× text shows this.', 'At 375 pt the fixed parts (header, island, piles, your panel) take about 440 pt. Nine rows at large text cannot fit in the rest, and shrinking the piles or the hand would hurt every game to serve the rare one.'),
+        r('Hand value sits beside your name', '“20 in clubs”, “30 — straight”, “31!” is recomputed on every draw and discard and reads at label size.', 'Players new to the game should never have to add up. Putting it on the name line keeps the hand itself uncluttered and gives the knock decision its number.'),
+        r('Secondary screens are a cream sheet on baize', 'Rules and Settings put their content on a cream sheet with rounded top corners; Home and Results stay on bare baize with cream type.', 'Reading screens want paper; moments (home, win) want the table. Both still use only the two grounds, so the token set stays small.'),
+        r('Dark mode is deferred, not blocked', 'Not drawn. The structure supports it by swapping paper↔ink and darkening baize one step; island tones, suit red and the state colours stay as they are.', 'Light mode first per the brief. Nothing in the tokens assumes light — every text colour is named against a named ground.')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

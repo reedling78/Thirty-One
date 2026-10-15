@@ -16,3 +16,10 @@ web-build/
 *.p12
 *.key
 *.mobileprovision
+
+# Obsidian vault in docs/
+docs/.obsidian/workspace.json
+docs/.obsidian/workspace-mobile.json
+docs/.obsidian/plugins/
+docs/.copilot/
+docs/.trash/

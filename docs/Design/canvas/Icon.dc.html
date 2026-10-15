@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ThirtyOne app icon</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#5B5648}a:hover{color:#17150F}
+</style>
+</helmet>
+<div style="width: 1440px; height: 720px; padding: 36px 40px; background: #F6F1E4; color: #17150F; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; display: flex; flex-direction: column; gap: 22px">
+  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px">
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 30px; line-height: 1.05; letter-spacing: -0.01em">App icon — the chip, with 31</h1>
+    <div style="font-size: 13px; color: #5B5648">Three colourways · full-bleed 1024 square, the OS applies the corner mask · shown at 400, 120 and 60</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; flex: 1">
+    <sc-for list="{{variants}}" as="v" hint-placeholder-count="3">
+      <div style="display: flex; flex-direction: column; gap: 14px">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5648">{{v.name}}</div>
+        <div style="display: flex; align-items: flex-end; gap: 20px">
+          <div role="img" aria-label="{{v.label}}" style="position: relative; width: 400px; height: 400px; border-radius: 88px; overflow: hidden; background-color: {{v.bg}}; background-image: radial-gradient(ellipse 70% 55% at 50% 38%, rgba(255,255,255,0.08), transparent 100%), radial-gradient(rgba(255,255,255,0.05) 1.2px, transparent 1.6px), radial-gradient(rgba(0,0,0,0.16) 1.2px, transparent 1.6px); background-size: 100% 100%, 6px 6px, 10px 10px; background-position: 0 0, 0 0, 2px 4px">
+            <svg viewBox="0 0 40 40" width="400" height="400" aria-hidden="true" style="position: absolute; inset: 0">
+              <circle cx="20" cy="20" r="15.5" style="fill: {{v.fill}}; stroke: {{v.edge}}; stroke-width: 0.6"></circle>
+              <circle cx="20" cy="20" r="13.4" style="fill: none; stroke: {{v.ring}}; stroke-width: 2.4; stroke-dasharray: 7.02 3.51"></circle>
+              <circle cx="20" cy="20" r="9.3" style="fill: none; stroke: {{v.ring}}; stroke-width: 0.7; stroke-dasharray: 2 2"></circle>
+            </svg>
+            <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 150px; line-height: 1; letter-spacing: -0.04em; color: {{v.text}}; padding-top: 6px">31</div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px; align-items: center">
+            <div role="img" aria-label="{{v.label}}" style="position: relative; width: 120px; height: 120px; border-radius: 26px; overflow: hidden; background-color: {{v.bg}}">
+              <svg viewBox="0 0 40 40" width="120" height="120" aria-hidden="true" style="position: absolute; inset: 0">
+                <circle cx="20" cy="20" r="15.5" style="fill: {{v.fill}}; stroke: {{v.edge}}; stroke-width: 0.6"></circle>
+                <circle cx="20" cy="20" r="13.4" style="fill: none; stroke: {{v.ring}}; stroke-width: 2.4; stroke-dasharray: 7.02 3.51"></circle>
+                <circle cx="20" cy="20" r="9.3" style="fill: none; stroke: {{v.ring}}; stroke-width: 0.7; stroke-dasharray: 2 2"></circle>
+              </svg>
+              <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 45px; line-height: 1; letter-spacing: -0.04em; color: {{v.text}}; padding-top: 2px">31</div>
+            </div>
+            <div role="img" aria-label="{{v.label}}" style="position: relative; width: 60px; height: 60px; border-radius: 13px; overflow: hidden; background-color: {{v.bg}}">
+              <svg viewBox="0 0 40 40" width="60" height="60" aria-hidden="true" style="position: absolute; inset: 0">
+                <circle cx="20" cy="20" r="15.5" style="fill: {{v.fill}}; stroke: {{v.edge}}; stroke-width: 0.6"></circle>
+                <circle cx="20" cy="20" r="13.4" style="fill: none; stroke: {{v.ring}}; stroke-width: 2.4; stroke-dasharray: 7.02 3.51"></circle>
+                <circle cx="20" cy="20" r="9.3" style="fill: none; stroke: {{v.ring}}; stroke-width: 0.7; stroke-dasharray: 2 2"></circle>
+              </svg>
+              <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 22px; line-height: 1; letter-spacing: -0.04em; color: {{v.text}}; padding-top: 1px">31</div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size: 12px; color: #5B5648; line-height: 17px">{{v.note}}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":720}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const INK = '#17150F', PAPER = '#F6F1E4', BAIZE = '#1E5236', GOLD = '#F2C14E';
+    return {
+      variants: [
+        { name: 'A · Cream chip on baize', label: 'ThirtyOne icon, cream chip', bg: BAIZE, fill: '#FDFBF4', edge: INK, ring: INK, text: INK,
+          note: 'The chip exactly as it appears in a row, scaled up. Most honest to the app; the ink notches read clearly at 60 px.' },
+        { name: 'B · Ink chip, gold ring', label: 'ThirtyOne icon, ink chip with gold', bg: BAIZE, fill: INK, edge: INK, ring: GOLD, text: GOLD,
+          note: 'The BUS chip with the gold from the your-turn tone. More casino, more contrast on a home screen full of white icons.' },
+        { name: 'C · Cream chip on ink', label: 'ThirtyOne icon, cream chip on black', bg: '#17150F', fill: '#FDFBF4', edge: INK, ring: INK, text: INK,
+          note: 'Drops the green. Reads as a poker chip first and a card game second; sits well next to dark-mode icons.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

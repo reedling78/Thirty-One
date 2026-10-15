@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ThirtyOne app icon — Android adaptive layers</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+</style>
+</helmet>
+<div style="width: 1440px; height: 560px; padding: 36px 40px; background: #F6F1E4; color: #17150F; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; display: flex; flex-direction: column; gap: 22px">
+  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px">
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 30px; line-height: 1.05; letter-spacing: -0.01em">Android adaptive layers</h1>
+    <div style="font-size: 13px; color: #5B5648">Each 1024 square · the chip sits inside the 66% safe zone (dashed) so no launcher mask clips it</div>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px">
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5648">background</div>
+      <div style="position: relative; width: 300px; height: 300px; background-color: #1E5236; background-image: radial-gradient(ellipse 70% 55% at 50% 38%, rgba(255,255,255,0.08), transparent 100%), radial-gradient(rgba(255,255,255,0.05) 0.9px, transparent 1.2px), radial-gradient(rgba(0,0,0,0.16) 0.9px, transparent 1.2px); background-size: 100% 100%, 4.4px 4.4px, 7.3px 7.3px"></div>
+      <div style="font-size: 12px; color: #5B5648">Baize with the felt nap. Launchers may scale it for parallax; it has no focal point, so that is fine.</div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5648">foreground</div>
+      <div style="position: relative; width: 300px; height: 300px; background: repeating-conic-gradient(#E6E0D0 0 25%, #F6F1E4 0 50%) 0 0 / 20px 20px">
+        <div style="position: absolute; inset: 51px; border-radius: 999px; border: 1.5px dashed rgba(23,21,15,0.35)"></div>
+        <svg viewBox="0 0 40 40" width="300" height="300" aria-hidden="true" style="position: absolute; inset: 0">
+          <circle cx="20" cy="20" r="12.4" style="fill: #17150F; stroke: #17150F; stroke-width: 0.5"></circle>
+          <circle cx="20" cy="20" r="10.7" style="fill: none; stroke: #F2C14E; stroke-width: 1.9; stroke-dasharray: 5.6 2.8"></circle>
+          <circle cx="20" cy="20" r="7.4" style="fill: none; stroke: #F2C14E; stroke-width: 0.55; stroke-dasharray: 1.6 1.6"></circle>
+        </svg>
+        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 90px; line-height: 1; letter-spacing: -0.04em; color: #F2C14E; padding-top: 4px">31</div>
+      </div>
+      <div style="font-size: 12px; color: #5B5648">Transparent PNG. The chip is 62% of the square — inside the safe zone with a little air.</div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5648">monochrome</div>
+      <div style="position: relative; width: 300px; height: 300px; background: repeating-conic-gradient(#E6E0D0 0 25%, #F6F1E4 0 50%) 0 0 / 20px 20px">
+        <div style="position: absolute; inset: 51px; border-radius: 999px; border: 1.5px dashed rgba(23,21,15,0.35)"></div>
+        <svg viewBox="0 0 40 40" width="300" height="300" aria-hidden="true" style="position: absolute; inset: 0">
+          <circle cx="20" cy="20" r="12.4" style="fill: #17150F"></circle>
+          <circle cx="20" cy="20" r="10.7" style="fill: none; stroke: #F6F1E4; stroke-width: 1.9; stroke-dasharray: 5.6 2.8"></circle>
+          <circle cx="20" cy="20" r="7.4" style="fill: none; stroke: #F6F1E4; stroke-width: 0.55; stroke-dasharray: 1.6 1.6"></circle>
+        </svg>
+        <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 90px; line-height: 1; letter-spacing: -0.04em; color: #F6F1E4; padding-top: 4px">31</div>
+      </div>
+      <div style="font-size: 12px; color: #5B5648">Shown here in ink for the preview; the shipped file is a white silhouette on transparent. Android tints it.</div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5648">splash icon</div>
+      <div style="position: relative; width: 300px; height: 300px; background-color: #1E5236; display: flex; align-items: center; justify-content: center">
+        <div style="position: relative; width: 150px; height: 150px">
+          <svg viewBox="0 0 40 40" width="150" height="150" aria-hidden="true" style="position: absolute; inset: 0">
+            <circle cx="20" cy="20" r="15.5" style="fill: #17150F; stroke: #17150F; stroke-width: 0.6"></circle>
+            <circle cx="20" cy="20" r="13.4" style="fill: none; stroke: #F2C14E; stroke-width: 2.4; stroke-dasharray: 7.02 3.51"></circle>
+            <circle cx="20" cy="20" r="9.3" style="fill: none; stroke: #F2C14E; stroke-width: 0.7; stroke-dasharray: 2 2"></circle>
+          </svg>
+          <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 56px; line-height: 1; letter-spacing: -0.04em; color: #F2C14E; padding-top: 2px">31</div>
+        </div>
+      </div>
+      <div style="font-size: 12px; color: #5B5648">The chip alone on transparent, centred by Expo on a baize background (#1E5236).</div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":560}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+{
+  "v": 3,
+  "attachments": {},
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-11T17:05:00Z"
+  },
+  "title": "ThirtyOne — Design",
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {
+      "x": 0,
+      "y": 0,
+      "w": 960,
+      "h": 820,
+      "title": "Tokens"
+    },
+    "Cards.dc.html": {
+      "x": 1040,
+      "y": 0,
+      "w": 1320,
+      "h": 820,
+      "title": "Card face and back"
+    },
+    "Components.dc.html": {
+      "x": 0,
+      "y": 1180,
+      "w": 1440,
+      "h": 980,
+      "title": "Components"
+    },
+    "Table.dc.html": {
+      "x": 0,
+      "y": 2520,
+      "w": 375,
+      "h": 812,
+      "title": "Table (engine — header as island; switch state and layout in Tweaks)"
+    },
+    "Table-YourTurn.dc.html": {
+      "x": 455,
+      "y": 2520,
+      "w": 375,
+      "h": 812,
+      "title": "Table · Your turn, hand complete"
+    },
+    "Table-OpponentTurn.dc.html": {
+      "x": 910,
+      "y": 2520,
+      "w": 375,
+      "h": 812,
+      "title": "Table · Opponent's turn"
+    },
+    "Table-AfterKnock.dc.html": {
+      "x": 1365,
+      "y": 2520,
+      "w": 375,
+      "h": 812,
+      "title": "Table · After a knock"
+    },
+    "Table-Reveal.dc.html": {
+      "x": 1820,
+      "y": 2520,
+      "w": 375,
+      "h": 812,
+      "title": "Table · Reveal"
+    },
+    "Table-Dealing.dc.html": {
+      "x": 2275,
+      "y": 2520,
+      "w": 375,
+      "h": 812,
+      "title": "Table · Between rounds"
+    },
+    "Callout-Knocked.dc.html": {
+      "x": 0,
+      "y": 3692,
+      "w": 375,
+      "h": 812,
+      "title": "Callout · KNOCKED! (held)"
+    },
+    "Callout-Folds.dc.html": {
+      "x": 455,
+      "y": 3692,
+      "w": 375,
+      "h": 812,
+      "title": "Callout · FOLDS! (held)"
+    },
+    "Callout-DoubleFolds.dc.html": {
+      "x": 910,
+      "y": 3692,
+      "w": 375,
+      "h": 812,
+      "title": "Callout · DOUBLE FOLDS! (held)"
+    },
+    "Callout-ThirtyOne.dc.html": {
+      "x": 1365,
+      "y": 3692,
+      "w": 375,
+      "h": 812,
+      "title": "Callout · THIRTY ONE! (held)"
+    },
+    "Seats-2.dc.html": {
+      "x": 0,
+      "y": 4864,
+      "w": 375,
+      "h": 812,
+      "title": "2 seats"
+    },
+    "Seats-6.dc.html": {
+      "x": 455,
+      "y": 4864,
+      "w": 375,
+      "h": 812,
+      "title": "6 seats"
+    },
+    "Seats-10.dc.html": {
+      "x": 910,
+      "y": 4864,
+      "w": 375,
+      "h": 812,
+      "title": "10 seats · large text (1.3×)"
+    },
+    "Home.dc.html": {
+      "x": 0,
+      "y": 6036,
+      "w": 375,
+      "h": 812,
+      "title": "Home"
+    },
+    "Rules.dc.html": {
+      "x": 455,
+      "y": 6036,
+      "w": 375,
+      "h": 812,
+      "title": "Rules"
+    },
+    "Settings.dc.html": {
+      "x": 910,
+      "y": 6036,
+      "w": 375,
+      "h": 812,
+      "title": "Settings"
+    },
+    "Results.dc.html": {
+      "x": 1365,
+      "y": 6036,
+      "w": 375,
+      "h": 812,
+      "title": "Results"
+    },
+    "Guide.dc.html": {
+      "x": 1820,
+      "y": 6036,
+      "w": 375,
+      "h": 812,
+      "title": "Guide overlay"
+    },
+    "Decisions.dc.html": {
+      "x": 0,
+      "y": 7208,
+      "w": 1440,
+      "h": 760,
+      "title": "Decision records"
+    },
+    "Icon.dc.html": {
+      "x": 0,
+      "y": 8328,
+      "w": 1440,
+      "h": 720,
+      "title": "App icon — three colourways (B chosen)"
+    },
+    "Icon-Final.dc.html": {
+      "x": 1520,
+      "y": 8328,
+      "w": 1024,
+      "h": 1024,
+      "title": "App icon — 1024 master"
+    },
+    "Icon-Adaptive.dc.html": {
+      "x": 0,
+      "y": 9168,
+      "w": 1440,
+      "h": 560,
+      "title": "App icon — Android adaptive layers + splash"
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Cards.dc.html",
+    "Components.dc.html",
+    "Table.dc.html",
+    "Table-YourTurn.dc.html",
+    "Table-OpponentTurn.dc.html",
+    "Table-AfterKnock.dc.html",
+    "Table-Reveal.dc.html",
+    "Table-Dealing.dc.html",
+    "Callout-Knocked.dc.html",
+    "Callout-Folds.dc.html",
+    "Callout-DoubleFolds.dc.html",
+    "Callout-ThirtyOne.dc.html",
+    "Seats-2.dc.html",
+    "Seats-6.dc.html",
+    "Seats-10.dc.html",
+    "Home.dc.html",
+    "Rules.dc.html",
+    "Settings.dc.html",
+    "Results.dc.html",
+    "Guide.dc.html",
+    "Decisions.dc.html",
+    "Icon.dc.html",
+    "Icon-Final.dc.html",
+    "Icon-Adaptive.dc.html"
+  ],
+  "notes": {
+    "t1": {
+      "x": 0,
+      "y": -240,
+      "w": 240,
+      "text": "1 · Tokens and card art",
+      "kind": "title1",
+      "maxW": 2360
+    },
+    "t2": {
+      "x": 0,
+      "y": 940,
+      "w": 240,
+      "text": "2 · Components",
+      "kind": "title1",
+      "maxW": 1440
+    },
+    "t3": {
+      "x": 0,
+      "y": 2280,
+      "w": 240,
+      "text": "3 · The table — five states",
+      "kind": "title1",
+      "maxW": 2650
+    },
+    "t3b": {
+      "x": 0,
+      "y": 3452,
+      "w": 240,
+      "text": "3b · Row callouts — shown for 3 s, then fade",
+      "kind": "title1",
+      "maxW": 1740
+    },
+    "t4": {
+      "x": 0,
+      "y": 4624,
+      "w": 240,
+      "text": "4 · The table at 2, 6 and 10 seats",
+      "kind": "title1",
+      "maxW": 1285
+    },
+    "t5": {
+      "x": 0,
+      "y": 5796,
+      "w": 240,
+      "text": "5 · Other screens",
+      "kind": "title1",
+      "maxW": 2195
+    },
+    "t6": {
+      "x": 0,
+      "y": 6968,
+      "w": 240,
+      "text": "6 · Decision records",
+      "kind": "title1",
+      "maxW": 1440
+    },
+    "t7": {
+      "x": 0,
+      "y": 8088,
+      "w": 240,
+      "text": "7 · App icon — B, ink chip with gold",
+      "kind": "title1",
+      "maxW": 2544
+    }
+  },
+  "designSystems": []
+}

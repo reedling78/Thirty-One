@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ThirtyOne results</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#D7E3D6}a:hover{color:#F6F1E4}
+</style>
+</helmet>
+<div style="width: 375px; height: 812px; background-color: #1E5236; background-image: radial-gradient(ellipse 70% 45% at 50% 32%, rgba(255,255,255,0.07), transparent 100%), radial-gradient(rgba(255,255,255,0.05) 0.6px, transparent 0.8px), radial-gradient(rgba(0,0,0,0.16) 0.6px, transparent 0.8px); background-size: 100% 100%, 3px 3px, 5px 5px; background-position: 0 0, 0 0, 1px 2px; color: #F6F1E4; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; display: flex; flex-direction: column; justify-content: space-between; padding: 72px 24px 40px; overflow: hidden">
+
+  <div style="display: flex; flex-direction: column; gap: 24px">
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <div style="font-size: 14px; line-height: 18px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; color: #D7E3D6">Practice · 11 rounds</div>
+      <h1 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 48px; line-height: 1; letter-spacing: -0.02em">You win!</h1>
+      <p style="margin: 0; font-size: 16px; line-height: 22px; color: #D7E3D6">Last one standing with two corners to spare.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <sc-for list="{{order}}" as="o" hint-placeholder-count="4">
+        <div style="display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 10px; background: {{o.bg}}; color: #17150F; opacity: {{o.opacity}}">
+          <div style="font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 20px; line-height: 1; color: #17150F">{{o.place}}</div>
+          <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+            <div style="font-size: 16px; line-height: 20px; font-weight: 700">{{o.name}}</div>
+            <div style="font-size: 13px; line-height: 17px; color: #5B5648">{{o.note}}</div>
+          </div>
+          <div role="img" aria-label="{{o.chip.label}}" style="position: relative; width: 32px; height: 32px"><svg viewBox="0 0 40 40" width="32" height="32" aria-hidden="true" style="display: block"><circle cx="20" cy="20" r="19" style="fill: {{o.chip.fill}}; stroke: {{o.chip.edge}}; stroke-width: 1"></circle><circle cx="20" cy="20" r="16.5" style="fill: none; stroke: {{o.chip.ring}}; stroke-width: 3; stroke-dasharray: 8.64 4.32"></circle><circle cx="20" cy="20" r="11.5" style="fill: none; stroke: {{o.chip.ring}}; stroke-width: 1; stroke-dasharray: 2.5 2.5"></circle></svg><div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: {{o.chip.fs}}px; line-height: 1; letter-spacing: {{o.chip.ls}}; color: {{o.chip.text}}">{{o.chip.num}}</div></div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 12px">
+    <a href="Table-Dealing.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 12px; background: #17150F; color: #F6F1E4; text-decoration: none; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 17px; letter-spacing: 0.02em">Play again</a>
+    <a href="Home.dc.html" style="display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 12px; border: 1.5px solid #F6F1E4; color: #F6F1E4; text-decoration: none; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; font-size: 17px">Home</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":375,"height":812}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const INK = '#17150F', PAPER = '#F6F1E4';
+    const chip = (lives) => {
+      if (lives <= 0) return { num: 'OUT', fill: '#E6E0D0', edge: '#9A948A', ring: '#9A948A', text: '#6F695F', fs: 7, ls: '0.04em', label: 'Out of the game' };
+      if (lives === 1) return { num: 'BUS', fill: INK, edge: INK, ring: PAPER, text: PAPER, fs: 7, ls: '0.04em', label: 'On the bus, one life left' };
+      return { num: String(lives), fill: '#FDFBF4', edge: INK, ring: INK, text: INK, fs: 13, ls: '0', label: lives + ' corners left' };
+    };
+    return {
+      order: [
+        { place: '1', name: 'You', note: 'Won with 2 corners left', chip: chip(2), bg: '#FBF0CF', opacity: '1' },
+        { place: '2', name: 'bot2', note: 'Out in round 11', chip: chip(0), bg: PAPER, opacity: '1' },
+        { place: '3', name: 'bot1', note: 'Out in round 8', chip: chip(0), bg: PAPER, opacity: '1' },
+        { place: '4', name: 'bot3', note: 'Out in round 5', chip: chip(0), bg: PAPER, opacity: '1' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

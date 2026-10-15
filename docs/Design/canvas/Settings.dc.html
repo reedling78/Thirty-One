@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ThirtyOne settings</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#5B5648}a:hover{color:#17150F}
+input.sw{appearance:none;-webkit-appearance:none;margin:0;width:52px;height:32px;border-radius:999px;background:#D8CFB8;border:1.5px solid #5B5648;position:relative;cursor:pointer;flex:none}
+input.sw::after{content:"";position:absolute;top:3px;left:3px;width:23px;height:23px;border-radius:999px;background:#FDFBF4;border:1px solid #5B5648}
+input.sw:checked{background:#17150F;border-color:#17150F}
+input.sw:checked::after{left:23px;border-color:#17150F}
+input.back{appearance:none;-webkit-appearance:none;margin:0;width:44px;height:60px;border-radius:5px;background-color:var(--c);background-image:repeating-linear-gradient(45deg,rgba(253,251,244,0.92) 0 1px,transparent 1px 5px),repeating-linear-gradient(-45deg,rgba(253,251,244,0.92) 0 1px,transparent 1px 5px);border:3px solid #FDFBF4;box-shadow:0 0 0 1px #2A271F;cursor:pointer}
+input.back:checked{box-shadow:0 0 0 1px #2A271F,0 0 0 4px #F6F1E4,0 0 0 6px #17150F}
+</style>
+</helmet>
+<div style="width: 375px; height: 812px; background-color: #1E5236; background-image: radial-gradient(rgba(255,255,255,0.05) 0.6px, transparent 0.8px), radial-gradient(rgba(0,0,0,0.16) 0.6px, transparent 0.8px); background-size: 3px 3px, 5px 5px; background-position: 0 0, 1px 2px; color: #17150F; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; display: flex; flex-direction: column; overflow: hidden">
+  <div style="display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; height: 44px; margin-top: 4px; flex: none">
+    <a href="Home.dc.html" aria-label="Back" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #F6F1E4"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" style="fill: none; stroke: #F6F1E4; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round"></path></svg></a>
+    <div style="text-align: center; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; font-size: 17px; line-height: 22px; color: #F6F1E4">Settings</div>
+    <div></div>
+  </div>
+
+  <div style="flex: 1; margin: 8px 12px 0; padding: 8px 16px 0; border-radius: 12px 12px 0 0; background: #F6F1E4; display: flex; flex-direction: column; gap: 0">
+    <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 16px 0; border-bottom: 1px solid #D8CFB8">
+      <label for="sound" style="display: flex; flex-direction: column; gap: 3px; cursor: pointer">
+        <span style="font-size: 17px; line-height: 22px; font-weight: 700">Sound</span>
+        <span style="font-size: 14px; line-height: 19px; color: #5B5648">Card flips, knocks and the reveal.</span>
+      </label>
+      <input class="sw" type="checkbox" id="sound" checked="checked">
+    </div>
+    <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 16px 0; border-bottom: 1px solid #D8CFB8">
+      <label for="haptics" style="display: flex; flex-direction: column; gap: 3px; cursor: pointer">
+        <span style="font-size: 17px; line-height: 22px; font-weight: 700">Haptics</span>
+        <span style="font-size: 14px; line-height: 19px; color: #5B5648">A tap when it is your turn and a thump on a knock.</span>
+      </label>
+      <input class="sw" type="checkbox" id="haptics" checked="checked">
+    </div>
+    <div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 16px 0; border-bottom: 1px solid #D8CFB8">
+      <label for="motion" style="display: flex; flex-direction: column; gap: 3px; cursor: pointer">
+        <span style="font-size: 17px; line-height: 22px; font-weight: 700">Reduce motion</span>
+        <span style="font-size: 14px; line-height: 19px; color: #5B5648">Cards appear in place instead of sliding and flipping.</span>
+      </label>
+      <input class="sw" type="checkbox" id="motion">
+    </div>
+    <fieldset style="margin: 0; padding: 16px 0; border: 0; border-bottom: 1px solid #D8CFB8; display: flex; flex-direction: column; gap: 12px">
+      <legend style="padding: 0; display: flex; flex-direction: column; gap: 3px">
+        <span style="font-size: 17px; line-height: 22px; font-weight: 700">Card back</span>
+        <span style="font-size: 14px; line-height: 19px; color: #5B5648">One pattern, four colours. Opponents' cards and the deck use it.</span>
+      </legend>
+      <div style="display: flex; gap: 18px; padding-top: 4px">
+        <label for="back-blue" style="display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 13px; cursor: pointer"><input class="back" type="radio" name="back" id="back-blue" style="--c: #1F3A8A" checked="checked">Blue</label>
+        <label for="back-red" style="display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 13px; cursor: pointer"><input class="back" type="radio" name="back" id="back-red" style="--c: #B8322B">Red</label>
+        <label for="back-green" style="display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 13px; cursor: pointer"><input class="back" type="radio" name="back" id="back-green" style="--c: #245B3F">Green</label>
+        <label for="back-black" style="display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 13px; cursor: pointer"><input class="back" type="radio" name="back" id="back-black" style="--c: #2A271F">Black</label>
+      </div>
+    </fieldset>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; padding-top: 16px">
+      <button style="height: 52px; border-radius: 12px; border: 1.5px solid #17150F; background: transparent; color: #17150F; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; font-size: 16px; cursor: pointer">Test sound and haptics</button>
+      <button style="height: 52px; border-radius: 12px; border: 1.5px solid #17150F; background: transparent; color: #17150F; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; font-size: 16px; cursor: pointer">Replay the guided first game</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":375,"height":812}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

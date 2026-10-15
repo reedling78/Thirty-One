@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ThirtyOne card face and card back</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap">
+<style>
+body{margin:0}
+*{box-sizing:border-box}
+a{color:#5B5648}a:hover{color:#17150F}
+</style>
+</helmet>
+<div style="width: 1320px; height: 820px; padding: 36px 40px; background: #F6F1E4; color: #17150F; font-family: 'Atkinson Hyperlegible', system-ui, sans-serif; display: flex; flex-direction: column; gap: 20px">
+
+  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 16px">
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 30px; line-height: 1.05; letter-spacing: -0.01em">Card face and card back</h1>
+    <div style="font-size: 13px; color: #5B5648">Original artwork · classic pip layouts · suit carried by the symbol, colour on top</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px; flex: 1">
+
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5648">colour</div>
+
+      <div style="display: flex; align-items: flex-end; gap: 10px">
+        <sc-for list="{{cards}}" as="c" hint-placeholder-count="4">
+          <div role="img" aria-label="{{c.label}}" style="position: relative; width: 88px; height: 126px; border-radius: 8px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 1px 2px rgba(0,0,0,0.25); font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; color: {{c.color}}">
+            <div style="position: absolute; top: 7px; left: 7px; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 17px; line-height: 1"><span>{{c.rank}}</span><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div>
+            <div style="position: absolute; bottom: 7px; right: 7px; transform: rotate(180deg); display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 17px; line-height: 1"><span>{{c.rank}}</span><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div>
+            <sc-if value="{{c.isNum}}" hint-placeholder-val="{{true}}"><sc-for list="{{c.pipsL}}" as="p" hint-placeholder-count="4"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" style="position: absolute; left: {{p.x}}px; top: {{p.y}}px; transform: {{p.tr}}"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></sc-for></sc-if>
+            <sc-if value="{{c.isAce}}" hint-placeholder-val="{{false}}"><svg viewBox="0 0 24 24" width="44" height="44" aria-hidden="true" style="position: absolute; left: 22px; top: 41px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></sc-if>
+            <sc-if value="{{c.isCourt}}" hint-placeholder-val="{{false}}"><div style="position: absolute; left: 24px; top: 24px; width: 40px; height: 78px; border: 1px solid {{c.color}}; outline: 1px solid {{c.color}}; outline-offset: 2px; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 800"><svg viewBox="0 0 40 80" width="40" height="78" aria-hidden="true"><g><sc-for list="{{c.court}}" as="e" hint-placeholder-count="4"><path d="{{e.d}}" style="fill: {{e.f}}; stroke: {{e.s}}; stroke-width: 1; stroke-linejoin: round"></path></sc-for></g><g transform="rotate(180 20 40)"><sc-for list="{{c.court}}" as="e" hint-placeholder-count="4"><path d="{{e.d}}" style="fill: {{e.f}}; stroke: {{e.s}}; stroke-width: 1; stroke-linejoin: round"></path></sc-for></g><path d="M3 40 H37" style="stroke: {{c.color}}; stroke-width: 0.8"></path></svg><svg viewBox="0 0 24 24" width="9" height="9" aria-hidden="true" style="position: absolute; left: 3px; top: 3px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg><svg viewBox="0 0 24 24" width="9" height="9" aria-hidden="true" style="position: absolute; right: 3px; bottom: 3px; transform: rotate(180deg)"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div></sc-if>
+          </div>
+        </sc-for>
+        <div role="img" aria-label="Face-down card" style="width: 88px; height: 126px; border-radius: 8px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 1px 2px rgba(0,0,0,0.25); padding: 6px">
+          <div style="width: 100%; height: 100%; border-radius: 3px; background-color: {{back}}; background-image: repeating-linear-gradient(45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 7px), repeating-linear-gradient(-45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 7px)"></div>
+        </div>
+      </div>
+      <div style="font-size: 11px; color: #5B5648">large · 88×126 · piles · index 17 over a 12 pt pip, number pips 15, ace pip 44, court frame 40×78 · back lattice 7 pt</div>
+
+      <div style="display: flex; align-items: flex-end; gap: 10px">
+        <sc-for list="{{cards}}" as="c" hint-placeholder-count="4">
+          <div role="img" aria-label="{{c.label}}" style="position: relative; width: 64px; height: 92px; border-radius: 6px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 1px 2px rgba(0,0,0,0.25); font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; color: {{c.color}}">
+            <div style="position: absolute; top: 4px; left: 4px; display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 14px; line-height: 1"><span>{{c.rank}}</span><svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div>
+            <div style="position: absolute; bottom: 4px; right: 4px; transform: rotate(180deg); display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 14px; line-height: 1"><span>{{c.rank}}</span><svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div>
+            <sc-if value="{{c.isNum}}" hint-placeholder-val="{{true}}"><sc-for list="{{c.pipsN}}" as="p" hint-placeholder-count="4"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="position: absolute; left: {{p.x}}px; top: {{p.y}}px; transform: {{p.tr}}"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></sc-for></sc-if>
+            <sc-if value="{{c.isAce}}" hint-placeholder-val="{{false}}"><svg viewBox="0 0 24 24" width="38" height="38" aria-hidden="true" style="position: absolute; left: 12px; top: 26px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></sc-if>
+            <sc-if value="{{c.isCourt}}" hint-placeholder-val="{{false}}"><div style="position: absolute; left: 17px; top: 17px; width: 30px; height: 58px; border: 1px solid {{c.color}}; outline: 1px solid {{c.color}}; outline-offset: 1.5px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800"><svg viewBox="0 0 40 80" width="30" height="58" aria-hidden="true"><g><sc-for list="{{c.court}}" as="e" hint-placeholder-count="4"><path d="{{e.d}}" style="fill: {{e.f}}; stroke: {{e.s}}; stroke-width: 1.2; stroke-linejoin: round"></path></sc-for></g><g transform="rotate(180 20 40)"><sc-for list="{{c.court}}" as="e" hint-placeholder-count="4"><path d="{{e.d}}" style="fill: {{e.f}}; stroke: {{e.s}}; stroke-width: 1.2; stroke-linejoin: round"></path></sc-for></g><path d="M3 40 H37" style="stroke: {{c.color}}; stroke-width: 1"></path></svg><svg viewBox="0 0 24 24" width="7" height="7" aria-hidden="true" style="position: absolute; left: 2px; top: 2px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg><svg viewBox="0 0 24 24" width="7" height="7" aria-hidden="true" style="position: absolute; right: 2px; bottom: 2px; transform: rotate(180deg)"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div></sc-if>
+          </div>
+        </sc-for>
+        <div role="img" aria-label="Face-down card" style="width: 64px; height: 92px; border-radius: 6px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 1px 2px rgba(0,0,0,0.25); padding: 5px">
+          <div style="width: 100%; height: 100%; border-radius: 2px; background-color: {{back}}; background-image: repeating-linear-gradient(45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 6px), repeating-linear-gradient(-45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 6px)"></div>
+        </div>
+      </div>
+      <div style="font-size: 11px; color: #5B5648">normal · 64×92 · your hand · index 14 over an 11 pt pip, number pips 14, big pip 38 (A J Q K) · back lattice 6 pt</div>
+
+      <div style="display: flex; align-items: flex-end; gap: 8px">
+        <sc-for list="{{cards}}" as="c" hint-placeholder-count="4">
+          <div role="img" aria-label="{{c.label}}" style="position: relative; width: 34px; height: 48px; border-radius: 5px; background: #FDFBF4; border: 1px solid rgba(23,21,15,0.3); box-shadow: 0 1px 2px rgba(0,0,0,0.25); font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 11px; line-height: 1; letter-spacing: -0.03em; color: {{c.color}}"><span style="position: absolute; top: 3px; left: 3px">{{c.rank}}</span><span style="position: absolute; bottom: 3px; right: 3px; transform: rotate(180deg)">{{c.rank}}</span><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="position: absolute; left: 6px; top: 13px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div>
+        </sc-for>
+        <div role="img" aria-label="Face-down card" style="width: 34px; height: 48px; border-radius: 4px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 1px 2px rgba(0,0,0,0.25); padding: 3px">
+          <div style="width: 100%; height: 100%; border-radius: 1px; background-color: {{back}}; background-image: repeating-linear-gradient(45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 4px), repeating-linear-gradient(-45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 4px)"></div>
+        </div>
+      </div>
+      <div style="font-size: 11px; color: #5B5648">small · 34×48 · opponent rows, rules examples · 11 pt indices top-left and mirrored, one 20 pt centre pip · back lattice 4 pt</div>
+
+      <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5648; margin-top: 4px">card back · four colourways (chosen in Settings)</div>
+      <div style="display: flex; align-items: flex-end; gap: 10px">
+        <sc-for list="{{backs}}" as="b" hint-placeholder-count="4">
+          <div style="display: flex; flex-direction: column; align-items: center; gap: 4px">
+            <div role="img" aria-label="{{b.label}}" style="width: 88px; height: 126px; border-radius: 8px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 1px 2px rgba(0,0,0,0.25); padding: 6px">
+              <div style="width: 100%; height: 100%; border-radius: 3px; background-color: {{b.hex}}; background-image: repeating-linear-gradient(45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 7px), repeating-linear-gradient(-45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 7px)"></div>
+            </div>
+            <span style="font-size: 11px; color: #5B5648">{{b.name}} · {{b.hex}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 14px">
+      <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5B5648">greyscale — the same cards, colour removed</div>
+      <div style="filter: grayscale(1); display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; align-items: flex-end; gap: 10px">
+          <sc-for list="{{cards}}" as="c" hint-placeholder-count="4">
+            <div role="img" aria-label="{{c.label}}" style="position: relative; width: 88px; height: 126px; border-radius: 8px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 1px 2px rgba(0,0,0,0.25); font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; color: {{c.color}}">
+              <div style="position: absolute; top: 7px; left: 7px; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 17px; line-height: 1"><span>{{c.rank}}</span><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div>
+              <div style="position: absolute; bottom: 7px; right: 7px; transform: rotate(180deg); display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 17px; line-height: 1"><span>{{c.rank}}</span><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div>
+              <sc-if value="{{c.isNum}}" hint-placeholder-val="{{true}}"><sc-for list="{{c.pipsL}}" as="p" hint-placeholder-count="4"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" style="position: absolute; left: {{p.x}}px; top: {{p.y}}px; transform: {{p.tr}}"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></sc-for></sc-if>
+              <sc-if value="{{c.isAce}}" hint-placeholder-val="{{false}}"><svg viewBox="0 0 24 24" width="44" height="44" aria-hidden="true" style="position: absolute; left: 22px; top: 41px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></sc-if>
+              <sc-if value="{{c.isCourt}}" hint-placeholder-val="{{false}}"><div style="position: absolute; left: 24px; top: 24px; width: 40px; height: 78px; border: 1px solid {{c.color}}; outline: 1px solid {{c.color}}; outline-offset: 2px; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 800"><svg viewBox="0 0 40 80" width="40" height="78" aria-hidden="true"><g><sc-for list="{{c.court}}" as="e" hint-placeholder-count="4"><path d="{{e.d}}" style="fill: {{e.f}}; stroke: {{e.s}}; stroke-width: 1; stroke-linejoin: round"></path></sc-for></g><g transform="rotate(180 20 40)"><sc-for list="{{c.court}}" as="e" hint-placeholder-count="4"><path d="{{e.d}}" style="fill: {{e.f}}; stroke: {{e.s}}; stroke-width: 1; stroke-linejoin: round"></path></sc-for></g><path d="M3 40 H37" style="stroke: {{c.color}}; stroke-width: 0.8"></path></svg><svg viewBox="0 0 24 24" width="9" height="9" aria-hidden="true" style="position: absolute; left: 3px; top: 3px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg><svg viewBox="0 0 24 24" width="9" height="9" aria-hidden="true" style="position: absolute; right: 3px; bottom: 3px; transform: rotate(180deg)"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div></sc-if>
+            </div>
+          </sc-for>
+          <div role="img" aria-label="Face-down card" style="width: 88px; height: 126px; border-radius: 8px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 1px 2px rgba(0,0,0,0.25); padding: 6px">
+            <div style="width: 100%; height: 100%; border-radius: 3px; background-color: {{back}}; background-image: repeating-linear-gradient(45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 7px), repeating-linear-gradient(-45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 7px)"></div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: flex-end; gap: 10px">
+          <sc-for list="{{cards}}" as="c" hint-placeholder-count="4">
+            <div role="img" aria-label="{{c.label}}" style="position: relative; width: 64px; height: 92px; border-radius: 6px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 1px 2px rgba(0,0,0,0.25); font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 700; color: {{c.color}}">
+              <div style="position: absolute; top: 5px; left: 5px; display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 13px; line-height: 1"><span>{{c.rank}}</span><svg viewBox="0 0 24 24" width="9" height="9" aria-hidden="true"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div>
+              <div style="position: absolute; bottom: 5px; right: 5px; transform: rotate(180deg); display: flex; flex-direction: column; align-items: center; gap: 1px; font-size: 13px; line-height: 1"><span>{{c.rank}}</span><svg viewBox="0 0 24 24" width="9" height="9" aria-hidden="true"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div>
+              <sc-if value="{{c.isNum}}" hint-placeholder-val="{{true}}"><sc-for list="{{c.pipsN}}" as="p" hint-placeholder-count="4"><svg viewBox="0 0 24 24" width="11" height="11" aria-hidden="true" style="position: absolute; left: {{p.x}}px; top: {{p.y}}px; transform: {{p.tr}}"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></sc-for></sc-if>
+              <sc-if value="{{c.isAce}}" hint-placeholder-val="{{false}}"><svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true" style="position: absolute; left: 17px; top: 31px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></sc-if>
+              <sc-if value="{{c.isCourt}}" hint-placeholder-val="{{false}}"><div style="position: absolute; left: 17px; top: 17px; width: 30px; height: 58px; border: 1px solid {{c.color}}; outline: 1px solid {{c.color}}; outline-offset: 1.5px; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800"><svg viewBox="0 0 40 80" width="30" height="58" aria-hidden="true"><g><sc-for list="{{c.court}}" as="e" hint-placeholder-count="4"><path d="{{e.d}}" style="fill: {{e.f}}; stroke: {{e.s}}; stroke-width: 1.2; stroke-linejoin: round"></path></sc-for></g><g transform="rotate(180 20 40)"><sc-for list="{{c.court}}" as="e" hint-placeholder-count="4"><path d="{{e.d}}" style="fill: {{e.f}}; stroke: {{e.s}}; stroke-width: 1.2; stroke-linejoin: round"></path></sc-for></g><path d="M3 40 H37" style="stroke: {{c.color}}; stroke-width: 1"></path></svg><svg viewBox="0 0 24 24" width="7" height="7" aria-hidden="true" style="position: absolute; left: 2px; top: 2px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg><svg viewBox="0 0 24 24" width="7" height="7" aria-hidden="true" style="position: absolute; right: 2px; bottom: 2px; transform: rotate(180deg)"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div></sc-if>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display: flex; align-items: flex-end; gap: 8px">
+          <sc-for list="{{cards}}" as="c" hint-placeholder-count="4">
+            <div role="img" aria-label="{{c.label}}" style="position: relative; width: 34px; height: 48px; border-radius: 5px; background: #FDFBF4; border: 1px solid rgba(23,21,15,0.3); box-shadow: 0 1px 2px rgba(0,0,0,0.25); font-family: 'Bricolage Grotesque', system-ui, sans-serif; font-weight: 800; font-size: 11px; line-height: 1; letter-spacing: -0.03em; color: {{c.color}}"><span style="position: absolute; top: 3px; left: 3px">{{c.rank}}</span><span style="position: absolute; bottom: 3px; right: 3px; transform: rotate(180deg)">{{c.rank}}</span><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="position: absolute; left: 6px; top: 13px"><path d="{{c.path}}" style="fill: {{c.color}}"></path></svg></div>
+          </sc-for>
+          <div role="img" aria-label="Face-down card" style="width: 34px; height: 48px; border-radius: 4px; background: #FDFBF4; border: 1px solid #2A271F; box-shadow: 0 1px 2px rgba(0,0,0,0.25); padding: 3px">
+            <div style="width: 100%; height: 100%; border-radius: 1px; background-color: {{back}}; background-image: repeating-linear-gradient(45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 4px), repeating-linear-gradient(-45deg, rgba(253,251,244,0.92) 0 1px, transparent 1px 4px)"></div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size: 12px; color: #5B5648; line-height: 18px; margin-top: auto">
+        Number cards carry their pips in the traditional three columns with the lower half turned, so a 7 or a 10 is recognisable by its pattern before you read the index. Aces, jacks, queens and kings all carry one large centre pip — the index letter tells them apart, and the big symbol keeps the suit readable at a glance. The back is a cream diamond lattice over a solid colour inside a white border — the classic casino back, drawn fresh. All four colourways share the one pattern, so a hidden card reads the same whichever the player picks.
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"backColor":{"editor":"enum","default":"blue","options":["blue","red","green","black"],"section":"Card back"},"$preview":{"width":1320,"height":820}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const S = {
+      h: { name: 'hearts', color: '#B8322B', path: 'M12 21s-7-4.5-9.5-9C.8 8.6 2.5 4 6.5 4c2.2 0 3.9 1.3 5.5 3.2C13.6 5.3 15.3 4 17.5 4c4 0 5.7 4.6 4 8-2.5 4.5-9.5 9-9.5 9z' },
+      d: { name: 'diamonds', color: '#B8322B', path: 'M12 2l7 10-7 10-7-10z' },
+      c: { name: 'clubs', color: '#17150F', path: 'M12 2a3.6 3.6 0 0 0-3.3 5A3.7 3.7 0 1 0 11 13.3c-.2 2.4-.9 4.3-2.5 5.7h7c-1.6-1.4-2.3-3.3-2.5-5.7A3.7 3.7 0 1 0 15.3 7 3.6 3.6 0 0 0 12 2z' },
+      s: { name: 'spades', color: '#17150F', path: 'M12 2C9 7 4 9.5 4 14a4 4 0 0 0 7 2.6c-.2 2-.9 3.4-2.5 4.4h7c-1.6-1-2.3-2.4-2.5-4.4A4 4 0 0 0 20 14c0-4.5-5-7-8-12z' }
+    };
+    const NAMES = { A: 'Ace', K: 'King', Q: 'Queen', J: 'Jack' };
+    const LAY = {
+      '2': [['C', 0], ['C', 1, 1]],
+      '3': [['C', 0], ['C', 0.5], ['C', 1, 1]],
+      '4': [['L', 0], ['R', 0], ['L', 1, 1], ['R', 1, 1]],
+      '5': [['L', 0], ['R', 0], ['C', 0.5], ['L', 1, 1], ['R', 1, 1]],
+      '6': [['L', 0], ['R', 0], ['L', 0.5], ['R', 0.5], ['L', 1, 1], ['R', 1, 1]],
+      '7': [['L', 0], ['R', 0], ['C', 0.25], ['L', 0.5], ['R', 0.5], ['L', 1, 1], ['R', 1, 1]],
+      '8': [['L', 0], ['R', 0], ['C', 0.25], ['L', 0.5], ['R', 0.5], ['C', 0.75, 1], ['L', 1, 1], ['R', 1, 1]],
+      '9': [['L', 0], ['R', 0], ['L', 1 / 3], ['R', 1 / 3], ['C', 0.5], ['L', 2 / 3, 1], ['R', 2 / 3, 1], ['L', 1, 1], ['R', 1, 1]],
+      '10': [['L', 0], ['R', 0], ['C', 1 / 6], ['L', 1 / 3], ['R', 1 / 3], ['L', 2 / 3, 1], ['R', 2 / 3, 1], ['C', 5 / 6, 1], ['L', 1, 1], ['R', 1, 1]]
+    };
+    const pips = (rank, cols, y0, y1, size) => (LAY[rank] || []).map((p) => ({
+      x: Math.round((cols[p[0]] - size / 2) * 10) / 10,
+      y: Math.round((y0 + p[1] * (y1 - y0) - size / 2) * 10) / 10,
+      tr: p[2] ? 'rotate(180deg)' : 'none'
+    }));
+    const INK = '#17150F', GOLD = '#F2C14E', CREAM = '#FDFBF4';
+    const court = (rank, suit) => {
+      const robe = { d: 'M6 40 L10 28 Q20 23 30 28 L34 40 Z', f: suit, s: INK };
+      const collar = { d: 'M14 29 Q20 33 26 29 L24.5 32.5 Q20 35.5 15.5 32.5 Z', f: CREAM, s: INK };
+      const head = { d: 'M13.5 19 a6.5 6.5 0 1 0 13 0 a6.5 6.5 0 1 0 -13 0 Z', f: CREAM, s: INK };
+      if (rank === 'K') return [robe, collar, head,
+        { d: 'M14 21 Q20 31 26 21 Q20 25.5 14 21 Z', f: INK, s: INK },
+        { d: 'M12 13 L13 5 L17 10 L20 3 L23 10 L27 5 L28 13 Z', f: GOLD, s: INK }];
+      if (rank === 'Q') return [robe, collar, head,
+        { d: 'M13 19 Q12.5 9 20 9 Q27.5 9 27 19 Q25 13 20 13 Q15 13 13 19 Z', f: INK, s: INK },
+        { d: 'M14 11 L17 6 L20 8.5 L23 6 L26 11 Z', f: GOLD, s: INK },
+        { d: 'M19 7.5 a1.2 1.2 0 1 0 2.4 0 a1.2 1.2 0 1 0 -2.4 0 Z', f: suit, s: suit }];
+      return [robe, collar, head,
+        { d: 'M12 14 Q20 5 28 14 Z', f: suit, s: INK },
+        { d: 'M26 11 Q31 2 36 5 Q31 7 28 13 Z', f: GOLD, s: INK }];
+    };
+    const card = (rank, s) => ({
+      rank, path: S[s].path, color: S[s].color,
+      label: (NAMES[rank] || rank) + ' of ' + S[s].name,
+      isNum: !!LAY[rank], isAce: !LAY[rank], isCourt: false,
+      court: [],
+      pipsN: pips(rank, { L: 23, C: 32, R: 41 }, 18, 74, 14),
+      pipsL: pips(rank, { L: 31, C: 44, R: 57 }, 26, 100, 15)
+    });
+    const BACKS = [
+      { name: 'blue', hex: '#1F3A8A', label: 'Blue card back' },
+      { name: 'red', hex: '#B8322B', label: 'Red card back' },
+      { name: 'green', hex: '#245B3F', label: 'Green card back' },
+      { name: 'black', hex: '#2A271F', label: 'Black card back' }
+    ];
+    const pick = BACKS.find((b) => b.name === (this.props.backColor || 'blue')) || BACKS[0];
+    return { cards: [card('A', 'h'), card('K', 'd'), card('Q', 's'), card('J', 'c'), card('10', 's')], backs: BACKS, back: pick.hex };
+  }
+}
+</script>
+</body>
+</html>
